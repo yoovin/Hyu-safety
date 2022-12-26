@@ -1,16 +1,18 @@
 import { View, Text, TouchableOpacity, useLayoutEffect } from 'react-native'
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useRecoilValue } from 'recoil'
 
 import Navi from './Navi'
 import Home from './Home'
 import Notice from './Notice'
 import Report from './Report'
-import Info from './Profile'
+import Profile from './Profile'
 
 import styles from '../../styles'
+import { currentUserid } from './recoil/atom'
 
 /*
 ===== TODO =====
@@ -19,12 +21,17 @@ import styles from '../../styles'
 const Main = ({navigation}) => {
     const [currentComponent, setCurrentComponent] = useState('Home')
     const [currentTitle, setCurrentTitle] = useState('홈')
+    const userid = useRecoilValue(currentUserid)
+
+    useEffect(() => {
+        console.log(userid)
+    }, [])
 
     const components = {
         Notice: <Notice navigation={navigation}/>,
         Home: <Home/>,
         Report: <Report/>,
-        Info: <Info/>,
+        Info: <Profile navigation={navigation}/>,
     }
 
     const menus = [

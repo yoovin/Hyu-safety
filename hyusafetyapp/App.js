@@ -11,6 +11,9 @@ import { RecoilRoot } from 'recoil'
 import Login from './src/Components/Login'
 import Main from './src/Components/Main'
 import NoticeContent from './src/Components/NoticeContent'
+import SignupTerms from './src/Components/SignupTerms'
+import Signup from './src/Components/Signup'
+import SignupResult from './src/Components/SignupResult'
 
 
 const Stack = createNativeStackNavigator()
@@ -22,6 +25,9 @@ const App = () => {
             <Stack.Navigator initialRouteName='Login'>
             <Stack.Group screenOptions={{headerShown: false}}>
                 <Stack.Screen name="Login" component={Login}/>
+                <Stack.Screen name="SignupTerms" component={SignupTerms}/>
+                <Stack.Screen name="Signup" component={Signup}/>
+                <Stack.Screen name="SignupResult" component={SignupResult}/>
                 <Stack.Screen name="Main" component={Main}/>
                 <Stack.Screen name="NoticeContent" component={NoticeContent}/>
                     </Stack.Group>

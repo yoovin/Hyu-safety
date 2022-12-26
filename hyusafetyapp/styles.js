@@ -46,11 +46,14 @@ export default StyleSheet.create({
     */
     logoView: {
         flex: 3,
+        justifyContent: 'center',
+        // alignItems: 'center',
         // backgroundColor:'pink'
     },
 
     idInputView: {
         flex: 3,
+        height: '100%',
         padding: '2%',
         margin: '5%',
         borderRadius: 10,
@@ -93,6 +96,54 @@ export default StyleSheet.create({
         color: 'white'
     },
 
+    signupText: {
+        left: '17%',
+        fontFamily: 'BMJUA',
+        color: 'gray',
+        textDecorationLine: 'underline',
+    },
+
+    loginNyangBackground: {
+        // position: 'absolute',
+        // top:'80%',
+        left:'29%',
+        width: '65%', 
+        height: '80%', 
+        resizeMode: 'contain',
+    },
+    
+    /*
+    ===== SIGNUP COMPONENT =====
+    */
+    termsView: {
+        flex: 1,
+        marginVertical: '3%',
+        padding: '3%',
+        borderRadius: 15,
+        borderWidth: 2,
+        borderColor: 'black',
+        // backgroundColor: '#DCDCDC'
+    },
+
+    signupInput: {
+        height:'5%',
+        margin: '3%',
+        marginHorizontal: '5%',
+        borderWidth: 1,
+        paddingHorizontal: '3%',
+        marginBottom: '5%',
+        borderLeftWidth: 0,
+        borderTopWidth: 0,
+        borderRightWidth: 0,
+        fontSize: RFPercentage(2)
+    },
+
+    resultText: {
+        marginTop: '3%',
+        fontSize: RFPercentage(2),
+        fontFamily: 'BMJUA',
+        // color: 'white'
+    },
 
     /*
     ===== MAIN COMPONENT =====
@@ -202,6 +253,22 @@ export default StyleSheet.create({
         width:'100%',
         borderBottomWidth: 2,
         borderBottomColor: 'gray',
+    },
+
+    logoutButton: {
+        top: '5%',
+        left: '25%',
+        width: '50%',
+        height: '50%',
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: mainColor
+    },
+
+    logoutButtonText: {
+        fontFamily: 'BMJUA',
+        fontSize: RFPercentage(3)
     }
 
 });
