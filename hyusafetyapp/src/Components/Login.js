@@ -14,6 +14,8 @@ import axios from 'axios'
 import { useSetRecoilState } from 'recoil'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {SERVER_ADDRESS} from '@env'
+import sha256 from 'crypto-js/sha256'
+import Base64 from 'crypto-js/enc-base64'
 
 import styles from '../../styles'
 import {currentUserid} from './recoil/atom'
@@ -32,18 +34,12 @@ const Login = ({navigation}) => {
 
     const setUserid = useSetRecoilState(currentUserid)
 
-    // const handleInputId = () => {
-
-    // }
-    // const handleInputPw = () => {
-    // }
-
     const login = () => {
         if(userid.length > 0 && userpw.length > 0){
             console.log(userid, userpw)
             axios.post(SERVER_ADDRESS + '/login', {
                 id: userid,
-                pw: userpw
+                pw: Base64.stringify(sha256(userpw))
             })
             .then(data => {
                 if(data.status == 200){
@@ -96,8 +92,6 @@ const Login = ({navigation}) => {
                         style={styles.input}
                         onChangeText={setUserPw}
                         autoCapitalize='none'
-                        contextMenuHidden={true}
-                        blurOnSubmit={true}
                         placeholder="비밀번호"
                         secureTextEntry={true}
                         />

@@ -1,6 +1,23 @@
 import { StyleSheet } from "react-native";
 import {RFPercentage} from "react-native-responsive-fontsize"
 
+/*
+    1. display
+    2. list-style
+    3. position
+    4. float
+    5. clear
+    6. width / height
+    7. padding / margin
+    8. border / background
+    9. color / font
+    10. text-decoration
+    11. text-align / vertical-align
+    12. white-space
+    13. other text
+    14. content
+*/
+
 const mainColor = '#91a4ff'
 
 export default StyleSheet.create({
@@ -126,6 +143,7 @@ export default StyleSheet.create({
     },
 
     signupInput: {
+        width: '80%',
         height:'5%',
         margin: '3%',
         marginHorizontal: '5%',
@@ -136,6 +154,22 @@ export default StyleSheet.create({
         borderTopWidth: 0,
         borderRightWidth: 0,
         fontSize: RFPercentage(2)
+    },
+
+    idcheckButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '20%',
+        height: '50%',
+        borderRadius: 5,
+        backgroundColor: mainColor,
+    },
+
+    warningText: {
+        marginHorizontal: '3%',
+        color: 'red',
+        fontFamily: 'BMJUA',
+        fontSize: RFPercentage(1.5),
     },
 
     resultText: {
