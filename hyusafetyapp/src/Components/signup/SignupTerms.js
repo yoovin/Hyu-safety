@@ -12,7 +12,7 @@ import {
 import React, { useState } from 'react'
 import CheckBox from '@react-native-community/checkbox';
 
-import styles from '../../styles'
+import styles from '../../../styles'
 import { ScrollView } from 'react-native';
 
 /*

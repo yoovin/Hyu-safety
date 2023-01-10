@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import { CallbackError } from 'mongoose'
-const signupRouter = express.Router()
+const router = express.Router()
 
 // Models
 import User from '../DB/model/User'
@@ -18,7 +18,7 @@ import Userauth from '../DB/model/Userauth'
 */
 
 // 회원가입시 id check
-signupRouter.get('/idcheck', async (req: Request, res: Response) => {
+router.get('/idcheck', async (req: Request, res: Response) => {
     console.log(`아이디체크 쿼리 들어옴 ${req.query.id}`)
     const userid = await Userauth.findOne({id: req.query.id})
     if(userid == null){
@@ -32,7 +32,7 @@ signupRouter.get('/idcheck', async (req: Request, res: Response) => {
     ===== POST =====
 */
 
-signupRouter.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
     console.log(req.body)
     const userid = await Userauth.findOne({id: req.body.id})
     if(userid == null){
@@ -61,4 +61,4 @@ signupRouter.post('/', async (req: Request, res: Response) => {
     }
 })
 
-export default signupRouter
+export default router

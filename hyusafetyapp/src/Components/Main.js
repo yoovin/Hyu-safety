@@ -7,12 +7,13 @@ import { useRecoilValue } from 'recoil'
 
 import Navi from './Navi'
 import Home from './Home'
-import Notice from './Notice'
-import Report from './Report'
+import Notice from './notice/Notice'
+import LiveReport from './LiveReport'
 import Profile from './Profile'
 
 import styles from '../../styles'
 import { currentUserid } from './recoil/atom'
+import Suggestion from './Suggestion'
 
 /*
 ===== TODO =====
@@ -30,15 +31,17 @@ const Main = ({navigation}) => {
     const components = {
         Notice: <Notice navigation={navigation}/>,
         Home: <Home/>,
-        Report: <Report/>,
+        LiveReport: <LiveReport/>,
+        Suggestion: <Suggestion/>,
         Info: <Profile navigation={navigation}/>,
     }
 
     const menus = [
         {
-            component: "",
-            icon: "",
-            menuName: "몰?루",
+            component: "Suggestion",
+            icon: <Ionicons name="newspaper-outline" size={30} color='white'></Ionicons>,
+            selectIcon: <Ionicons name="newspaper" size={35} color='white'></Ionicons>,
+            menuName: "건의",
         },
         {
             component: "Notice",
@@ -53,15 +56,15 @@ const Main = ({navigation}) => {
             menuName: "홈",
         },
         {
-            component: "Report",
-            icon: <MaterialCommunityIcons name="alarm-light-outline" size={30} color='white'></MaterialCommunityIcons>,
-            selectIcon: <MaterialCommunityIcons name="alarm-light" size={35} color='white'></MaterialCommunityIcons>,
-            menuName: "신고",
+            component: "LiveReport",
+            icon:<Ionicons name="md-chatbubbles-outline" size={30} color='white'></Ionicons>,
+            selectIcon:<Ionicons name="md-chatbubbles" size={35} color='white'></Ionicons>,
+            menuName: "실시간 신고",
         },
         {
             component: "Info",
             icon: <Ionicons name="ios-person-outline" size={30} color='white'></Ionicons>,
-            selectIcon: <Ionicons name="ios-person-sharp" size={35} color='white'></Ionicons>,
+            selectIcon: <Ionicons name="ios-person" size={35} color='white'></Ionicons>,
             menuName: "내정보",
         },
     ]

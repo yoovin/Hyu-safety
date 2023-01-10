@@ -1,19 +1,23 @@
 import { View, Text, SafeAreaView } from 'react-native'
 import React from 'react'
+import axios from 'axios'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { RecoilRoot } from 'recoil'
+import {SERVER_ADDRESS} from '@env'
 // import Toast from 'react-native-toast-message'
 // import SplashScreen from 'react-native-splash-screen'
 // import CodePush from 'react-native-code-push'
 
 import Login from './src/Components/Login'
 import Main from './src/Components/Main'
-import NoticeContent from './src/Components/NoticeContent'
-import SignupTerms from './src/Components/SignupTerms'
-import Signup from './src/Components/Signup'
-import SignupResult from './src/Components/SignupResult'
+import NoticeContent from './src/Components/notice/NoticeContent'
+import SignupTerms from './src/Components/signup/SignupTerms'
+import Signup from './src/Components/signup/Signup'
+import SignupResult from './src/Components/signup/SignupResult'
+
+axios.defaults.baseURL = SERVER_ADDRESS
 
 
 const Stack = createNativeStackNavigator()

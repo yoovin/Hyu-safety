@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import CheckBox from '@react-native-community/checkbox';
 
-import styles from '../../styles'
+import styles from '../../../styles'
 
 /*
 ===== TODO =====
@@ -42,7 +42,7 @@ const SignupResult = ({navigation}) => {
             <KeyboardAvoidingView style={{flex: 1}} behavior='padding'>
                 <SafeAreaView style={{flex: 1, backgroundColor:'#5471ff'}}>
                     <View style={styles.logoView}>
-                        <ImageBackground source={require('../../assets/image/safenyang.png')} style={styles.loginNyangBackground}/>
+                        <ImageBackground source={require('../../../assets/image/safenyang.png')} style={styles.loginNyangBackground}/>
                     </View>
                     <View style={[styles.idInputView, {justifyContent: 'center', alignItems: 'center'}]}>
                         <CheckBox value={checkAnimation} onCheckColor={'green'} onTintColor={'green'}></CheckBox>

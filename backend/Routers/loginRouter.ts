@@ -1,16 +1,16 @@
 import express, { Request, Response, NextFunction } from 'express'
 import { CallbackError } from 'mongoose'
-const loginRouter = express.Router()
+const router = express.Router()
 
 // Models
-import User from '../DB/model/User'
 import Userauth from '../DB/model/Userauth'
+// import Userauth from 
 
 /*
     ===== POST =====
 */
 
-loginRouter.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
     console.log(`login post 쿼리 들어옴 ip: ${req.ip}`)
     console.log(`id: ${req.body.id}, pw: ${req.body.pw}`)
     const userid = await Userauth.findOne({id: req.body.id})
@@ -20,7 +20,7 @@ loginRouter.post('/', async (req: Request, res: Response) => {
             res.status(401).json({text: "틀린 비밀번호 입니다."}).end()
         }else{
             // 최근 접속 아이피 및 날짜
-            // const curUser = User.updateOne({id: userid.id}, {recent_login_ip: req.ip, recent_login_date: new Date()})
+            // const curUser = User.updateOne({id: userid.id}, {recent_login_ip: req.ip, recent_login_date: Date.now()})
             res.status(200).end()
         }
     }else{
@@ -29,4 +29,4 @@ loginRouter.post('/', async (req: Request, res: Response) => {
     }
 })
 
-export default loginRouter
+export default router

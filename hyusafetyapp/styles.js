@@ -262,8 +262,67 @@ export default StyleSheet.create({
     },
 
     /*
-    ===== Report COMPONENT =====
+    ===== Live Report COMPONENT =====
     */
+    chatView: {
+        height: '93%',
+        backgroundColor: '#e2e8f0'
+    },
+
+    firstInfo: {
+
+    },
+
+    myChat: {
+        height:'100%',
+        padding: '2%',
+        // alignItems: 'flex-end',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: 'black',
+        backgroundColor: '#fde047',
+    },
+
+    otherChat: {
+        flexWrap:'wrap',
+        flexShrink: 1,
+        height:'100%',
+        padding: '2%',
+        // alignItems: 'flex-end',
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: 'black',
+        backgroundColor: '#d6d3d1'
+    },
+
+    inputChat: {
+        flexShrink: 1,
+        width: '80%',
+        height: '80%',
+        backgroundColor:'#e5e7eb',
+        borderRadius: 5,
+        
+        // borderColor: mainColor,
+        // borderWidth: 3,
+    },
+
+    inputChatButton: {
+        width: '9%',
+        height: '80%',
+        borderWidth: 3,
+        borderRadius: 5,
+        borderColor: '#e5e7eb',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    inputChatView: {
+        flexDirection: 'row',
+        height:'7%',
+        justifyContent:'space-evenly',
+        alignItems: 'center',
+        // backgroundColor:'#e5e7eb'
+    },
 
     /*
     ===== Profile COMPONENT =====

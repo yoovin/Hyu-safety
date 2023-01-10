@@ -1,7 +1,7 @@
 import { 
     View, 
     Text, 
-    SafeAreaView, 
+    SafeAreaView,
     TextInput, 
     TouchableOpacity, 
     Keyboard, 
@@ -17,11 +17,12 @@ import sha256 from 'crypto-js/sha256'
 import Base64 from 'crypto-js/enc-base64'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import styles from '../../styles'
+import styles from '../../../styles'
 import axios from 'axios'
 
 /*
 ===== TODO =====
+1. 과장님이 세부사항 정해주시면 폼이랑 데이터베이스 다시 짜기
 */
 
 const Signup = ({navigation}) => {
