@@ -6,6 +6,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import styles from '../../styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { currentUserInfo } from './recoil/atom'
+import { useRecoilValue } from 'recoil'
+
 /*
     ===== TODOS =====
     1. 로그아웃 버튼 만들기
@@ -13,15 +16,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Profile = ({navigation}) => {
     const [isLogoutButtonPress, setIsLogoutButtonPress] = useState(false)
+    const userInfo = useRecoilValue(currentUserInfo)
     useEffect(()=>{
-        
+        console.log(userInfo)
     }, [])
     return (
         <View style={{flex:1}}>
             <View style={{padding: '10%', flex:1}}>
                 <View style={{paddingHorizontal: '20%', alignItems: 'center'}}>
                     <Ionicons name="person-circle-outline" size={200} color="black"></Ionicons>
-                    <Text style={styles.item}>심유빈</Text>
+                    <Text style={styles.item}>{userInfo.name}</Text>
                 </View>
             </View>
             <View style={{flex:1.5, flexDirection:'row'}}>
@@ -30,8 +34,8 @@ const Profile = ({navigation}) => {
                     <Ionicons name="mail-outline" size={40} style={{marginTop: 15}} color='#91a4ff'></Ionicons>
                 </View>
                 <View style={{flex:3}}>
-                    <Text style={styles.itemText}>Manager</Text>
-                    <Text style={styles.itemText}>soo22839@gmail.com</Text>
+                    <Text style={styles.itemText}>{userInfo.position}</Text>
+                    <Text style={styles.itemText}>{userInfo.email}</Text>
                     
                 </View>
             </View>

@@ -8,6 +8,8 @@ import {
     KeyboardAvoidingView, 
     TouchableWithoutFeedback, 
     ImageBackground,
+    ActivityIndicator,
+    Alert,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -23,18 +25,19 @@ import {currentUserid} from './recoil/atom'
 
 /*
 ===== TODO =====
-- 아이디나 비번 틀렸을때 나타나는 ui도 만들어야함
 - 자동로그인은 스플래시 뜨는동안 화면 넘어가게 하면 될듯?
 */
 
 const Login = ({navigation}) => {
     const [userid, setUserId] = useState('')
     const [userpw, setUserPw] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const [toggleAutoLogin, setToggleAutoLogin] = useState(false)
 
     const setUserid = useSetRecoilState(currentUserid)
 
     const login = () => {
+        setIsLoading(true)
         if(userid.length > 0 && userpw.length > 0){
             console.log(userid, userpw)
             axios.post(SERVER_ADDRESS + '/login', {
@@ -52,10 +55,11 @@ const Login = ({navigation}) => {
                 }
             })
             .catch(err => {
-                console.error(err.request._response)
+                setIsLoading(false)
+                // console.error(err.request._response)
                 if(err.request.status == 401){ // 내가 준 애러
                     const errorJson = JSON.parse(err.request._response)
-                    console.log(errorJson.text)
+                        Alert.alert(errorJson.text)
                 }
             })
         }
@@ -95,12 +99,6 @@ const Login = ({navigation}) => {
                         placeholder="비밀번호"
                         secureTextEntry={true}
                         />
-                        {/* <View>
-                            <CheckBox
-                            value={toggleAutoLogin}
-                            onValueChange={value => setToggleAutoLogin(value)}
-                            /><Text>자동 로그인</Text>
-                        </View> */}
                         <TouchableOpacity 
                         style={styles.loginButton}
                         activeOpacity={0.8}
@@ -114,6 +112,11 @@ const Login = ({navigation}) => {
                             <Text style={styles.signupText}>아이디가 없으신가요? 회원가입하기</Text>
                         </TouchableOpacity>
                     </View>
+                    {isLoading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
+                    <View style={{position: 'absolute',top: '37.5%', left:'25%', width: '50%', height: '25%', borderRadius: 10, backgroundColor: 'white', alignItems: 'center', opacity: 1}}>
+                        <Text style={[styles.mainFont, styles.textXl, {marginVertical: '20%'}]}>로그인 중</Text>
+                        <ActivityIndicator size="large"/>
+                    </View>]}
                 </SafeAreaView>
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>

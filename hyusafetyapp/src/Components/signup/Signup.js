@@ -23,6 +23,7 @@ import axios from 'axios'
 /*
 ===== TODO =====
 1. 과장님이 세부사항 정해주시면 폼이랑 데이터베이스 다시 짜기
+2. useForm 써서 정리하기
 */
 
 const Signup = ({navigation}) => {

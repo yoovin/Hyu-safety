@@ -5,6 +5,7 @@ export default interface user {
     name: string
     email: string
     phone:string
+    position: string
     // recent_login_ip: String
     // recent_login_date: Date
     created_at: Date

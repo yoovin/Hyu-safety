@@ -2,8 +2,8 @@ import React, {useRef} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
-import useForm from '../hooks/useForm'
-import validate from '../hooks/noticeValidate'
+import useForm from '../../hooks/useForm'
+import validate from '../../hooks/noticeValidate'
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
@@ -43,6 +43,9 @@ const NoticeUpload = (props: Props) => {
                         if(err.request.status == 412){ // 내가 준 애러
                             const errorJson = JSON.parse(err.request._response)
                             console.log(errorJson.text)
+                            window.alert(`에러가 발생했습니다: ${errorJson.text}`)
+                        }else{
+                            window.alert(`에러가 발생했습니다: ${err}`)
                         }
                     })
                 }else{

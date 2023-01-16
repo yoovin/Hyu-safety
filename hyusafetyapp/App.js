@@ -12,10 +12,15 @@ import {SERVER_ADDRESS} from '@env'
 
 import Login from './src/Components/Login'
 import Main from './src/Components/Main'
-import NoticeContent from './src/Components/notice/NoticeContent'
+
 import SignupTerms from './src/Components/signup/SignupTerms'
 import Signup from './src/Components/signup/Signup'
 import SignupResult from './src/Components/signup/SignupResult'
+
+import NoticeDetail from './src/Components/notice/NoticeDetail'
+
+import UploadSuggestion from './src/Components/suggestion/UploadSuggestion'
+import SuggestionDetail from './src/Components/suggestion/SuggestionDetail'
 
 axios.defaults.baseURL = SERVER_ADDRESS
 
@@ -29,11 +34,16 @@ const App = () => {
             <Stack.Navigator initialRouteName='Login'>
             <Stack.Group screenOptions={{headerShown: false}}>
                 <Stack.Screen name="Login" component={Login}/>
+                <Stack.Screen name="Main" component={Main}/>
+
                 <Stack.Screen name="SignupTerms" component={SignupTerms}/>
                 <Stack.Screen name="Signup" component={Signup}/>
                 <Stack.Screen name="SignupResult" component={SignupResult}/>
-                <Stack.Screen name="Main" component={Main}/>
-                <Stack.Screen name="NoticeContent" component={NoticeContent}/>
+                
+                <Stack.Screen name="NoticeDetail" component={NoticeDetail}/>
+
+                <Stack.Screen name="UploadSuggestion" component={UploadSuggestion}/>
+                <Stack.Screen name="SuggestionDetail" component={SuggestionDetail}/>
                     </Stack.Group>
                     <Stack.Group screenOptions={{headerShown: false, presentation: 'modal'}}>
                     </Stack.Group>

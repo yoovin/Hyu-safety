@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { IoMenu, IoChatbubblesOutline } from "react-icons/io5";
+import { IoMenu, IoChatbubblesOutline, IoPeopleOutline, IoNewspaperOutline } from "react-icons/io5";
 import { AiOutlineNotification } from "react-icons/ai"
 import { Link } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ const LeftNav = (props: Props) => {
                 <span>한양대 에리카 캠퍼스 안전팀</span>
             </Link>
             <hr/>
+
+
             <div className="flex p-1"
             onMouseOver={() => setCurrentHover(1)}
             // onMouseOut={() => setCurrentHover(0)}
@@ -32,8 +34,8 @@ const LeftNav = (props: Props) => {
             ]
             
             }
-            
             <hr/>
+
             <Link to="/livereport" className="flex p-1 hover:bg-slate-100"
             onMouseOver={() => setCurrentHover(2)}
             // onMouseOut={() => setCurrentHover(0)}
@@ -42,17 +44,33 @@ const LeftNav = (props: Props) => {
                 <span className="mx-2">실시간 신고</span>
             </Link>
             <hr/>
-            <Link to="/livereport" className="flex p-1 hover:bg-slate-100"
-            onMouseOver={() => setCurrentHover(2)}
+
+            <div className="flex p-1"
+            onMouseOver={() => setCurrentHover(3)}
             // onMouseOut={() => setCurrentHover(0)}
             >
-                <IoChatbubblesOutline/>
+                <IoNewspaperOutline/>
                 <span className="mx-2">건의사항</span>
-            </Link>
-            <hr/>
-            <div>
-
             </div>
+            {currentHover == 3 &&[
+                <Link to="/suggestion/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 건의 목록</span>
+                </Link>
+                ]}
+            <hr/>
+
+            <div className="flex p-1"
+            onMouseOver={() => setCurrentHover(4)}
+            // onMouseOut={() => setCurrentHover(0)}
+            >
+                <IoPeopleOutline/>
+                <span className="mx-2">유저관리</span>
+            </div>
+            {currentHover == 4 &&[
+                <Link to="/user/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 유저 목록</span>
+                </Link>
+                ]}
         </div>
     )
 }

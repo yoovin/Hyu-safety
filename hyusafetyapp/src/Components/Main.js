@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import Navi from './Navi'
 import Home from './Home'
@@ -12,8 +12,9 @@ import LiveReport from './LiveReport'
 import Profile from './Profile'
 
 import styles from '../../styles'
-import { currentUserid } from './recoil/atom'
-import Suggestion from './Suggestion'
+import { currentUserid, currentUserInfo } from './recoil/atom'
+import Suggestion from './suggestion/Suggestion'
+import axios from 'axios'
 
 /*
 ===== TODO =====
@@ -23,16 +24,24 @@ const Main = ({navigation}) => {
     const [currentComponent, setCurrentComponent] = useState('Home')
     const [currentTitle, setCurrentTitle] = useState('홈')
     const userid = useRecoilValue(currentUserid)
+    const setUserInfo = useSetRecoilState(currentUserInfo)
 
     useEffect(() => {
         console.log(userid)
+        axios.get('/login/getuserinfo', { params: {
+            id: userid
+        }})
+        .then(res => {
+            setUserInfo(res.data)
+            console.log(res.data)
+        })
     }, [])
 
     const components = {
         Notice: <Notice navigation={navigation}/>,
         Home: <Home/>,
         LiveReport: <LiveReport/>,
-        Suggestion: <Suggestion/>,
+        Suggestion: <Suggestion navigation={navigation}/>,
         Info: <Profile navigation={navigation}/>,
     }
 
@@ -41,7 +50,7 @@ const Main = ({navigation}) => {
             component: "Suggestion",
             icon: <Ionicons name="newspaper-outline" size={30} color='white'></Ionicons>,
             selectIcon: <Ionicons name="newspaper" size={35} color='white'></Ionicons>,
-            menuName: "건의",
+            menuName: "건의사항",
         },
         {
             component: "Notice",

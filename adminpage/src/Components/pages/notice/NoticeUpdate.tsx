@@ -2,8 +2,8 @@ import React, {useEffect, useRef} from 'react'
 import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import useForm from '../hooks/useForm'
-import validate from '../hooks/noticeValidate'
+import useForm from '../../hooks/useForm'
+import validate from '../../hooks/noticeValidate'
 
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';

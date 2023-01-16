@@ -31,7 +31,7 @@ router.get('/', async (req: Request, res: Response) => {
             res.send({notices: data, count: count})
         })
     }else{
-        Notice.find(req.query)
+        await Notice.find(req.query).limit(10).sort({index: 1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
             const count = await Notice.countDocuments(req.query)
             res.send({notices: data, count: count})
@@ -112,6 +112,7 @@ router.post('/update', async (req: Request, res: Response) => {
     }else{
         console.log('null')
         console.log(updateNotice, updateNoticeDesc)
+        res.status(404).end()
     }
 })
 
@@ -133,6 +134,7 @@ router.post('/status', async (req: Request, res: Response) => {
     }else{
         console.log('null')
         console.log(updateNotice)
+        res.status(404).end()
     }
 })
 

@@ -4,7 +4,38 @@ const router = express.Router()
 
 // Models
 import Userauth from '../DB/model/Userauth'
-// import Userauth from 
+import User from '../DB/model/User'
+
+
+router.get('/getuserinfo', async (req: Request, res: Response) => {
+    const user = await User.findOne({id: req.query.id})
+    if(user != null){
+        res.send(user)
+    }else{
+        res.status(400).end()
+    }
+    
+})
+
+router.get('/getusers', async (req: Request, res: Response) => { // 어드민용
+    console.log(req.query)
+    // console.log(req.query.page)
+    if(req.query.reverse === '-1'){
+        // await Notice.find(req.query).limit(10).sort({index: -1})
+        await User.find(req.query).limit(10).sort({_id: -1}).skip((Number(req.query.page)-1)*10).limit(10)
+        .then(async data => {
+            const count = await User.countDocuments(req.query)
+            res.send({users: data, count: count})
+        })
+    }else{
+        await User.find(req.query).limit(10).sort({_id: 1}).skip((Number(req.query.page)-1)*10).limit(10)
+        .then(async data => {
+            const count = await User.countDocuments(req.query)
+            res.send({users: data, count: count})
+        })
+    }
+})
+
 
 /*
     ===== POST =====

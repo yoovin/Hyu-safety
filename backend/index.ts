@@ -10,6 +10,7 @@ const port: number = 1234
 import signupRouter from './Routers/signupRouter'
 import loginRouter from './Routers/loginRouter'
 import noticeRouter from './Routers/noticeRouter'
+import suggestionRouter from './Routers/suggestionRouter'
 
 
 
@@ -43,6 +44,13 @@ app.listen(port, () => {
     /*
         ===== 공지사항 =====
     */
-
     app.use('/notice', noticeRouter)
+    
+    /*
+        ===== 건의 =====
+    */
+    app.use('/suggestion', suggestionRouter)
+
+
+
 });

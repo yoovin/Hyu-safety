@@ -233,7 +233,7 @@ export default StyleSheet.create({
     },
 
     noticeTitle: {
-        fontSize: RFPercentage(3),
+        fontSize: RFPercentage(2.5),
         fontFamily: 'BMJUA',
         color: 'black',
         marginBottom: 5
@@ -253,7 +253,7 @@ export default StyleSheet.create({
     },
 
     /*
-    ===== NoticeContent COMPONENT =====
+    ===== NoticeDetail COMPONENT =====
     */
     content:{
         fontSize: RFPercentage(3),
@@ -362,6 +362,82 @@ export default StyleSheet.create({
     logoutButtonText: {
         fontFamily: 'BMJUA',
         fontSize: RFPercentage(3)
-    }
+    },
 
+    /*
+    ===== Suggestion COMPONENT =====
+    */
+
+    infoHr: {
+        width: '50%',
+        marginHorizontal: 5, 
+        borderBottomWidth: 1, 
+        borderBottomColor: 'black', 
+        alignItems:'center', 
+        justifyContent: 'center'
+    },
+
+    uploadImageSkeleton: {
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 7,
+        backgroundColor: 'gray'
+    },
+
+    uploadedImage: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 7,
+        resizeMode: 'cover'
+    },
+
+    imageRemoveButton: {
+        position: 'absolute',
+        left: '85%',
+        bottom: '80%', 
+        width: '20%', 
+        height: '25%', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red'
+    },
+
+    deleteButton: {
+        width:'20%',
+        height: '4%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderRadius: 5,
+        borderColor: 'red'
+    },
+
+    /*
+    ===== Font =====
+    */
+
+    textBase: {
+        fontSize: RFPercentage(2)
+    },
+
+    textLg: {
+        fontSize: RFPercentage(2.5)
+    },
+
+    textXl: {
+        fontSize: RFPercentage(3)
+    },
+
+    mainFont: {
+        fontFamily:'BMJUA',
+    },
+
+    mainColor: {
+        color: mainColor
+    },
+
+    mainBgColor: {
+        backgroundColor: mainColor
+    },
 });

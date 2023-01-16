@@ -10,37 +10,22 @@ const Notice = ({navigation}) => {
     const [curpage, setCurpage] = useState(1)
     const [loading, setLoading] = useState(false)
 
-    const onClickContent = (item) => {
-        navigation.navigate('NoticeContent', item)
+    const onClickDetail = (item) => {
+        navigation.navigate('NoticeDetail', item)
     }
 
-    const leftPad = (value) => {
-        if (value >= 10) {
-            return value;
-        }
-        return `0${value}`;
-    }
-
-    const toStringByFormatting = (source, delimiter = '-') => {
-        const year = source.getFullYear();
-        const month = leftPad(source.getMonth() + 1);
-        const day = leftPad(source.getDate());
-    
-        return [year, month, day].join(delimiter);
-    }
-
-    const onDragEnd = () => {
-        console.log("끄ㅌ에 닿ㅡ")
+    const dateToString = (date) => {
+        return date.replace('T', ' ').substring(0, 19)
     }
 
     const renderNotice = ({item}) => (
             <TouchableOpacity 
             style={styles.noticeContainer}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate('NoticeContent', item)}>
-                <Text style={styles.noticeTitle}>{item.title}</Text>
+            onPress={() => onClickDetail(item)}>
+                <Text style={styles.noticeTitle}>{item.index} | {item.title}</Text>
                 {/* <Text style={styles.noticeContent} numberOfLines={1} ellipsizeMode="tail">{item.content}</Text> */}
-                <Text style={styles.noticeDate}>{item.upload_date && item.upload_date} | {item.author} | {item.subject}</Text>
+                <Text style={styles.noticeDate}>{dateToString(item.upload_date.toString())} | {item.author} | {item.subject}</Text>
             </TouchableOpacity>
         )
 
@@ -62,20 +47,12 @@ const Notice = ({navigation}) => {
         .catch(err => console.error(err))
     }
 
-    // useEffect(()=>{
-    //     // 공지 불러오기
-    //     getNotice()
-    // }, [])
-
     useEffect(() => {
         if(curpage == 1){
             setNotices([])
         }
         getNotice()
     }, [curpage])
-
-
-    // console.log(notices)
 
     return (
         <View>

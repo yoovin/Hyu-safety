@@ -1,15 +1,19 @@
 import axios from 'axios'
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { notice } from '../interface/notice'
+import { user } from '../../interface/user'
 
 type Props = {}
 
-//todo 페이징 만들기
+/*
+===== TODOS =====
+1. 유저 검색기능 만들기
+2. 유저 관리기능 만들기 (모달창)
+*/
 
 const NoticeList = (props: Props) => {
 
-    const [notices, setNotices] = useState<[notice]| null>()
+    const [users, setUsers] = useState<[user]| null>()
     const [noticeCount, setNoticeCount] = useState(0)
     const [noticePages, setNoticePages] = useState(1)
     const [noticePageTen, setNoticePageTen] = useState(1)
@@ -17,28 +21,21 @@ const NoticeList = (props: Props) => {
     const [noticeStatus, setNoticeStatus] = useState('all')
     const [noticeReverse, setNoticeReverse] = useState('-1')
 
+    const dateToString = (date: string) => {
+        return date.replace('T', ' ').substring(0, 19)
+    }
+
     const renderPageButton = (page: number): any => {
         const result = []
         for(let i = page; i < page+10; i++){
             if(i >= noticePages) break
-            result.push(<button type="button" className={"inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md" + (i == currentPage && "font-bold")} value={i} onClick={handlePage}>{i}</button>)
+            if(i == currentPage){
+                result.push(<button type="button" className={"inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md font-bold bg-gray-100"} value={i} onClick={handlePage}>{i}</button>)
+            }else{
+                result.push(<button type="button" className={"inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md"} value={i} onClick={handlePage}>{i}</button>)
+            }
         }
         return result
-    }
-
-    const leftPad = (value: number) => {
-        if (value >= 10) {
-            return value;
-        }
-        return `0${value}`;
-    }
-
-    const toStringByFormatting = (source: Date, delimiter = '-') => {
-        const year = source.getFullYear();
-        const month = leftPad(source.getMonth() + 1);
-        const day = leftPad(source.getDate());
-    
-        return [year, month, day].join(delimiter);
     }
 
     const handleNoticeStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -52,9 +49,9 @@ const NoticeList = (props: Props) => {
     }
 
     const getNoticeData = (query?: any) => {
-        axios.get('/notice', {params: {...query, reverse: noticeReverse}})
+        axios.get('/login/getusers', {params: {...query, reverse: noticeReverse}})
         .then(res => {
-            setNotices(res.data.notices)
+            setUsers(res.data.users)
             let pages = res.data.count / 10
             if(res.data.count % 10 > 0) pages+=1
             setNoticePages(pages)
@@ -74,11 +71,11 @@ const NoticeList = (props: Props) => {
 
     useEffect(() => {
         switch(noticeStatus){
-            case "uploaded":
-                getNoticeData({uploaded: true, page: currentPage})
+            case "worker":
+                getNoticeData({position: "worker", page: currentPage})
                 break
-            case "deleted":
-                getNoticeData({uploaded: false, page: currentPage})
+            case "manager":
+                getNoticeData({position: "manager", page: currentPage})
                 break
             default:
                 getNoticeData({page: currentPage})
@@ -91,7 +88,7 @@ const NoticeList = (props: Props) => {
     <div className="p-5 w-10/12">
     <div className="container p-2 mx-auto sm:p-4 text-gray-900">
 	<div className="mb-2">
-        <span className="text-2xl font-semibold leading-tight">공지사항</span>
+        <span className="text-2xl font-semibold leading-tight">유저목록</span>
         <span className="mx-2 text-slate-400">{noticeCount}개</span> 
     </div>
     <select className="border-2 m-1 rounded-lg"
@@ -99,8 +96,8 @@ const NoticeList = (props: Props) => {
     onChange={handleNoticeStatusChange}
     value={noticeStatus}>
         <option value="all">전체</option>
-        <option value="uploaded">업로드 된 공지</option>
-        <option value="deleted">내려간 공지</option>
+        <option value="manager">감독관</option>
+        <option value="worker">근로자</option>
     </select>
     <select className="border-2 m-2 rounded-lg"
     name="subject"
@@ -113,35 +110,36 @@ const NoticeList = (props: Props) => {
 		<table className="w-full p-6 text-xs text-center whitespace-nowrap">
 			<thead>
 				<tr className="bg-gray-300">
-                    <th className="p-3">글번호</th>
-					<th className="p-3">분류</th>
-					<th className="p-3">제목</th>
-					<th className="p-3">글쓴이</th>
-					<th className="p-3">업로드 날짜</th>
-					<th className="p-3">상태</th>
+                    <th className="p-3">유저아이디</th>
+					<th className="p-3">이름</th>
+					<th className="p-3">이메일</th>
+					<th className="p-3">전화번호</th>
+					<th className="p-3">생성일자</th>
+					<th className="p-3">직책</th>
 				</tr>
 			</thead>
 			<tbody className="border-b bg-gray-100 border-gray-100">
-                {notices && notices.map(item => (
+                {users && users.map(item => (
                     <tr className="hover:bg-gray-200">
                     <td className="px-3 py-2 font-bold">
-						<span>{item.index}</span>
+						<span>{item.id}</span>
 					</td>
-					<td className="px-3 text-xl font-medium text-gray-400">{item.subject}</td>
-					<td className="px-3 py-2 text-left">
-                        <Link to={`/notice/${item.index}`}>{item.title}</Link>
-						{/* <p>{item.title}</p> */}
+					<td className="px-3">
+                        <span>{item.name}</span>
+                    </td>
+					<td className="px-3 py-2">
+                        <span>{item.email}</span>
 					</td>
 					<td className="px-3 py-2">
-						<span>{item.author}</span>
+						<span>{item.phone}</span>
 					</td>
 					<td className="px-3 py-2 ">
-						{/* <p>{`${toStringByFormatting(item.upload_date)}`}</p> */}
-                        <p>{`${item.upload_date}`}</p>
+                        <p>{`${dateToString(item.created_at.toString())}`}</p>
 					</td>
 					<td className="px-3 py-2">
-						{item.uploaded ? <div className="bg-green-300 rounded-md">업로드</div>
-                        : <div className="bg-orange-300 rounded-md">내려짐</div>}
+                        {item.position == "worker" && <span>근로자</span>}
+                        {item.position == "manager" && <span>감독관</span>}
+                        {item.position == "admin" && <span>관리자</span>}
 					</td>
 				</tr>
                 ))}
