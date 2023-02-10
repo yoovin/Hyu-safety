@@ -8,7 +8,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Navi from './Navi'
 import Home from './Home'
 import Notice from './notice/Notice'
-import LiveReport from './LiveReport'
+import WorkReport from './workreport/WorkReport'
 import Profile from './Profile'
 
 import styles from '../../styles'
@@ -40,7 +40,7 @@ const Main = ({navigation}) => {
     const components = {
         Notice: <Notice navigation={navigation}/>,
         Home: <Home/>,
-        LiveReport: <LiveReport/>,
+        WorkReport: <WorkReport navigation={navigation}/>,
         Suggestion: <Suggestion navigation={navigation}/>,
         Info: <Profile navigation={navigation}/>,
     }
@@ -65,10 +65,10 @@ const Main = ({navigation}) => {
             menuName: "홈",
         },
         {
-            component: "LiveReport",
-            icon:<Ionicons name="md-chatbubbles-outline" size={30} color='white'></Ionicons>,
-            selectIcon:<Ionicons name="md-chatbubbles" size={35} color='white'></Ionicons>,
-            menuName: "실시간 신고",
+            component: "WorkReport",
+            icon:<MaterialCommunityIcons name="hammer-wrench" size={30} color='white'></MaterialCommunityIcons>,
+            selectIcon:<MaterialCommunityIcons name="hammer-wrench" size={35} color='white'></MaterialCommunityIcons>,
+            menuName: "안전작업신고",
         },
         {
             component: "Info",

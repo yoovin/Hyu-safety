@@ -414,8 +414,46 @@ export default StyleSheet.create({
     },
 
     /*
+    ===== WorkReport Component =====
+    */
+
+    workInput: {
+        padding: 2,
+        marginLeft: 5,
+        borderBottomWidth: 2,
+        borderBottomColor: 'black'
+    },
+
+    guideText: {
+        fontSize: RFPercentage(2),
+        fontFamily:'BMJUA',
+        color: 'red'
+    },
+
+    /*
+    ===== Checklist Component =====
+    */
+    questionView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 5,
+    },
+    questionSubtitle: {
+        color: 'red',
+        fontSize: RFPercentage(1.7)
+    },
+
+    /*
     ===== Font =====
     */
+    textXs: {
+        fontSize: RFPercentage(1)
+    },
+
+    textSm: {
+        fontSize: RFPercentage(1.5)
+    },
 
     textBase: {
         fontSize: RFPercentage(2)
@@ -427,6 +465,10 @@ export default StyleSheet.create({
 
     textXl: {
         fontSize: RFPercentage(3)
+    },
+
+    text2xl: {
+        fontSize: RFPercentage(4)
     },
 
     mainFont: {

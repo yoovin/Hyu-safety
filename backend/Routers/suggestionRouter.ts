@@ -13,10 +13,6 @@ const upload = multer({
     dest: __dirname + '/uploads/suggestion/'
 })
 
-// const showNotice = (page: number): any => {
-//     return Notice.find(req.query).limit(10).sort({index: -1}).skip((page-1)*10).limit(10)
-// }
-
 /*
     ===== GET =====
 */

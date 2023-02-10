@@ -13,7 +13,7 @@ import { useRecoilValue } from 'recoil'
 1. 2페이지에 있는게 맨 위로 나오는 버그가 있는데,, 이유는 대충 알거같은데,, 해결을,, 몰겠다,,
 */
 
-const Suggestion = ({navigation}) => {
+const WorkReport = ({navigation}) => {
     const [suggestions, setSuggestions] = useState([])
     const [suggestionCount, setSuggestionCount] = useState(0)
     const [curpage, setCurpage] = useState(1)
@@ -62,16 +62,6 @@ const Suggestion = ({navigation}) => {
         .catch(err => console.error(err))
     }
 
-
-    // useEffect(() => {
-    //     if(isFocused){
-    //         console.log("ㅁㅁ")
-    //         setSuggestions([])
-    //         getSuggestion()
-    //         // if(curpage > 1) setCurpage(1)
-    //     }
-    // }, [isFocused])
-
     useEffect(() => {
         if(curpage > 1){
             // setSuggestions([])
@@ -82,10 +72,10 @@ const Suggestion = ({navigation}) => {
     return (
         <View>
             <View style={[styles.noticeContainer, {flexDirection: 'row',width: '100%', padding: '2%', borderBottomColor: '#91a4ff'}]}>
-            <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>내가 올린 건의 ({suggestionCount}개</Text>
+            <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>안전 작업 신고내역 ({suggestionCount}개</Text>
             <View style={{alignItems:'flex-end'}}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('UploadSuggestion', {refreshSuggestion: refreshSuggestion})}>
+                onPress={() => navigation.navigate('UploadWorkReport', {refreshSuggestion: refreshSuggestion})}>
                     <Text style={[{}]}>+ 새 건의 쓰기</Text>
                 </TouchableOpacity> 
             </View>  
@@ -114,4 +104,4 @@ const Suggestion = ({navigation}) => {
     )
 }
 
-export default Suggestion
+export default WorkReport

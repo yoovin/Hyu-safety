@@ -20,7 +20,7 @@ const dummyChat = [
     {name:'aa', text:'안녕'},
 ]
 
-const LiveReport = () => {
+const WorkReport = () => {
     // const windowHeight = Dimensions.get('window').height;
     const userid = useRecoilValue(currentUserid)
 
@@ -56,4 +56,4 @@ const LiveReport = () => {
     )
 }
 
-export default LiveReport
+export default WorkReport

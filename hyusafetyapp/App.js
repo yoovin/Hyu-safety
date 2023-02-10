@@ -22,6 +22,11 @@ import NoticeDetail from './src/Components/notice/NoticeDetail'
 import UploadSuggestion from './src/Components/suggestion/UploadSuggestion'
 import SuggestionDetail from './src/Components/suggestion/SuggestionDetail'
 
+import WorkReportDetail from './src/Components/workreport/WorkReportDetail'
+import UploadWorkReport from './src/Components/workreport/UploadWorkReport'
+import DrawSign from './src/Components/workreport/DrawSign'
+import WorkCalendar from './src/Components/workreport/WorkCalendar'
+
 axios.defaults.baseURL = SERVER_ADDRESS
 
 
@@ -44,8 +49,15 @@ const App = () => {
 
                 <Stack.Screen name="UploadSuggestion" component={UploadSuggestion}/>
                 <Stack.Screen name="SuggestionDetail" component={SuggestionDetail}/>
+
+                <Stack.Screen name="UploadWorkReport" component={UploadWorkReport}/>
+                <Stack.Screen name="WorkReportDetail" component={WorkReportDetail}/>
+
+
                     </Stack.Group>
                     <Stack.Group screenOptions={{headerShown: false, presentation: 'modal'}}>
+                        <Stack.Screen name="DrawSign" component={DrawSign}/>
+                        <Stack.Screen name="WorkCalendar" component={WorkCalendar}/>
                     </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>

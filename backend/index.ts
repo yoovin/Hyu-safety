@@ -11,6 +11,7 @@ import signupRouter from './Routers/signupRouter'
 import loginRouter from './Routers/loginRouter'
 import noticeRouter from './Routers/noticeRouter'
 import suggestionRouter from './Routers/suggestionRouter'
+import workreportRouter from './Routers/workreportRouter'
 
 
 
@@ -50,6 +51,11 @@ app.listen(port, () => {
         ===== 건의 =====
     */
     app.use('/suggestion', suggestionRouter)
+
+    /*
+        ===== 안전작업 =====
+    */
+    app.use('/workreport', workreportRouter)
 
 
 
