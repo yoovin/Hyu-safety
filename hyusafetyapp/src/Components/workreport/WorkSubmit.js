@@ -23,7 +23,6 @@ const WorkSubmit = ({setCanPressNextButton, content}) => {
     return (
         <View style={{flex: 1, alignContent: 'center'}}>
             <View style={{height: '50%', margin: '5%', marginTop: '20%', padding: '5%', borderWidth: 2, borderColor: 'black', borderRadius: 5}}>
-                
                 <View>
                     <Text style={[styles.mainFont, styles.textXl, {marginLeft: 10, color: 'gray'}, termChecked && {color: 'black'}]}>상기 작성한 항목에 이상이 없음을 확인하였습니다.</Text>
                 </View>

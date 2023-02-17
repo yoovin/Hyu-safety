@@ -1,11 +1,6 @@
-import { Text } from "react-native"
-import styles from "../../../styles"
-
-export default [
-    {
-        title:'화기',
-        title_eng: 'fire',
-        checked: false,
+export default {
+    fire: {
+        title: '화기',
         checklist: [
             {
                 question: '불꽃, 불티 비산방지조치',
@@ -49,10 +44,8 @@ export default [
             },
         ]
     },
-    {
+    weight:{
         title:'중량물',
-        title_eng: 'weight',
-        checked: false,
         checklist: [
             {
                 question: '감독자의 지정 및 상주 여부',
@@ -81,18 +74,16 @@ export default [
             },
         ]
     },
-    {
+    closed: {
         title:'밀폐공간',
-        title_eng: 'closed',
-        checked: false,
         checklist: [
             {
-                question: ['산소농도 측정 \n', <Text style={styles.questionSubtitle}>*산소 18~23.5%</Text>],
+                question: ['산소농도 측정 \n *산소 18~23.5%'],
                 reason: '',
                 checked: false
             },
             {
-                question: ['가연성 및 독성가스농도 측정 \n', <Text style={styles.questionSubtitle}>*일산화탄소 30ppm 미만, 황화수소 10ppm 미만</Text>],
+                question: ['가연성 및 독성가스농도 측정 \n *일산화탄소 30ppm 미만, 황화수소 10ppm 미만'],
                 reason: '',
                 checked: false
             },
@@ -123,10 +114,8 @@ export default [
             },
         ]
     },
-    {
+    height: {
         title:'고소',
-        title_eng: 'height',
-        checked: false,
         checklist: [
             {
                 question: '2인 1조 작업 유무',
@@ -165,10 +154,8 @@ export default [
             },
         ]
     },
-    {
+    excavation: {
         title:'굴착',
-        title_eng: 'excavation',
-        checked: false,
         checklist: [
             {
                 question: '전기동력선 안전한 배치조치',
@@ -212,10 +199,8 @@ export default [
             },
         ]
     },
-    {
+    electricity: {
         title:'전기',
-        title_eng: 'electricity',
-        checked: false,
         checklist: [
             {
                 question: '작업안내 표지판 설치',
@@ -244,51 +229,4 @@ export default [
             },
         ]
     },
-    {
-        title:'기타',
-        title_eng: 'other',
-        checked: false,
-        // checklist: [
-        //     {
-        //         question: '불꽃, 불티 비산방지조치',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '압력조정기 부착 및 작동 상태',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '주위 인화성물질의 제거 상태',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '소화기 배치 유무',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '전격방지기의 정상 가동 상태',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '작업장소 환기',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '가연성 및 독성가스농도 측정',
-        //         reason: '',
-        //         checked: false
-        //     },
-        //     {
-        //         question: '화재감시자 배치',
-        //         reason: '',
-        //         checked: false
-        //     },
-        // ]
-    },
-]
+}

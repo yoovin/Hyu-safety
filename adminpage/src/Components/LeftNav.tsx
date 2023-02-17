@@ -67,8 +67,8 @@ const LeftNav = (props: Props) => {
                 <span className="mx-2">안전작업승인</span>
             </div>
             {currentHover == 4 &&[
-                <Link to="/user/list" className="flex px-5 hover:bg-slate-100">
-                    <span className="mx-2">- 요청 된 작업</span>
+                <Link to="/workreport/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 작업 신고 목록</span>
                 </Link>
                 ]}
             <hr/>

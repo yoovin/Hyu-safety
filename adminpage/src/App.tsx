@@ -7,7 +7,7 @@ import LiveReport from './Components/pages/LiveReport';
 import Main from './Components/pages/Main';
 
 /*
-=====  Notice =====
+===== Notice =====
 */
 import NoticeList from './Components/pages/notice/NoticeList';
 import NoticeUpload from './Components/pages/notice/NoticeUpload';
@@ -15,15 +15,22 @@ import NoticeDetail from './Components/pages/notice/NoticeDetail';
 import NoticeUpdate from './Components/pages/notice/NoticeUpdate';
 
 /*
-=====  User =====
+===== User =====
 */
 import UserList from './Components/pages/user/UserList';
 
 /*
-=====  Suggestion =====
+===== Suggestion =====
 */
 import SuggestionList from './Components/pages/suggestion/SuggestionList';
 import SuggestionDetail from './Components/pages/suggestion/SuggestionDetail';
+
+/*
+===== Workreport =====
+*/
+
+import WorkreportList from './Components/pages/workreport/WorkreportList';
+import WorkreportDetail from './Components/pages/workreport/WorkreportDetail';
 
 
 import NotFound from './Components/NotFound';
@@ -56,6 +63,9 @@ function App() {
                     */}
                     <Route path="/suggestion/list" element={<SuggestionList/>}></Route>
                     <Route path="/suggestion/:index" element={<SuggestionDetail/>}></Route>
+
+                    <Route path="/workreport/list" element={<WorkreportList/>}></Route>
+                    <Route path="/workreport/:index" element={<WorkreportDetail/>}></Route>
 
                     <Route path="/livereport" element={<LiveReport/>}></Route>
 

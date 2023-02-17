@@ -36,7 +36,13 @@ const WorkReport = ({navigation}) => {
             activeOpacity={0.8}
             onPress={() => onClickContent(item)}
             key={item.index}>
-                <Text style={[styles.noticeTitle]}>{item.index} | {item.preview}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Text style={[styles.noticeTitle]}>{item.index}번 승인신고 | {
+                        item.condition == 'waited' && <Text style={{color: 'orange'}}>승인 대기</Text> ||
+                        item.condition == 'approval' && <Text style={{color: 'green'}}>승인 완료</Text> ||
+                        item.condition == 'refused' && <Text style={{color: 'red'}}>승인 거부</Text>
+                    }</Text>
+                </View>
                 <Text style={styles.noticeDate}>{dateToString(item.upload_date.toString())}</Text>
             </TouchableOpacity>
         )
@@ -48,14 +54,14 @@ const WorkReport = ({navigation}) => {
 
     const getSuggestion = () => {
         setLoading(true)
-        axios.get('/suggestion', {params:{
+        axios.get('/workreport', {params:{
             reverse: '-1',
             page:curpage,
             deleted: false,
             id: userInfo.id
         }})
         .then(res => {
-            setSuggestions(val => [...val, ...res.data.notices])
+            setSuggestions(val => [...val, ...res.data.workreports])
             setSuggestionCount(res.data.count)
             setLoading(false)
         })
@@ -76,7 +82,7 @@ const WorkReport = ({navigation}) => {
             <View style={{alignItems:'flex-end'}}>
                 <TouchableOpacity
                 onPress={() => navigation.navigate('UploadWorkReport', {refreshSuggestion: refreshSuggestion})}>
-                    <Text style={[{}]}>+ 새 건의 쓰기</Text>
+                    <Text style={[{}]}>+ 새 작업 신고하기</Text>
                 </TouchableOpacity> 
             </View>  
             </View>
@@ -98,7 +104,7 @@ const WorkReport = ({navigation}) => {
                 refreshing={false}
                 >
             </FlatList>:
-            <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>아직 올린 건의가 없습니다.</Text>}
+            <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>아직 올린 작업신고가 없습니다.</Text>}
         </View>
         </View>
     )

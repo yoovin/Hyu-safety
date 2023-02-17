@@ -21,6 +21,7 @@
     "react-hook-form": "7.41.5",
     "react-native": "0.70.5",
     "react-native-calendars": "1.1293.0",
+    "react-native-date-picker": "4.2.8",
     "react-native-dialog": "9.3.0",
     "react-native-dotenv": "3.4.6",
     "react-native-gesture-handler": "2.9.0",

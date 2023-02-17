@@ -18,12 +18,12 @@ import React, { useEffect, useState } from 'react'
 import Dialog from "react-native-dialog"
 import { useRecoilValue } from 'recoil'
 import { currentUserInfo } from '../recoil/atom'
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CheckBox from '@react-native-community/checkbox';
 import { useForm, Controller} from 'react-hook-form'
 import { usePrevState } from '../Hooks/usePrevState'
 import { Buffer } from "buffer"
+import DatePicker from 'react-native-date-picker'
 
 import Navi from '../Navi'
 import styles from '../../../styles'
@@ -36,18 +36,17 @@ import axios from 'axios'
 /*
 ===== Checklists =====
 */
-import WorkSubmit from './WorkSubmit'
-
 import checklists from './checklists'
 import WorkChecklist from './checklist/WorkChecklist'
+
+import WorkSubmit from './WorkSubmit'
 
 
 
 /*
 ===== TODOS =====
-1. 허가요청기간 시간도 넣기 picker?
-2.
-3. 나갔다 들어와도 state 유지되는거같은데,, 고치기
+ㅇ
+ㅇ 나갔다 들어와도 state 유지되는거같은데,, 고치기
 */
 
 const UploadWorkReport = ({navigation, route}) => {
@@ -69,10 +68,10 @@ const UploadWorkReport = ({navigation, route}) => {
 
     const prevPage = usePrevState(curpage)
 
+    const [startDateOpen, setStartDateOpen] = useState(false)
+    const [endDateOpen, setEndDateOpen] = useState(false)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
-
-    // let signImg
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -84,6 +83,7 @@ const UploadWorkReport = ({navigation, route}) => {
             equipmentInput: '',
             workPeople: 0,
             request: '',
+            phone: userInfo.phone,
         }
     });
 
@@ -137,21 +137,27 @@ const UploadWorkReport = ({navigation, route}) => {
         <Text style={[styles.mainFont, styles.textLg, {color: 'gray'}]}>{curpage == 7 ? '제출' : '다음'}</Text>
     </TouchableOpacity>
 
+    const dateToString = (date) => {
+        let strDate = `${date.getFullYear()}년 ${date.getMonth()+1}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`
+        return strDate
+        
+    }
+
     const nextpage = (num) => {
-        if(curpage + num >= 0 && curpage + num < 7){
+        if(curpage + num >= 0 && curpage + num < 8){
             setCurpage(page => page+num)
         }
     }
 
     const onSubmit = data => {
-        // setIsUpload(false)
-        // setIsUploading(true)
+        setIsUpload(false)
+        setIsUploading(true)
         console.log(typeof(signImg))
         const formData = new FormData()
         formData.append('id', userInfo.id)
         formData.append('file', signImg)
-        formData.append('startDate', startDate)
-        formData.append('endDate', endDate)
+        formData.append('startDate', startDate.toString())
+        formData.append('endDate', endDate.toString())
 
         for(let key in data){
             formData.append(key, data[key])
@@ -160,13 +166,12 @@ const UploadWorkReport = ({navigation, route}) => {
 
         // for (let i = 0; i < workChecklists)
 
-        for(let i = 0; i < workChecklists.length; i++){
+        for(let i = 0; i < workChecklists.length-1; i++){
             if(workChecklists[i].checked){ // formdata에 체크리스트 항목 넣는거,,
                 for(let val of workChecklists[i].checklist){
                     console.log(val)
-                    formData.append(`${workChecklists[i].title_eng}.checked`, val.checked)
-                    // formData.append(`${workChecklists[i].title_eng}.question`, val.question)
-                    formData.append(`${workChecklists[i].title_eng}.reason`, val.reason)
+                    formData.append(`${workChecklists[i].title_eng}_checked`, val.checked)
+                    formData.append(`${workChecklists[i].title_eng}_reason`, val.reason)
                 }
             }
         }
@@ -174,25 +179,25 @@ const UploadWorkReport = ({navigation, route}) => {
         axios.post('/workreport/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
-        // .then(res => {
-        //     console.log(res.status)
-        //     setIsUploading(false)
-        //     Alert.alert("업로드 되었습니다.","", [
-        //     {   text:"확인",
-        //         onPress: () => {
-        //         navigation.pop()
-        //         route.params.refreshSuggestion()
-        //     }}])
-        // })
-        // .catch(err => {
-        //     setIsUploading(false)
-        //     Alert.alert("에러가 발생했습니다.", err)
-        //     console.error(err.request._response)
-        //     if(err.request.status == 412){ // 내가 준 애러
-        //         const errorJson = JSON.parse(err.request._response)
-        //         console.log(errorJson.text)
-        //     }
-        // })
+        .then(res => {
+            console.log(res.status)
+            setIsUploading(false)
+            Alert.alert("업로드 되었습니다.","", [
+            {   text:"확인",
+                onPress: () => {
+                navigation.pop()
+                // route.params.refreshSuggestion()
+            }}])
+        })
+        .catch(err => {
+            setIsUploading(false)
+            Alert.alert("에러가 발생했습니다.", err)
+            console.error(err.request._response)
+            if(err.request.status == 412){ // 내가 준 애러
+                const errorJson = JSON.parse(err.request._response)
+                console.log(errorJson.text)
+            }
+        })
     }
 
     const changeCheckWork = (idx, value) => {
@@ -226,10 +231,15 @@ const UploadWorkReport = ({navigation, route}) => {
         return new File([u8arr], filename, {type:mime});
     }
 
+    /*
+    ===== USE EFFECT =====
+    */
+
     useEffect(() => {
         console.log(userInfo)
+        setWorkChecklists(checklists)
         return() => {
-            setWorkChecklists(checklists)
+            setWorkChecklists({})
         }
     }, [])
 
@@ -351,24 +361,84 @@ const UploadWorkReport = ({navigation, route}) => {
                                 <Text style={[styles.mainFont, styles.textSm, {marginLeft: 10}, sign ? {color: 'green'} : {color: 'gray'}]}>{"[ 서명 ]"}</Text>
                             </TouchableOpacity>
                         </View>
+                        <View style={{flex: 1, flexDirection: 'row', alignItems:'center', marginBottom: 20}}>
+                            <Text style={[styles.guideText, {marginBottom: '2%'}]}>*</Text>
+                            <Text style={[styles.mainFont, styles.textLg]}>연락처</Text>
+                            <Text style={[styles.mainFont, styles.textLg]}>: </Text>
+                            <Controller
+                            control={control}
+                            rules={{
+                                required: true
+                            }}
+                            render={({ field: {onChange, onBlur, value}}) => (
+                                <TextInput style={[styles.workInput, {width: '75%', textAlign: 'center'}, errors.phone && {borderBottomColor: 'red'}]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                keyboardType="number-pad"
+                                />
+                            )}
+                            name="phone"
+                            />
+                        </View>
                         <View style={{flex: 1, marginBottom: 20}}>
                             <Text style={[styles.mainFont, styles.textLg]}><Text style={[styles.guideText, {marginBottom: '2%'}]}>*</Text>허가요청기간</Text>
-                            <View style={{flex: 1, flexDirection: 'row', marginTop: 5, justifyContent: 'space-evenly'}}>
-                                <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate('WorkCalendar', {date: startDate, setDate: setStartDate})
-                                }}>
-                                    <Text style={[styles.mainFont, styles.textLg]}>{startDate ? `${startDate}`: '[ 선택 ]'}</Text>
-                                </TouchableOpacity>
-                                
-                                <Text style={[styles.mainFont, styles.textLg]}>부터</Text>
-                                <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate('WorkCalendar', {date: endDate, setDate: setEndDate})
-                                }}>
-                                    <Text style={[styles.mainFont, styles.textLg]}>{endDate ? `${endDate}`: '[ 선택 ]'}</Text>
-                                </TouchableOpacity>
-                                <Text style={[styles.mainFont, styles.textLg]}>까지</Text>
+                            <View style={{flex: 1, marginTop: 5}}>
+                                <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 3}}>
+                                    <TouchableOpacity
+                                    onPress={() => {
+                                        setStartDateOpen(true)
+                                    }}>
+                                        <Text style={[styles.mainFont, styles.textLg]}>{startDate ? dateToString(startDate) : '[ 선택 ]'}</Text>
+                                    </TouchableOpacity>
+                                    <Text style={[styles.mainFont, styles.textLg]}>부터</Text>
+                                    <DatePicker
+                                        modal
+                                        open={startDateOpen}
+                                        // date={startDate ? startDate : new Date()}
+                                        date={new Date()}
+                                        onConfirm={(date) => {
+                                        setStartDateOpen(false)
+                                        console.log(date)
+                                        setStartDate(date)
+                                        }}
+                                        onCancel={() => {
+                                        setStartDateOpen(false)
+                                        }}
+                                        minimumDate={new Date()}
+                                        title="작업 시작 일자"
+                                        confirmText='완료'
+                                        cancelText='취소'
+                                        locale='ko-KR'
+                                    />
+                                </View>
+                                <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 3}}>
+                                    <TouchableOpacity
+                                    onPress={() => {
+                                        // navigation.navigate('WorkCalendar', {date: endDate, setDate: setEndDate})
+                                        setEndDateOpen(true)
+                                    }}>
+                                        <Text style={[styles.mainFont, styles.textLg]}>{endDate ? dateToString(endDate) : '[ 선택 ]'}</Text>
+                                    </TouchableOpacity>
+                                    <Text style={[styles.mainFont, styles.textLg]}>까지</Text>
+                                    <DatePicker
+                                        modal
+                                        open={endDateOpen}
+                                        date={new Date()}
+                                        onConfirm={(date) => {
+                                        setEndDateOpen(false)
+                                        setEndDate(date)
+                                        }}
+                                        onCancel={() => {
+                                        setEndDateOpen(false)
+                                        }}
+                                        minimumDate={startDate ? startDate : new Date()}
+                                        title="작업 완료 일자"
+                                        confirmText='완료'
+                                        cancelText='취소'
+                                        locale='ko-KR'
+                                    />
+                                </View>
                             </View>
                         </View>
                         <View style={{flex: 1, flexDirection: 'row', alignItems:'center', marginBottom: 20}}>
@@ -514,33 +584,33 @@ const UploadWorkReport = ({navigation, route}) => {
                             </View>
                         </View>
                         <View style={{flex: 1, flexDirection: 'row', justifyContent:'center', alignItems:'center', marginBottom: 20}}>
-                            {/* <CheckBox
+                            <CheckBox
                                     value={workChecklists[6].checked}
                                     onValueChange={val => changeCheckWork(6, val)}
-                                    ></CheckBox> */}
-                            <Text style={[styles.mainFont, styles.textLg, {marginLeft: 10}, !workChecklists['other'] ? {color: 'gray'}: {color: 'blue'}]}>기타: </Text>
+                                    ></CheckBox>
+                            <Text style={[styles.mainFont, styles.textLg, {marginLeft: 10}, !workChecklists[6].checked ? {color: 'gray'}: {color: 'blue'}]}>기타: </Text>
                             <Controller
                             control={control}
                             rules={{
                             }}
                             render={({ field: {onChange, onBlur, value}}) => (
-                                <TextInput style={[styles.workInput, {width: '70%', textAlign: 'center'}, !workChecklists['other'] && { borderBottomColor: 'gray'}]}
-                                editable={workChecklists['other']}
+                                <TextInput style={[styles.workInput, {width: '70%', textAlign: 'center'}, !workChecklists[6].checked && { borderBottomColor: 'gray'}]}
+                                editable={workChecklists[6].checked}
                                 onBlur={onBlur}
                                 onChangeText={onChange}
                                 value={value}
                                 />
                             )}
-                            name="other"
+                            name="other_work"
                             />
                         </View>
                     </KeyboardAwareScrollView>
                     
-                    {/* {isUploading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
+                    {isUploading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
                     <View style={{position: 'absolute',top: '25%', left:'25%', width: '50%', height: '25%', borderRadius: 10, backgroundColor: 'white', alignItems: 'center', opacity: 1}}>
                         <Text style={[styles.mainFont, styles.textXl, {marginVertical: '20%'}]}>업로드 중</Text>
                         <ActivityIndicator size="large"/>
-                    </View>]} */}
+                    </View>]}
 
                     <Dialog.Container visible={isGoBack}>
                         <Dialog.Title>
