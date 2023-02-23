@@ -17,6 +17,20 @@ const useForm = ({initialValues, onSubmit, validate}: any): any => {
         setErrors(validate(values))
     }
 
+    const reset = (val: object) => {
+        // for(let key in val){
+        //     // setValues(v => {
+        //     //     {...v,
+        //     //     key: val[key as keyof typeof val]}
+        //     // })
+        //     // console.log(key)
+        //     setValues({...values, [key]:  val[key as keyof typeof val]})
+        //     // setValues({...values, [key]: val[key as keyof typeof val]})
+        // }
+        setValues(val)
+        console.log(values)
+    }
+
     useEffect(() => {
         if(submitting){
             if(Object.keys(errors).length === 0){
@@ -32,6 +46,7 @@ const useForm = ({initialValues, onSubmit, validate}: any): any => {
         submitting,
         handleChange,
         handleSubmit,
+        reset
     }
 
 

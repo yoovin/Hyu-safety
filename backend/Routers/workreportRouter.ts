@@ -3,14 +3,26 @@ import { CallbackError } from 'mongoose'
 import multer from 'multer'
 const router = express.Router()
 
+import readXlsxFile from 'read-excel-file/node'
+import writeXlsxFile from 'write-excel-file/node'
+import fs from 'fs'
+
 // Models
 import Workreport from '../DB/model/Workreport'
-
 import getNextSequence from '../DB/getNextSequence'
 
 const upload = multer({
     dest: __dirname + '/uploads/workreport/'
 })
+
+const work_kor = {
+    fire: '화재',
+    excavation: '굴착',
+    closed: '밀폐공간',
+    height: '고소',
+    weight: '중량물',
+    electricity: '전기'
+}
 
 /*
     ===== GET =====
@@ -41,49 +53,244 @@ router.get('/detail', async (req: Request, res: Response) => {
     .then(data => {
         res.send(data)
     })
-    // await Suggestiondesc.findOne({index: req.query.index})
-    // .then(data => {
-    //     // Object.assign(sendData, data)
-    //     sendData.desc = data
-    // })
-    // res.send(sendData)
 })
+
+router.get('/download', async (req: Request, res: Response) => {
+    // let startDate: Date = new Date(req.query.startDate)
+    // let endDate: Date = new Date(req.query.endDate)
+    const HEADER_ROW = [
+        {
+            value: "작업신고번호",
+            fontWeight: "bold",
+        },
+        {
+            value: "신청부서",
+            fontWeight: "bold",
+        },
+        {
+            value: "직책",
+            fontWeight: "bold",
+        },
+        {
+            value: "이름",
+            fontWeight: "bold",
+        },
+        {
+            value: "아이디",
+            fontWeight: "bold",
+        },
+        {
+            value: "연락처",
+            fontWeight: "bold",
+        },
+        {
+            value: "신청서 작성 일자",
+            fontWeight: "bold",
+        },
+        {
+            value: "허가요청기간_시작",
+            fontWeight: "bold",
+        },
+        {
+            value: "허가요청기간_종료",
+            fontWeight: "bold",
+        },
+        {
+            value: "작업장소",
+            fontWeight: "bold",
+        },
+        {
+            value: "장비투입",
+            fontWeight: "bold",
+        },
+        {
+            value: "작업인원",
+            fontWeight: "bold",
+        },
+        {
+            value: "작업내용",
+            fontWeight: "bold",
+        },
+        {
+            value: "요청사항",
+            fontWeight: "bold",
+        },
+        {
+            value: "기타작업",
+            fontWeight: "bold",
+        },
+        {
+            value: "작업종류",
+            fontWeight: "bold",
+        },
+        {
+            value: "승인상태",
+            fontWeight: "bold",
+        },
+        {
+            value: "승인자부서",
+            fontWeight: "bold",
+        },
+        {
+            value: "승인자직책",
+            fontWeight: "bold",
+        },
+        {
+            value: "승인자이름",
+            fontWeight: "bold",
+        },
+        {
+            value: "허가내용",
+            fontWeight: "bold",
+        },
+    ]
+
+    const excelData: Array<Array<object>> = [HEADER_ROW]
+
+    console.log(req.query.startDate)
+    console.log(req.query.endDate)
+    await Workreport.find({deleted: false, upload_date: {$gte: req.query.startDate, $lte: req.query.endDate}})
+        .then(async data => {
+            data.map((item, idx) => {
+                let workType: string = ""
+                for(let key in item.checklist){
+                    workType += `${work_kor[key as keyof typeof work_kor]}, `
+                }
+
+                excelData.push([
+                    // 작업신고번호
+                    {
+                        type: Number,
+                        value: item.index,
+                    },
+                    // 신청부서
+                    {
+                        type: String,
+                        value: item.request_depart,
+                    },
+                    // 직책
+                    {
+                        type: String,
+                        value: item.position,
+                    },
+                    // 이름
+                    {
+                        type: String,
+                        value: item.name,
+                    },
+                    // 아이디
+                    {
+                        type: String,
+                        value: item.id,
+                    },
+                    // 연락처
+                    {
+                        type: String,
+                        value: item.phone,
+                    },
+                    // 신청서작성일자
+                    {
+                        type: Date,
+                        value: item.upload_date,
+                        format: "yyyy/mm/dd"
+                    },
+                    // 허가요청기간_시작
+                    {
+                        type: Date,
+                        value: item.start_date,
+                        format: "yyyy/mm/dd HH:MM:SS"
+                    },
+                    // 허가요청기간_종료
+                    {
+                        type: Date,
+                        value: item.end_date,
+                        format: "yyyy/mm/dd HH:MM:SS"
+                    },
+                    // 작업장소
+                    {
+                        type: String,
+                        value: item.work_place,
+                    },
+                    // 장비투입
+                    {
+                        type: String,
+                        value: item.equipment_input,
+                    },
+                    // 작업인원
+                    {
+                        type: Number,
+                        value: item.work_people,
+                    },
+                    // 작업내용
+                    {
+                        type: String,
+                        value: item.work_content,
+                    },
+                    // 요청사항
+                    {
+                        type: String,
+                        value: item.request,
+                    },
+                    // 기타작업
+                    {
+                        type: String,
+                        value: item.other_work,
+                    },
+                    // 작업종류
+                    {
+                        type: String,
+                        value: workType,
+                    },
+                    // 승인상태
+                    {
+                        type: String,
+                        value:
+                        item.condition === 'approval' && '승인완료' ||
+                        item.condition === 'refused' && '승인거부' ||
+                        item.condition === 'waited' && '승인대기'
+                    },
+                    // 승인자부서
+                    {
+                        type: String,
+                        value: item.per_depart,
+                    },
+                    // 승인자직책
+                    {
+                        type: String,
+                        value: item.per_position,
+                    },
+                    // 승인자이름
+                    {
+                        type: String,
+                        value: item.per_name,
+                    },
+                    // 허가내용
+                    {
+                        type: String,
+                        value: item.per_comment,
+                    },
+                ])
+            })
+        })
+        .then(async () => {
+            if (!fs.existsSync("./Routers/downloads/excel")) {
+                // excel 폴더가 존재하지 않는 경우 excel 폴더를 생성한다.
+                fs.mkdirSync("./Routers/downloads/excel")
+            }
+            await writeXlsxFile(excelData, {
+                filePath: `./Routers/downloads/excel/workreport.xlsx`,
+            })
+            .then(() => {
+                let file = __dirname + '/downloads/excel/workreport.xlsx'
+                res.download(file)
+            })
+        })    
+})
+
 
 /*
     ===== POST =====
 */
-
-// router.post('/update', async (req: Request, res: Response) => {
-//     console.log(req.body)
-//     const index = req.body.index
-//     let updateSuggestion = await Notice.findOneAndUpdate(
-//         { index: index },
-//         { $set: {
-//             title: req.body.title,
-//             author: req.body.author,
-//             subject: req.body.subject,
-//             }
-//         },
-//         { returnNewDocument: true }
-//     ).exec()
-
-//     let updateSuggestionDesc = await Noticedesc.findOneAndUpdate(
-//         { index: index },
-//         { $set: {
-//             desc: req.body.desc,
-//             }
-//         },
-//         { returnNewDocument: true }
-//     ).exec()
-
-//     if(updateSuggestion != null && updateSuggestionDesc != null){
-//         res.status(200).end()
-//     }else{
-//         console.log('null')
-//         console.log(updateSuggestion, updateSuggestionDesc)
-//         res.status(404).end()
-//     }
-// })
 
 router.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
     // const { fieldname, originalname, encoding, mimetype, destination, filename, path, size } = req.file!
@@ -131,6 +338,7 @@ router.post('/upload', upload.single('file'), async (req: Request, res: Response
         equipment_input: req.body.equipmentInput,
         work_people: parseInt(req.body.workPeople),
         request: req.body.request,
+        other_work: req.body.other_work,
         start_date: new Date(req.body.startDate),
         end_date: new Date(req.body.endDate),
         signfile_name: req.file!.filename,
@@ -171,26 +379,27 @@ router.post('/permit', async (req: Request, res: Response) => {
     }
 })
 
-// router.post('/delete', async (req: Request, res: Response) => {
-//     console.log(req.body)
-//     const index = req.body.index
-//     let updateSuggestion = await Suggestion.findOneAndUpdate(
-//         { index: index },
-//         { $set: {
-//             deleted: true
-//             }
-//         },
-//         { returnNewDocument: true }
-//     ).exec()
+router.post('/delete', async (req: Request, res: Response) => {
+    console.log(req.body)
+    const index = req.body.index
+    let updateWorkreport = await Workreport.findOneAndUpdate(
+        { index: index },
+        { $set: {
+            deleted: true
+            }
+        },
+        { returnNewDocument: true }
+    ).exec()
 
-//     if(updateSuggestion != null){
-//         res.status(200).end()
-//     }else{
-//         console.log('null')
-//         console.log(updateSuggestion)
-//         res.status(404).end()
-//     }
-// })
+    if(updateWorkreport != null){
+        res.status(200).end()
+    }else{
+        console.log('null')
+        res.status(404).end()
+    }
+})
+
+
 
 
 

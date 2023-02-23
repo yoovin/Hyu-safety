@@ -23,7 +23,7 @@ const WorkReport = ({navigation}) => {
     
 
     const onClickContent = (item) => {
-        navigation.navigate('SuggestionDetail', {...item, refreshSuggestion: refreshSuggestion})
+        navigation.navigate('WorkReportDetail', {...item, refreshSuggestion: refreshSuggestion})
     }
 
     const dateToString = (date) => {
@@ -37,7 +37,7 @@ const WorkReport = ({navigation}) => {
             onPress={() => onClickContent(item)}
             key={item.index}>
                 <View style={{flexDirection: 'row'}}>
-                    <Text style={[styles.noticeTitle]}>{item.index}번 승인신고 | {
+                    <Text style={[styles.noticeTitle]}>{item.index}번 작업신고 | {
                         item.condition == 'waited' && <Text style={{color: 'orange'}}>승인 대기</Text> ||
                         item.condition == 'approval' && <Text style={{color: 'green'}}>승인 완료</Text> ||
                         item.condition == 'refused' && <Text style={{color: 'red'}}>승인 거부</Text>
@@ -58,7 +58,8 @@ const WorkReport = ({navigation}) => {
             reverse: '-1',
             page:curpage,
             deleted: false,
-            id: userInfo.id
+            id: userInfo.id,
+            deleted: false,
         }})
         .then(res => {
             setSuggestions(val => [...val, ...res.data.workreports])

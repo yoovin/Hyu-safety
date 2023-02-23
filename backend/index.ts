@@ -8,7 +8,7 @@ const port: number = 1234
 
 // Routers
 import signupRouter from './Routers/signupRouter'
-import loginRouter from './Routers/loginRouter'
+import userRouter from './Routers/userRouter'
 import noticeRouter from './Routers/noticeRouter'
 import suggestionRouter from './Routers/suggestionRouter'
 import workreportRouter from './Routers/workreportRouter'
@@ -40,7 +40,7 @@ app.listen(port, () => {
         ===== 로그인 및 회원가입 =====
     */
     app.use('/signup', signupRouter)
-    app.use('/login', loginRouter)
+    app.use('/login', userRouter)
 
     /*
         ===== 공지사항 =====

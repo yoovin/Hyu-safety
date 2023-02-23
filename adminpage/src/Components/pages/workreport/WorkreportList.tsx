@@ -59,15 +59,13 @@ const WorkreportList = (props: Props) => {
     }
 
     const getNoticeData = (query?: any) => {
-        axios.get('/workreport', {params: {...query, reverse: noticeReverse}})
+        axios.get('/workreport', {params: {...query, reverse: noticeReverse, deleted: false}})
         .then(res => {
-            console.log(res.data)
             setWorkreports(res.data.workreports)
             let pages = res.data.count / 10
             if(res.data.count % 10 > 0) pages+=1
             setNoticePages(pages)
             setNoticeCount(res.data.count)
-            console.log(res.data.count)
         })
         .catch(err => console.error(err))
     }
@@ -87,13 +85,13 @@ const WorkreportList = (props: Props) => {
     useEffect(() => {
         switch(noticeStatus){
             case "waited":
-                getNoticeData({condition: "승인 대기", page: currentPage})
+                getNoticeData({condition: "waited", page: currentPage})
                 break
             case "approval":
-                getNoticeData({condition: "승인 완료", page: currentPage})
+                getNoticeData({condition: "approval", page: currentPage})
                 break
             case "refused":
-                getNoticeData({condition: "승인 거부", page: currentPage})
+                getNoticeData({condition: "refused", page: currentPage})
                 break
             default:
                 getNoticeData({page: currentPage})
@@ -119,7 +117,7 @@ const WorkreportList = (props: Props) => {
                         <option value="all">전체</option>
                         <option value="waited">승인 대기</option>
                         <option value="approval">승인 완료</option>
-                        <option value="refuse">승인 거부</option>
+                        <option value="refused">승인 거부</option>
                     </select>
                     <select className="border-2 m-2 rounded-lg"
                     name="subject"

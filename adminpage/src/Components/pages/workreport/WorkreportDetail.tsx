@@ -195,6 +195,18 @@ const WorkreportDetail = (props: props) => {
                         <span>{detail?.work_content}</span>
                     </div>
                 </div>
+                <div className="flex my-2">
+                    <span className="flex items-center p-2 ml-2 pointer-events-none sm:text-sm rounded-l-md bg-gray-200">요청사항</span>
+                    <div className="flex flex-1 border text-lg focus:ring-inset px-3">
+                        <span>{detail?.request}</span>
+                    </div>
+                </div>
+                <div className="flex my-2">
+                    <span className="flex items-center p-2 ml-2 pointer-events-none sm:text-sm rounded-l-md bg-gray-200">기타작업</span>
+                    <div className="flex flex-1 border text-lg focus:ring-inset px-3">
+                        <span>{detail?.other_work}</span>
+                    </div>
+                </div>
             </div>
             <div className='my-4'>
                 <span className='text-lg mx-2'>{'>'} 작업 전 사전체크 </span>
@@ -219,6 +231,13 @@ const WorkreportDetail = (props: props) => {
 
                     <span className="flex items-center p-2 ml-2 pointer-events-none sm:text-sm rounded-l-md bg-gray-200">이름</span>
                     <div className="flex flex-1 border text-lg focus:ring-inset px-3">{detail.name}</div>
+
+
+                    <span className="flex items-center p-2 ml-2 pointer-events-none sm:text-sm rounded-l-md bg-gray-200">허가내용</span>
+                    <div className="flex flex-1 border text-lg focus:ring-inset px-3">{detail.per_comment}</div>
+
+                    {/* <div className='flex mt-4'>
+                    </div> */}
                 </div>
 
                 <div className='flex mt-4'>
@@ -243,7 +262,7 @@ const WorkreportDetail = (props: props) => {
                         
                         <div className='flex mt-4'>
                             <span className="flex items-center p-2 ml-2 pointer-events-none sm:text-sm rounded-l-md bg-gray-200">허가내용</span>
-                            <input name="per_name" onChange={handleChange} className="flex flex-1 border text-lg focus:ring-inset px-3"/>
+                            <input name="per_comment" onChange={handleChange} className="flex flex-1 border text-lg focus:ring-inset px-3"/>
                         </div>
                     </div>
                     <div className='flex mt-4'>

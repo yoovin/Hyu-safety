@@ -31,7 +31,7 @@ import SuggestionDetail from './Components/pages/suggestion/SuggestionDetail';
 
 import WorkreportList from './Components/pages/workreport/WorkreportList';
 import WorkreportDetail from './Components/pages/workreport/WorkreportDetail';
-
+import WorkreportDownload from './Components/pages/workreport/WorkreportDownload';
 
 import NotFound from './Components/NotFound';
 
@@ -65,6 +65,7 @@ function App() {
                     <Route path="/suggestion/:index" element={<SuggestionDetail/>}></Route>
 
                     <Route path="/workreport/list" element={<WorkreportList/>}></Route>
+                    <Route path="/workreport/download" element={<WorkreportDownload/>}></Route>
                     <Route path="/workreport/:index" element={<WorkreportDetail/>}></Route>
 
                     <Route path="/livereport" element={<LiveReport/>}></Route>

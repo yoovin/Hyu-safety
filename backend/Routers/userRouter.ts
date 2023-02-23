@@ -60,4 +60,26 @@ router.post('/', async (req: Request, res: Response) => {
     }
 })
 
+router.post('/update', async (req: Request, res: Response) => {
+    console.log(req.body)
+    let updateUser = await User.findOneAndUpdate(
+        { id: req.body.id },
+        { $set: {
+            name: req.body.name,
+            email: req.body.email,
+            phone: req.body.phone,
+            position: req.body.position,
+            }
+        },
+        { returnNewDocument: true }
+    ).exec()
+
+    if(updateUser != null){
+        res.status(200).end()
+    }else{
+        console.log('null')
+        res.status(404).end()
+    }
+})
+
 export default router

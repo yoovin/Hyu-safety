@@ -22,6 +22,7 @@ const WorkreportSchema = new Schema<workreport, workreportModel>({
     condition: {type: String, required: true, default: 'waited'},
     other_work: String,
     checklist: {type: Object},
+    deleted: {type: Boolean, required: true, default: false},
     per_depart: String,
     per_position: String,
     per_name: String,

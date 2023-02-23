@@ -430,6 +430,14 @@ export default StyleSheet.create({
         color: 'red'
     },
 
+    conditionCircle: {
+        width:'25%', 
+        // margin: 5, 
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+
     /*
     ===== Checklist Component =====
     */

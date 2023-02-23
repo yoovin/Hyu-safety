@@ -17,6 +17,7 @@ export default interface workreport {
     condition: string
     other_work: string
     checklist: object
+    deleted: boolean
 
     per_depart: string
     per_position: string

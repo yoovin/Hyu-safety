@@ -45,7 +45,7 @@ import WorkSubmit from './WorkSubmit'
 
 /*
 ===== TODOS =====
-ㅇ
+ㅇ. 제출하고 바로 나가지게 하기... 알럿이 왜 뜨냐
 ㅇ 나갔다 들어와도 state 유지되는거같은데,, 고치기
 */
 
@@ -56,7 +56,7 @@ const UploadWorkReport = ({navigation, route}) => {
     const [curpage, setCurpage] = useState(0)
     const [curComponent, setCurComponent] = useState(null)
     const userInfo = useRecoilValue(currentUserInfo)
-    const [workChecklists, setWorkChecklists] = useState(checklists)
+    const [workChecklists, setWorkChecklists] = useState([...checklists])
 
     const [sign, setSign] = useState('')
     const [signImg, setSignImg] = useState('')
@@ -91,7 +91,7 @@ const UploadWorkReport = ({navigation, route}) => {
     activeOpacity={0.8}
     onPress={()=> {
         if(curpage == 0){
-            setIsGoBack(true)
+            navigation.pop()
         }else{
             nextpage(-1)
             setCanPressNextButton(true)
@@ -117,7 +117,14 @@ const UploadWorkReport = ({navigation, route}) => {
                         onPress: () => console.log("제출안함")
                     }])
             }else{
-                if(sign && startDate && endDate){ // 문제없으면 다음페이지
+                if(!sign){
+                    Alert.alert("서명이 작성되지 않았습니다.")
+                }else if(!startDate){
+                    Alert.alert("작업 시작 날짜가 작성되지 않았습니다.")
+                }else if(!endDate){
+                    Alert.alert("작업 종료 날짜가 작성되지 않았습니다.")
+                }else{
+                    // 문제없으면 다음페이지
                     nextpage(1)
                     setCanPressNextButton(false)
                 }
@@ -181,13 +188,15 @@ const UploadWorkReport = ({navigation, route}) => {
         })
         .then(res => {
             console.log(res.status)
-            setIsUploading(false)
-            Alert.alert("업로드 되었습니다.","", [
-            {   text:"확인",
-                onPress: () => {
-                navigation.pop()
-                // route.params.refreshSuggestion()
-            }}])
+            if(res.status == 201){
+                setIsUploading(false)
+                setIsGoBack(true)
+                Alert.alert("업로드 되었습니다.","", [
+                {   text:"확인",
+                    onPress: () => {
+                    navigation.pop()
+                }}])
+            }
         })
         .catch(err => {
             setIsUploading(false)
@@ -237,11 +246,36 @@ const UploadWorkReport = ({navigation, route}) => {
 
     useEffect(() => {
         console.log(userInfo)
-        setWorkChecklists(checklists)
+        console.log(checklists)
+        setWorkChecklists([...checklists])
         return() => {
-            setWorkChecklists({})
+            // setWorkChecklists({})
+            console.log('컴포넌트 사라짐')
         }
     }, [])
+
+    useEffect(() => {
+        navigation.addListener('beforeRemove', (e) => {
+            console.log(isGoBack)
+            if(isGoBack){
+                return
+            }else{
+                e.preventDefault()
+                Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
+                    {   text:"아니오",
+                        onPress: () => {
+                    },
+                    style: 'cancel'
+                    },
+    
+                    {   text:"예",
+                        onPress: () => {
+                        navigation.dispatch(e.data.action)
+                        route.params.refreshSuggestion()
+                    }}]) 
+            }
+        })
+    }, [navigation])
 
     useEffect(() => {
         console.log(workChecklists)
@@ -533,6 +567,7 @@ const UploadWorkReport = ({navigation, route}) => {
                             name="request"
                             />
                         </View>
+                        {workChecklists && <>
                         <View style={{flex: 1, marginBottom: 20}}>
                             <Text style={[styles.mainFont, styles.textLg]}>작업종류</Text>
                             <Text style={[styles.guideText]}>* 해당하는 작업 모두 체크</Text>
@@ -604,6 +639,7 @@ const UploadWorkReport = ({navigation, route}) => {
                             name="other_work"
                             />
                         </View>
+                        </>}
                     </KeyboardAwareScrollView>
                     
                     {isUploading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
@@ -612,7 +648,7 @@ const UploadWorkReport = ({navigation, route}) => {
                         <ActivityIndicator size="large"/>
                     </View>]}
 
-                    <Dialog.Container visible={isGoBack}>
+                    {/* <Dialog.Container visible={isGoBack}>
                         <Dialog.Title>
                             나가시겠습니까?
                         </Dialog.Title>
@@ -626,7 +662,7 @@ const UploadWorkReport = ({navigation, route}) => {
                             navigation.pop()
                             route.params.refreshSuggestion()
                         }}></Dialog.Button>
-                    </Dialog.Container>
+                    </Dialog.Container> */}
                 </SafeAreaView>}
             </KeyboardAvoidingView>
             </View>

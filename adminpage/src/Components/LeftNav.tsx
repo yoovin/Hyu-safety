@@ -36,25 +36,42 @@ const LeftNav = (props: Props) => {
             }
             <hr/>
 
-            <Link to="/livereport" className="flex p-1 hover:bg-slate-100"
-            onMouseOver={() => setCurrentHover(2)}
+            {/* <Link to="/livereport" className="flex p-1 hover:bg-slate-100"
+            onMouseOver={() => setCurrentHover()}
             // onMouseOut={() => setCurrentHover(0)}
             >
                 <IoChatbubblesOutline/>
                 <span className="mx-2">실시간 신고</span>
             </Link>
+            <hr/> */}
+
+            <div className="flex p-1"
+            onMouseOver={() => setCurrentHover(2)}
+            // onMouseOut={() => setCurrentHover(0)}
+            >
+                <IoNewspaperOutline/>
+                <span className="mx-2">건의사항</span>
+            </div>
+            {currentHover == 2 &&[
+                <Link to="/suggestion/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 건의 목록</span>
+                </Link>
+                ]}
             <hr/>
 
             <div className="flex p-1"
             onMouseOver={() => setCurrentHover(3)}
             // onMouseOut={() => setCurrentHover(0)}
             >
-                <IoNewspaperOutline/>
-                <span className="mx-2">건의사항</span>
+                <IoHammerOutline/>
+                <span className="mx-2">안전작업승인</span>
             </div>
             {currentHover == 3 &&[
-                <Link to="/suggestion/list" className="flex px-5 hover:bg-slate-100">
-                    <span className="mx-2">- 건의 목록</span>
+                <Link to="/workreport/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 작업 신고 목록</span>
+                </Link>,
+                <Link to="/workreport/download" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 신고 내역 다운로드</span>
                 </Link>
                 ]}
             <hr/>
@@ -63,24 +80,10 @@ const LeftNav = (props: Props) => {
             onMouseOver={() => setCurrentHover(4)}
             // onMouseOut={() => setCurrentHover(0)}
             >
-                <IoHammerOutline/>
-                <span className="mx-2">안전작업승인</span>
-            </div>
-            {currentHover == 4 &&[
-                <Link to="/workreport/list" className="flex px-5 hover:bg-slate-100">
-                    <span className="mx-2">- 작업 신고 목록</span>
-                </Link>
-                ]}
-            <hr/>
-
-            <div className="flex p-1"
-            onMouseOver={() => setCurrentHover(5)}
-            // onMouseOut={() => setCurrentHover(0)}
-            >
                 <IoPeopleOutline/>
                 <span className="mx-2">유저관리</span>
             </div>
-            {currentHover == 5 &&[
+            {currentHover == 4 &&[
                 <Link to="/user/list" className="flex px-5 hover:bg-slate-100">
                     <span className="mx-2">- 유저 목록</span>
                 </Link>
