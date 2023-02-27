@@ -9,7 +9,7 @@ import Navi from './Navi'
 import Home from './Home'
 import Notice from './notice/Notice'
 import WorkReport from './workreport/WorkReport'
-import Profile from './Profile'
+import Profile from './profile/Profile'
 
 import styles from '../../styles'
 import { currentUserid, currentUserInfo } from './recoil/atom'
@@ -18,6 +18,7 @@ import axios from 'axios'
 
 /*
 ===== TODO =====
+ㅇ. 안드로이드 나가시겠습니까 만들기
 */
 
 const Main = ({navigation}) => {
@@ -54,8 +55,8 @@ const Main = ({navigation}) => {
         },
         {
             component: "Notice",
-            icon: <AntDesign name="notification" size={30} color='white'></AntDesign>,
-            selectIcon:<AntDesign name="notification" size={35} color='white'></AntDesign>,
+            icon: <Ionicons name="megaphone-outline" size={30} color='white'></Ionicons>,
+            selectIcon:<Ionicons name="megaphone" size={35} color='white'></Ionicons>,
             menuName: "공지사항",
         },
         {
@@ -66,8 +67,10 @@ const Main = ({navigation}) => {
         },
         {
             component: "WorkReport",
-            icon:<MaterialCommunityIcons name="hammer-wrench" size={30} color='white'></MaterialCommunityIcons>,
-            selectIcon:<MaterialCommunityIcons name="hammer-wrench" size={35} color='white'></MaterialCommunityIcons>,
+            icon: <Ionicons name="hammer-outline" size={30} color='white'></Ionicons>,
+            selectIcon: <Ionicons name="hammer" size={35} color='white'></Ionicons>,
+            // icon:<MaterialCommunityIcons name="hammer-wrench" size={30} color='white'></MaterialCommunityIcons>,
+            // selectIcon:<MaterialCommunityIcons name="hammer-wrench" size={35} color='white'></MaterialCommunityIcons>,
             menuName: "안전작업신고",
         },
         {
@@ -83,7 +86,7 @@ const Main = ({navigation}) => {
         setCurrentTitle(item.menuName)
     }
 
-    const right = <TouchableOpacity>
+    const right = <TouchableOpacity style={{}}>
         <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
         <View style={styles.notificationNumCircle}> 
             <Text style={styles.notificationNum}>7</Text>

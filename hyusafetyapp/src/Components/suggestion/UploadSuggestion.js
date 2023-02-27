@@ -75,7 +75,6 @@ const WriteSuggestion = ({navigation, route}) => {
         photos.map(item => {
             formData.append('file', item)
         })
-        console.log(formData._parts[0])
         axios.post('/suggestion/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })

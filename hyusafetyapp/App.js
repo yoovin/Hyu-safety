@@ -25,6 +25,9 @@ import SuggestionDetail from './src/Components/suggestion/SuggestionDetail'
 import WorkReportDetail from './src/Components/workreport/WorkReportDetail'
 import UploadWorkReport from './src/Components/workreport/UploadWorkReport'
 import DrawSign from './src/Components/workreport/DrawSign'
+import Setting from './src/Components/profile/Setting'
+import ModifyProfile from './src/Components/profile/ModifyProfile'
+import ModifyPassword from './src/Components/profile/ModifyPassword'
 
 axios.defaults.baseURL = SERVER_ADDRESS
 
@@ -39,6 +42,10 @@ const App = () => {
             <Stack.Group screenOptions={{headerShown: false}}>
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="Main" component={Main}/>
+
+                <Stack.Screen name="Setting" component={Setting}/>
+                <Stack.Screen name="ModifyProfile" component={ModifyProfile}/>
+                <Stack.Screen name="ModifyPassword" component={ModifyPassword}/>
 
                 <Stack.Screen name="SignupTerms" component={SignupTerms}/>
                 <Stack.Screen name="Signup" component={Signup}/>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-async-storage/async-storage/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-async-storage/async-storage/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-community/checkbox/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-community/checkbox/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-community/cli-platform-android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-community/cli-platform-android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-community/datetimepicker/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/@react-native-community/datetimepicker/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-date-picker/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-date-picker/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-gesture-handler/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-gesture-handler/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-gradle-plugin" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-gradle-plugin" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-image-picker/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-image-picker/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-safe-area-context/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-safe-area-context/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-screens/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-screens/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-svg/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-svg/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-vector-icons" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-vector-icons" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-webview/android" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/hyusafetyapp/node_modules/react-native-webview/android" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

@@ -361,7 +361,8 @@ export default StyleSheet.create({
 
     logoutButtonText: {
         fontFamily: 'BMJUA',
-        fontSize: RFPercentage(3)
+        fontSize: RFPercentage(3),
+        color: 'white'
     },
 
     /*

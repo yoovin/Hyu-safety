@@ -46,7 +46,7 @@ import WorkSubmit from './WorkSubmit'
 /*
 ===== TODOS =====
 ㅇ. 제출하고 바로 나가지게 하기... 알럿이 왜 뜨냐
-ㅇ 나갔다 들어와도 state 유지되는거같은데,, 고치기
+d. 서명 이미지 보내면 서버에서 0사이즈로 나온다...
 */
 
 const UploadWorkReport = ({navigation, route}) => {
@@ -56,10 +56,10 @@ const UploadWorkReport = ({navigation, route}) => {
     const [curpage, setCurpage] = useState(0)
     const [curComponent, setCurComponent] = useState(null)
     const userInfo = useRecoilValue(currentUserInfo)
-    const [workChecklists, setWorkChecklists] = useState([...checklists])
+    const [workChecklists, setWorkChecklists] = useState(new checklists().checklist)
 
     const [sign, setSign] = useState('')
-    const [signImg, setSignImg] = useState('')
+    const [signImg, setSignImg] = useState(null)
 
     const [canPressNextButton, setCanPressNextButton] = useState(false)
 
@@ -159,7 +159,8 @@ const UploadWorkReport = ({navigation, route}) => {
     const onSubmit = data => {
         setIsUpload(false)
         setIsUploading(true)
-        console.log(typeof(signImg))
+        // console.log(typeof(signImg))
+        console.log(signImg.size)
         const formData = new FormData()
         formData.append('id', userInfo.id)
         formData.append('file', signImg)
@@ -170,8 +171,6 @@ const UploadWorkReport = ({navigation, route}) => {
             formData.append(key, data[key])
             console.log(key, data[key])
         }
-
-        // for (let i = 0; i < workChecklists)
 
         for(let i = 0; i < workChecklists.length-1; i++){
             if(workChecklists[i].checked){ // formdata에 체크리스트 항목 넣는거,,
@@ -226,18 +225,31 @@ const UploadWorkReport = ({navigation, route}) => {
         })
     }
 
-    const base64toFile = (base_data, filename) => {
-        let arr = base_data.split(','),
-            mime = arr[0].match(/:(.*?);/)[1],
-            bstr = Buffer.from(arr[1], 'base64').toString('ascii'),
-            n = bstr.length,
-            u8arr = new Uint8Array(n);
+    // const base64toFile = (base_data, filename) => {
+    //     let arr = base_data.split(','),
+    //         mime = arr[0].match(/:(.*?);/)[1],
+    //         bstr = Buffer.from(arr[1], 'base64').toString('ascii'),
+    //         n = bstr.length,
+    //         u8arr = new Uint8Array(n);
     
-        while(n--){
-            u8arr[n] = bstr.charCodeAt(n);
+    //     while(n--){
+    //         u8arr[n] = bstr.charCodeAt(n);
+    //     }
+
+    //     return new File([u8arr], filename, {type:mime});
+    // }
+
+    function base64toFile(base64Data, fileName) {
+        const mimeType = base64Data.split(';')[0].split(':')[1]; // 파일 형식을 가져옵니다. (예: image/jpeg)
+        // base64 문자열을 바이너리 데이터로 변환합니다.
+        const binaryString = Buffer.from(base64Data.split(',')[1], 'base64').toString('binary');
+        // 바이너리 데이터를 Uint8Array로 변환합니다.
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
         }
-    
-        return new File([u8arr], filename, {type:mime});
+        // 파일 객체를 생성합니다.
+        return new File([bytes], fileName, { type: mimeType });
     }
 
     /*
@@ -247,7 +259,6 @@ const UploadWorkReport = ({navigation, route}) => {
     useEffect(() => {
         console.log(userInfo)
         console.log(checklists)
-        setWorkChecklists([...checklists])
         return() => {
             // setWorkChecklists({})
             console.log('컴포넌트 사라짐')
@@ -310,6 +321,8 @@ const UploadWorkReport = ({navigation, route}) => {
 
     useEffect(() => {
         if(sign){
+            // console.log(sign)
+            // console.log(base64toFile(sign, "sign.png").size)
             setSignImg(base64toFile(sign, "sign.png"))
         }
     }, [sign])

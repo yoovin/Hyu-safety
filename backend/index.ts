@@ -26,10 +26,13 @@ app.listen(port, () => {
     ################################################
     🛡️  Server listening on port: ${port}🛡️
     ################################################
-    `);
+    `)
 
     app.use(bodyParser.json())
     app.use(cors())
+    app.use(express.json({ limit: '50mb' }))
+    app.use(express.urlencoded({ limit: '50mb', extended: true }))
+
     app.use(express.static('./Routers/uploads')) // 이미지
 
     app.get('/', (req: Request, res: Response) => {

@@ -11,9 +11,21 @@ import fs from 'fs'
 import Workreport from '../DB/model/Workreport'
 import getNextSequence from '../DB/getNextSequence'
 
-const upload = multer({
-    dest: __dirname + '/uploads/workreport/'
+// const upload = multer({
+//     dest: __dirname + '/uploads/workreport/'
+// })
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __dirname + '/uploads/workreport/') // 저장될 경로 설정
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname) // 저장될 파일명 설정
+    }
 })
+
+
+const upload = multer({ storage: storage, limits: { fileSize: 1024 * 1024 * 50, fieldSize: 1024 * 1024 * 50, }, })
 
 const work_kor = {
     fire: '화재',
@@ -294,7 +306,7 @@ router.get('/download', async (req: Request, res: Response) => {
 
 router.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
     // const { fieldname, originalname, encoding, mimetype, destination, filename, path, size } = req.file!
-    // console.log(req.file)
+    console.log(req.file)
     console.log(req.body)
 
     let checklists = {

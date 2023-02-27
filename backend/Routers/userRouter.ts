@@ -60,7 +60,7 @@ router.post('/', async (req: Request, res: Response) => {
     }
 })
 
-router.post('/update', async (req: Request, res: Response) => {
+router.post('/update/info', async (req: Request, res: Response) => {
     console.log(req.body)
     let updateUser = await User.findOneAndUpdate(
         { id: req.body.id },
@@ -69,6 +69,25 @@ router.post('/update', async (req: Request, res: Response) => {
             email: req.body.email,
             phone: req.body.phone,
             position: req.body.position,
+            }
+        },
+        { returnNewDocument: true }
+    ).exec()
+
+    if(updateUser != null){
+        res.status(200).end()
+    }else{
+        console.log('null')
+        res.status(404).end()
+    }
+})
+
+router.post('/update/password', async (req: Request, res: Response) => {
+    console.log(req.body)
+    let updateUser = await Userauth.findOneAndUpdate(
+        { id: req.body.id },
+        { $set: {
+            pw: req.body.password
             }
         },
         { returnNewDocument: true }

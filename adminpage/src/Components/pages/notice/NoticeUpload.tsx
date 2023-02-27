@@ -15,7 +15,6 @@ import '@toast-ui/editor/dist/i18n/ko-kr'
 
 
 type Props = {
-    
 }
 
 const NoticeUpload = (props: Props) => {
@@ -118,7 +117,6 @@ const NoticeUpload = (props: Props) => {
                 </div>
                 <div className="">
                     <Editor
-                        
                         placeholder='내용을 입력해주세요.'
                         previewStyle="vertical"
                         height="600px"

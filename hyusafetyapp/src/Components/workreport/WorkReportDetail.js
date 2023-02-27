@@ -4,8 +4,7 @@ import {
     SafeAreaView,
     TextInput, 
     TouchableOpacity, 
-    Keyboard, 
-    KeyboardAvoidingView, 
+    Keyboard,
     TouchableWithoutFeedback,
     ScrollView,
     Alert,
@@ -15,42 +14,23 @@ import {
     Platform
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Dialog from "react-native-dialog"
-import { useRecoilValue } from 'recoil'
-import { currentUserInfo } from '../recoil/atom'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CheckBox from '@react-native-community/checkbox';
-import { useForm, Controller} from 'react-hook-form'
-import { usePrevState } from '../Hooks/usePrevState'
-import { Buffer } from "buffer"
-import DatePicker from 'react-native-date-picker'
 
 import Navi from '../Navi'
 import styles from '../../../styles'
-
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import axios from 'axios'
-
-/*
-===== Checklists =====
-*/
-import checklists from './checklists'
-import WorkChecklist from './checklist/WorkChecklist'
-
-import WorkSubmit from './WorkSubmit'
-
-
 
 /*
 ===== TODOS =====
 ㅇ
-ㅇ 나갔다 들어와도 state 유지되는거같은데,, 고치기
 */
 
 const WorkReportDetail = ({navigation, route}) => {
     const [isUploading, setIsUploading] = useState(false)
+
+
+    const windowHeight = Dimensions.get('window').height
+    const windowWidth = Dimensions.get('window').width
 
     const left = <TouchableOpacity
     activeOpacity={0.8}
@@ -122,12 +102,10 @@ const WorkReportDetail = ({navigation, route}) => {
     }, [])
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{flex: 1}}>
-            <KeyboardAvoidingView style={{flex: 1}} behavior='height' keyboardVerticalOffset={0}>
             <Navi left={left} title={`${route.params.index}번 작업신고`} right={right}/>
             <SafeAreaView style={{flex:1}}>
-                    <KeyboardAwareScrollView style={{margin: 15}} contentContainerStyle={{}}>
+                    <ScrollView style={{margin: 15, flex:1}}>
                         <View style={{flex: 1, flexDirection: 'row', marginBottom: 20}}>
                             <Text style={[styles.mainFont, styles.textLg]}>신청부서</Text>
                             <Text style={[styles.mainFont, styles.textLg]}>: </Text>
@@ -251,6 +229,7 @@ const WorkReportDetail = ({navigation, route}) => {
                         </View>
                     </View>
                     </>}
+                    {route.params.other_work !== 'undefined' &&
                     <View style={{flex: 1, flexDirection: 'row', justifyContent:'center', alignItems:'center', marginBottom: 20}}>
                         <CheckBox
                                 value={route.params.other_work && true}
@@ -260,7 +239,7 @@ const WorkReportDetail = ({navigation, route}) => {
                         <View style={[styles.workInput, {width: '70%', alignItems: 'center'}]}>
                             <Text>{route.params.other_work}</Text>
                         </View>
-                    </View>
+                    </View>}
                         <View style={{flex: 1, marginBottom: 20}}>
                             {route.params.condition === 'approval' 
                             ?   
@@ -271,7 +250,7 @@ const WorkReportDetail = ({navigation, route}) => {
                                         <Text style={[styles.textBase, styles.mainFont, {color: 'white'}]}>승인 완료</Text>
                                     </View>
                                 </View>
-                                {/* <View>
+                                <View style={{justifyContent: 'space-between'}}>
                                     <View style={{flexDirection: 'row', marginBottom: 10}}>
                                         <Text style={[styles.mainFont, styles.textLg]}>부서</Text>
                                         <Text style={[styles.mainFont, styles.textLg]}>: </Text>
@@ -298,7 +277,7 @@ const WorkReportDetail = ({navigation, route}) => {
                                             <Text>{route.params.request}</Text>
                                         </View>
                                     </View>
-                                    </View> */}
+                                </View>
                                 </>
                             : 
                             <View style={{flexDirection: 'row', alignItems: 'space-between', justifyContent: 'space-evenly'}}>
@@ -308,16 +287,14 @@ const WorkReportDetail = ({navigation, route}) => {
                             </View>
                             }
                         </View>
-                    </KeyboardAwareScrollView>
+                    </ScrollView>
                     {isUploading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
                     <View style={{position: 'absolute',top: '25%', left:'25%', width: '50%', height: '25%', borderRadius: 10, backgroundColor: 'white', alignItems: 'center', opacity: 1}}>
                         <Text style={[styles.mainFont, styles.textXl, {marginVertical: '20%'}]}>삭제 중</Text>
                         <ActivityIndicator size="large"/>
                     </View>]}
                 </SafeAreaView>
-            </KeyboardAvoidingView>
             </View>
-        </TouchableWithoutFeedback>
     )
 }
 

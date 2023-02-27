@@ -20,6 +20,7 @@ type props = {
 const WorkreportDetail = (props: props) => {
 
     const [detail, setDetail] = useState<workreport| null>()
+    const [showSign, setShowSign] = useState(false)
 
     const {index} = useParams()
     const navigate = useNavigate()
@@ -37,7 +38,6 @@ const WorkreportDetail = (props: props) => {
                     if(data.status == 200){
                         window.alert("승인되었습니다.")
                         window.location.reload()
-                        // {navigate('/workreport/list')}
                     }
                 })
                 .catch(err => {
@@ -163,6 +163,10 @@ const WorkreportDetail = (props: props) => {
                     <div className="flex flex-1 border text-lg rounded-r-md focus:ring-inset px-3">
                         <span>{detail?.upload_date && dateToString(new Date(detail!.upload_date))}</span>
                     </div>
+                </div>
+                <div className="flex my-2 ml-2">
+                    <button onClick={() => setShowSign(val => !val)}>서명 보기</button>
+                    {showSign && <img src={`${process.env.REACT_APP_SERVER_ADDRESS}/workreport/${detail?.signfile_name}`}/>}
                 </div>
             </div>
             <div className='my-4'>
