@@ -58,18 +58,9 @@ const ProfileSetting = ({navigation}) => {
                 style={styles.noticeContainer}
                 activeOpacity={0.8}
                 onPress={() => {
-
+                    navigation.navigate('DeleteUser')
                 }}>
-                    <Text style={[styles.noticeTitle]}></Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                style={styles.noticeContainer}
-                activeOpacity={0.8}
-                onPress={() => {
-
-                }}>
-                    <Text style={[styles.noticeTitle]}></Text>
+                    <Text style={[styles.noticeTitle]}>회원탈퇴</Text>
                 </TouchableOpacity>
             </ScrollView>
 

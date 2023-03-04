@@ -164,9 +164,12 @@ const WorkreportDetail = (props: props) => {
                         <span>{detail?.upload_date && dateToString(new Date(detail!.upload_date))}</span>
                     </div>
                 </div>
-                <div className="flex my-2 ml-2">
+                <div className="flex my-2 ml-2 flex-col items-start">
                     <button onClick={() => setShowSign(val => !val)}>서명 보기</button>
-                    {showSign && <img src={`${process.env.REACT_APP_SERVER_ADDRESS}/workreport/${detail?.signfile_name}`}/>}
+                    {showSign && 
+                        <img src={`${process.env.REACT_APP_SERVER_ADDRESS}/workreport/${detail?.signfile_name}`}
+                        className=' w-32 h-28'/>
+                    }
                 </div>
             </div>
             <div className='my-4'>
@@ -208,7 +211,7 @@ const WorkreportDetail = (props: props) => {
                 <div className="flex my-2">
                     <span className="flex items-center p-2 ml-2 pointer-events-none sm:text-sm rounded-l-md bg-gray-200">기타작업</span>
                     <div className="flex flex-1 border text-lg focus:ring-inset px-3">
-                        <span>{detail?.other_work}</span>
+                        <span>{detail?.other_work !== 'undefined' && detail?.other_work}</span>
                     </div>
                 </div>
             </div>

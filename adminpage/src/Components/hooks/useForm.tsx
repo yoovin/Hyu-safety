@@ -18,17 +18,7 @@ const useForm = ({initialValues, onSubmit, validate}: any): any => {
     }
 
     const reset = (val: object) => {
-        // for(let key in val){
-        //     // setValues(v => {
-        //     //     {...v,
-        //     //     key: val[key as keyof typeof val]}
-        //     // })
-        //     // console.log(key)
-        //     setValues({...values, [key]:  val[key as keyof typeof val]})
-        //     // setValues({...values, [key]: val[key as keyof typeof val]})
-        // }
         setValues(val)
-        console.log(values)
     }
 
     useEffect(() => {

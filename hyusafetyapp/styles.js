@@ -64,8 +64,6 @@ export default StyleSheet.create({
     logoView: {
         flex: 3,
         justifyContent: 'center',
-        // alignItems: 'center',
-        // backgroundColor:'pink'
     },
 
     idInputView: {
@@ -120,9 +118,23 @@ export default StyleSheet.create({
         textDecorationLine: 'underline',
     },
 
+    loginLogoBackground: {
+        position: 'absolute',
+        width: '94%', 
+        height: '98%', 
+        resizeMode: 'contain',
+        opacity: 0.5,
+
+        top:'3%',
+        left:'5%',
+        // width: '65%', 
+        // height: '70%', 
+        // resizeMode: 'contain',
+    },
+
     loginNyangBackground: {
         // position: 'absolute',
-        // top:'80%',
+        top:'30%',
         left:'29%',
         width: '65%', 
         height: '80%', 
@@ -221,6 +233,39 @@ export default StyleSheet.create({
         fontFamily: 'BMJUA',
         color: 'white',
         
+    },
+
+    /*
+    ===== HOME COMPONENT =====
+    */
+
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    image: {
+        height: '37%',
+        margin: 16,
+        borderColor: 'black',
+        borderRadius: 10,
+        resizeMode: 'contain',
+    },
+    pagination: {
+        flexDirection: 'row',
+        position: 'absolute',
+        bottom: '62%',
+    },
+    paginationDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#ccc',
+        marginHorizontal: 5,
+    },
+    paginationDotActive: {
+        backgroundColor: '#333',
     },
 
     /*
@@ -338,7 +383,7 @@ export default StyleSheet.create({
         fontSize: RFPercentage(3),
         fontFamily:'BMJUA',
         color: 'black',
-        marginTop:'9%',
+        marginTop: '10%',
         height:RFPercentage(3.5),
     },
 

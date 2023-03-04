@@ -7,22 +7,17 @@ import {
     Keyboard, 
     KeyboardAvoidingView, 
     TouchableWithoutFeedback,
-    ScrollView,
     Alert,
     Dimensions,
-    Image,
     ActivityIndicator,
-    Platform
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import Dialog from "react-native-dialog"
 import { useRecoilValue } from 'recoil'
 import { currentUserInfo } from '../recoil/atom'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from '@react-native-community/checkbox'
 import { useForm, Controller} from 'react-hook-form'
 import { usePrevState } from '../Hooks/usePrevState'
-import { Buffer } from "buffer"
 import DatePicker from 'react-native-date-picker'
 
 import Navi from '../Navi'
@@ -147,7 +142,6 @@ const UploadWorkReport = ({navigation, route}) => {
     const dateToString = (date) => {
         let strDate = `${date.getFullYear()}년 ${date.getMonth()+1}월 ${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`
         return strDate
-        
     }
 
     const nextpage = (num) => {
@@ -159,17 +153,13 @@ const UploadWorkReport = ({navigation, route}) => {
     const onSubmit = data => {
         setIsUpload(false)
         setIsUploading(true)
-        // console.log(typeof(signImg))
-        console.log(signImg.size)
         const formData = new FormData()
         formData.append('id', userInfo.id)
-        formData.append('file', signImg)
+        formData.append('sign', sign)
         formData.append('startDate', startDate.toString())
         formData.append('endDate', endDate.toString())
-
         for(let key in data){
             formData.append(key, data[key])
-            console.log(key, data[key])
         }
 
         for(let i = 0; i < workChecklists.length-1; i++){
@@ -181,6 +171,7 @@ const UploadWorkReport = ({navigation, route}) => {
                 }
             }
         }
+
         
         axios.post('/workreport/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
@@ -223,33 +214,6 @@ const UploadWorkReport = ({navigation, route}) => {
             cur[idx].checklist = list
             return cur
         })
-    }
-
-    // const base64toFile = (base_data, filename) => {
-    //     let arr = base_data.split(','),
-    //         mime = arr[0].match(/:(.*?);/)[1],
-    //         bstr = Buffer.from(arr[1], 'base64').toString('ascii'),
-    //         n = bstr.length,
-    //         u8arr = new Uint8Array(n);
-    
-    //     while(n--){
-    //         u8arr[n] = bstr.charCodeAt(n);
-    //     }
-
-    //     return new File([u8arr], filename, {type:mime});
-    // }
-
-    function base64toFile(base64Data, fileName) {
-        const mimeType = base64Data.split(';')[0].split(':')[1]; // 파일 형식을 가져옵니다. (예: image/jpeg)
-        // base64 문자열을 바이너리 데이터로 변환합니다.
-        const binaryString = Buffer.from(base64Data.split(',')[1], 'base64').toString('binary');
-        // 바이너리 데이터를 Uint8Array로 변환합니다.
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-        }
-        // 파일 객체를 생성합니다.
-        return new File([bytes], fileName, { type: mimeType });
     }
 
     /*
@@ -319,14 +283,6 @@ const UploadWorkReport = ({navigation, route}) => {
         }
     }, [workChecklists])
 
-    useEffect(() => {
-        if(sign){
-            // console.log(sign)
-            // console.log(base64toFile(sign, "sign.png").size)
-            setSignImg(base64toFile(sign, "sign.png"))
-        }
-    }, [sign])
-
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{flex: 1}}>
@@ -335,7 +291,7 @@ const UploadWorkReport = ({navigation, route}) => {
             {curpage > 0 && curpage <= 7
             ?
                 curpage == 7 ?
-                    <WorkSubmit setCanPressNextButton={setCanPressNextButton} content={workChecklists}/>
+                    <WorkSubmit setCanPressNextButton={setCanPressNextButton} content={workChecklists} img={sign}/>
                 :
                 workChecklists[curpage-1].checked &&
                 <WorkChecklist setCanPressNextButton={setCanPressNextButton} content={workChecklists[curpage-1]} checkWorkChecklist={checkWorkChecklist} idx={curpage-1}/>
@@ -442,7 +398,6 @@ const UploadWorkReport = ({navigation, route}) => {
                                     <DatePicker
                                         modal
                                         open={startDateOpen}
-                                        // date={startDate ? startDate : new Date()}
                                         date={new Date()}
                                         onConfirm={(date) => {
                                         setStartDateOpen(false)
@@ -462,7 +417,6 @@ const UploadWorkReport = ({navigation, route}) => {
                                 <View style={{flexDirection: 'row', justifyContent: 'space-evenly', marginVertical: 3}}>
                                     <TouchableOpacity
                                     onPress={() => {
-                                        // navigation.navigate('WorkCalendar', {date: endDate, setDate: setEndDate})
                                         setEndDateOpen(true)
                                     }}>
                                         <Text style={[styles.mainFont, styles.textLg]}>{endDate ? dateToString(endDate) : '[ 선택 ]'}</Text>
@@ -660,22 +614,6 @@ const UploadWorkReport = ({navigation, route}) => {
                         <Text style={[styles.mainFont, styles.textXl, {marginVertical: '20%'}]}>업로드 중</Text>
                         <ActivityIndicator size="large"/>
                     </View>]}
-
-                    {/* <Dialog.Container visible={isGoBack}>
-                        <Dialog.Title>
-                            나가시겠습니까?
-                        </Dialog.Title>
-                        <Dialog.Description>
-                            쓰던 내용은 저장되지 않습니다!
-                        </Dialog.Description>
-                        <Dialog.Button label="아니오" onPress={()=>{
-                            setIsGoBack(false)
-                            }}></Dialog.Button>
-                        <Dialog.Button label="예" onPress={() => {
-                            navigation.pop()
-                            route.params.refreshSuggestion()
-                        }}></Dialog.Button>
-                    </Dialog.Container> */}
                 </SafeAreaView>}
             </KeyboardAvoidingView>
             </View>

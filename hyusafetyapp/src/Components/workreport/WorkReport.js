@@ -83,7 +83,7 @@ const WorkReport = ({navigation}) => {
             <View style={{alignItems:'flex-end'}}>
                 <TouchableOpacity
                 onPress={() => navigation.navigate('UploadWorkReport', {refreshSuggestion: refreshSuggestion})}>
-                    <Text style={[{}]}>+ 새 작업 신고하기</Text>
+                    <Text style={[styles.mainFont, styles.textLg, {color: 'cornflowerblue'}]}>+ 새 작업</Text>
                 </TouchableOpacity> 
             </View>  
             </View>
@@ -105,7 +105,7 @@ const WorkReport = ({navigation}) => {
                 refreshing={false}
                 >
             </FlatList>:
-            <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>아직 올린 작업신고가 없습니다.</Text>}
+            <Text style={[styles.noticeTitle, {margin: 10}]}>아직 올린 작업신고가 없습니다.</Text>}
         </View>
         </View>
     )

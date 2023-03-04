@@ -15,7 +15,6 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSetRecoilState } from 'recoil'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {SERVER_ADDRESS} from '@env'
 import sha256 from 'crypto-js/sha256'
 import Base64 from 'crypto-js/enc-base64'
 
@@ -34,54 +33,76 @@ const Login = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(false)
     const [toggleAutoLogin, setToggleAutoLogin] = useState(false)
 
-    const setUserid = useSetRecoilState(currentUserid)
-
     const login = () => {
-        setIsLoading(true)
-        if(userid.length > 0 && userpw.length > 0){
-            console.log(userid, userpw)
-            axios.post(SERVER_ADDRESS + '/login', {
-                id: userid,
-                pw: Base64.stringify(sha256(userpw))
-            })
-            .then(data => {
-                if(data.status == 200){
-                    // 자동로그인
-                    setUserid(userid)
-                    AsyncStorage.setItem('userid', userid, () => {
-                        console.log("유저 저장 완료")
-                    })
-                    navigation.reset({routes:[{name: 'Main'}]})
-                }
-            })
-            .catch(err => {
-                setIsLoading(false)
-                // console.error(err.request._response)
-                if(err.request.status == 401){ // 내가 준 애러
-                    const errorJson = JSON.parse(err.request._response)
-                        Alert.alert(errorJson.text)
-                }
-            })
+        if(!userid){
+            Alert.alert("아이디를 입력해주세요.")
+        }else if(!userpw){
+            Alert.alert("비밀번호를 입력해주세요.")
+        }else{
+            setIsLoading(true)
+            if(userid.length > 0 && userpw.length > 0){
+                console.log(userid, userpw)
+                axios.post('/login', {
+                    id: userid,
+                    pw: Base64.stringify(sha256(userpw))
+                })
+                .then(data => {
+                    if(data.status == 200){
+                        // 자동로그인
+                        AsyncStorage.setItem('userid', userid, () => {
+                            console.log("유저 아이디 저장 완료")
+                        })
+                        AsyncStorage.setItem('userpw', Base64.stringify(sha256(userpw)), () => {
+                            console.log("유저 비밀번호 저장 완료")
+                        })
+                        navigation.reset({routes:[{name: 'Main', params:{id: userid}}]})
+                    }
+                })
+                .catch(err => {
+                    setIsLoading(false)
+                    console.error(err.request._response)
+                    if(err.request.status == 401){ // 내가 준 애러
+                        const errorJson = JSON.parse(err.request._response)
+                            Alert.alert(errorJson.text)
+                    }
+                })
+            }
         }
     }
 
     useEffect(() => {
-        // 자동로그인 체크
-        AsyncStorage.getItem('userid', (err, result) => {
-            if(result != null){
-                setUserid(result)
-                navigation.reset({routes:[{name: 'Main'}]})
+        AsyncStorage.getItem('userid', (err, id) => {
+            if(id != null){
+                AsyncStorage.getItem('userpw', (err, pw) => {
+                    axios.post('/login', {
+                        id: id,
+                        pw: pw
+                    })
+                    .then(data => {
+                        if(data.status == 200){
+                            // 자동로그인
+                            navigation.reset({routes:[{name: 'Main', params:{id: id}}]})
+                        }
+                    })
+                    .catch(err => {
+                        setIsLoading(false)
+                        if(err.request.status == 401){ // 내가 준 애러
+                            const errorJson = JSON.parse(err.request._response)
+                                Alert.alert("오류가 발생했습니다.", "다시 로그인 해주세요.")
+                        }
+                    })
+                })
             }
         })
-    }, [])
+    })
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAvoidingView style={{flex: 1}} behavior='padding'>
                 <SafeAreaView style={{flex: 1, backgroundColor:'#5471ff'}}>
                     <View style={styles.logoView}>
-                        {/* <Text>Login</Text> */}
-                        <ImageBackground source={require('../../assets/image/safenyang.png')} style={styles.loginNyangBackground}/>
+                    <ImageBackground source={require('../../assets/image/safety_logo.png')} style={styles.loginLogoBackground}/>
+                    <ImageBackground source={require('../../assets/image/safenyang.png')} style={styles.loginNyangBackground}/>
                     </View>
                     <View style={styles.idInputView}>
                         <Text style={[styles.inputTitleText, {marginTop: '10%',}]}>아이디</Text>

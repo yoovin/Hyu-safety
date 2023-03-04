@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { useForm, Controller} from 'react-hook-form'
 
 import styles from '../../../styles'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import DatePicker from 'react-native-date-picker'
 
 import { currentUserInfo } from '../recoil/atom'
 import { useRecoilState } from 'recoil'
@@ -20,6 +20,13 @@ import axios from 'axios'
 const ModifyProfile = ({navigation}) => {
 
     const [userInfo, setUserInfo] = useRecoilState(currentUserInfo)
+    const [birth, setBirth] = useState('')
+    const [birthOpen, setBirthOpen] = useState(false)
+
+    const dateToString = (date) => {
+        let strDate = `${date.getFullYear()}년 ${date.getMonth()+1}월 ${date.getDate()}일`
+        return strDate   
+    }
 
     const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
@@ -42,7 +49,8 @@ const ModifyProfile = ({navigation}) => {
         axios.post('/login/update/info', {
             ...data,
             id: userInfo.id,
-            position: userInfo.position
+            position: userInfo.position,
+            birth: birth
         })
         .then(res => {
             if(res.status == 200){
@@ -71,6 +79,7 @@ const ModifyProfile = ({navigation}) => {
 
     useEffect(()=>{
         console.log(userInfo)
+        setBirth(new Date(userInfo.birth))
     }, [])
 
 
@@ -139,6 +148,35 @@ const ModifyProfile = ({navigation}) => {
                             />
                         )}
                         name="phone"
+                        />
+                </View>
+                <View style={{flex: 0.1, flexDirection: 'row', alignItems:'center',}}>
+                    <Text style={[styles.mainFont, styles.textLg]}>생년월일</Text>
+                    <Text style={[styles.mainFont, styles.textLg]}>: </Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setBirthOpen(true)
+                        }}>
+                            <Text style={[styles.mainFont, styles.textLg, {margin: 15}]}>{birth ? dateToString(birth) : '[ 선택 ]'}</Text>
+                        </TouchableOpacity>
+                        <DatePicker
+                            modal
+                            open={birthOpen}
+                            date={birth ? birth : new Date()}
+                            onConfirm={(date) => {
+                            setBirthOpen(false)
+                            console.log(date)
+                            setBirth(date)
+                            }}
+                            onCancel={() => {
+                            setBirthOpen(false)
+                            }}
+                            maximumDate={new Date()}
+                            title="생년월일"
+                            confirmText='완료'
+                            cancelText='취소'
+                            locale='ko-KR'
+                            mode='date'
                         />
                 </View>
             </View>

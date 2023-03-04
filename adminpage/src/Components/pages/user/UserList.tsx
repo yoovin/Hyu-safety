@@ -2,8 +2,11 @@ import axios from 'axios'
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { user } from '../../interface/user'
+import download from 'downloadjs'
 
 import UserDetail from './UserDetail'
+
+import { RiFileExcel2Fill } from "react-icons/ri";
 
 type Props = {}
 
@@ -77,6 +80,18 @@ const NoticeList = (props: Props) => {
 
     const handlePage = (e: any) => {
         setCurrentPage(Number(e.target.value))
+    }
+
+    const onDownload = () => {
+        axios.get("/login/download", {
+            params: {
+                
+            },
+            responseType: 'blob',
+        })
+        .then(res => {
+            download(res.data, `${new Date().toString()}_유저목록.xlsx`)
+        })
     }
 
     useEffect(() => {
@@ -193,6 +208,13 @@ const NoticeList = (props: Props) => {
                         ))}
                     </tbody>
                 </table>
+                <div className='flex-row m-1 mt-2'>
+                    <button type='button' className='flex text-sm text-green-600 font-bold'
+                    onClick={onDownload}>
+                        <RiFileExcel2Fill size={20}/>전체 엑셀 다운로드
+                    </button>
+                </div>
+                
             </div>
         </div>
 
@@ -207,11 +229,6 @@ const NoticeList = (props: Props) => {
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </button>
-
-            {/* <button type="button" className="inline-flex items-center justify-center w-8 h-8 text-sm font-semibold border rounded shadow-md" value={1} onClick={handlePage}>1</button>
-            <button type="button" className="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md " value={2} onClick={handlePage}>2</button>
-            <button type="button" className="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md " value={3} onClick={handlePage}>3</button>
-            <button type="button" className="inline-flex items-center justify-center w-8 h-8 text-sm border rounded shadow-md " title="Page 4">4</button> */}
             {renderPageButton(noticePageTen)}
 
             <button title="next" type="button" className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md"

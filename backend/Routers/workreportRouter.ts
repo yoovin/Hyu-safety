@@ -306,8 +306,14 @@ router.get('/download', async (req: Request, res: Response) => {
 
 router.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
     // const { fieldname, originalname, encoding, mimetype, destination, filename, path, size } = req.file!
-    console.log(req.file)
+    // console.log(req.file)
     console.log(req.body)
+    const signfileName = `${Date.now() + (540 * 60 * 1000)}-sign.png`
+    if (!fs.existsSync(__dirname + '/uploads/workreport/')) {
+        // excel 폴더가 존재하지 않는 경우 excel 폴더를 생성한다.
+        fs.mkdirSync(__dirname + '/uploads/workreport/')
+    }
+    fs.writeFileSync( __dirname + '/uploads/workreport/' + signfileName, req.body.sign.replace(/^data:image\/png;base64,/, ""), "base64");
 
     let checklists = {
         fire:{
@@ -353,7 +359,8 @@ router.post('/upload', upload.single('file'), async (req: Request, res: Response
         other_work: req.body.other_work,
         start_date: new Date(req.body.startDate),
         end_date: new Date(req.body.endDate),
-        signfile_name: req.file!.filename,
+        // signfile_name: req.file!.filename,
+        signfile_name: signfileName,
         checklist: checklists
     })
 

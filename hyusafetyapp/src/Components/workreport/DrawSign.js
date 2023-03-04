@@ -1,7 +1,6 @@
-import { View, Text, Button } from 'react-native'
+import { View, Text, Button, TouchableOpacity } from 'react-native'
 import React, { useRef, useState } from 'react'
-import Signature from "react-native-signature-canvas";
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import Signature from "react-native-signature-canvas"
 import Toast from 'react-native-toast-message'
 
 import styles from '../../../styles';

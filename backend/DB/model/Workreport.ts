@@ -18,7 +18,7 @@ const WorkreportSchema = new Schema<workreport, workreportModel>({
     start_date: {type: Date, required: true},
     end_date: {type: Date, required: true},
     signfile_name: {type: String, required: true},
-    upload_date: {type: Date, required: true, default: new Date()},
+    upload_date: {type: Date, required: true, default: Date.now() + (540 * 60 * 1000)},
     condition: {type: String, required: true, default: 'waited'},
     other_work: String,
     checklist: {type: Object},

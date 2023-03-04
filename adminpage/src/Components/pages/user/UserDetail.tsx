@@ -12,31 +12,67 @@ type Props = {
 
 const UserDetail = (props: Props) => {
 
+    const [phone, setPhone] = useState(props.curUser.phone)
+
     const dateToString = (date: string) => {
         return date.replace('T', ' ').substring(0, 19)
     }
 
-    // const [position, setPosition] = useState(props.curUser.position)
+    const birthToString = (date: Date) => {
+
+    }
+
+    const handlePress = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const regex = /^[0-9\b -]{0,13}$/;
+        if (regex.test(e.target.value)) {
+            setPhone(e.target.value);
+        }
+    }
+
+    const onDelete = () => {
+        if(window.confirm("해당 유저를 삭제하시겠습니까?")){
+            axios.delete('/login/delete', {
+                data: {
+                    id: props.curUser.id
+                }
+            })
+            .then(res => {
+                if(res.status == 200){
+                    window.alert("삭제 완료 되었습니다.")
+                    window.location.reload()
+                }
+            })
+            .catch(err => {
+                console.error(err.request._response)
+                if(err.request.status == 412){ // 내가 준 애러
+                    const errorJson = JSON.parse(err.request._response)
+                    console.log(errorJson.text)
+                    window.alert(`에러가 발생했습니다: ${errorJson.text}`)
+                }else{
+                    window.alert(`에러가 발생했습니다: ${err}`)
+                }
+            })
+        }
+    }
 
     const {values, errors, submitting, handleChange, handleSubmit, reset} = useForm({
         initialValues: {
             id: props.curUser.id,
             name: props.curUser.name,
             email: props.curUser.email,
-            phone: props.curUser.phone,
             position: props.curUser.position,
         },
         onSubmit: (values: any) => {
             console.log(values)
             if(window.confirm("저장하시겠습니까?")){
-                axios.post('/login/update', {
-                    ...values
+                axios.post('/login/update/info', {
+                    ...values,
+                    phone: phone
                 })
                 .then(data => {
                     if(data.status == 200){
                         window.alert("저장되었습니다.")
                         window.location.reload()
-                        // {navigate('/workreport/list')}
                     }
                 })
                 .catch(err => {
@@ -59,10 +95,18 @@ const UserDetail = (props: Props) => {
             id: props.curUser.id,
             name: props.curUser.name,
             email: props.curUser.email,
-            phone: props.curUser.phone,
             position: props.curUser.position,
         })
     }, [])
+
+    useEffect(() => {
+            if (phone.length === 10) {
+                setPhone(phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
+            }
+            if (phone.length === 13) {
+                setPhone(phone.replace(/-/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+            }
+        }, [phone]);
 
     return (
         <>
@@ -103,8 +147,9 @@ const UserDetail = (props: Props) => {
                     <span>휴대전화: </span>
                     <input
                     className='p-1 border-stone-300 border-2 rounded-md'
-                    onChange={handleChange}
-                    defaultValue={props.curUser.phone}
+                    onChange={handlePress}
+                    // defaultValue={phone}
+                    value={phone}
                     name="phone"/>
                 </div>
                 <div className="basis-1/12">
@@ -121,11 +166,18 @@ const UserDetail = (props: Props) => {
                     <span>생성날짜: {dateToString(props.curUser.created_at.toString())}</span>
                 </div>
                 <div className="basis-1/12">
-                    <span>최근 로그인:</span>
+                    <span>최근 로그인: {dateToString(props.curUser.recent_login_date.toString())}</span>
                 </div>
-
-                <button type="submit" className="px-8 py-3 font-semibold rounded-full bg-blue-300 hover:bg-blue-500 text-gray-800"
-                >저장</button>
+                <div className="basis-1/12">
+                    <span>최근 로그인 IP: {props.curUser.recent_login_ip}</span>
+                </div>
+                <div className='flex-row'>
+                    <button type="submit" className="px-8 py-3 mx-3 font-semibold rounded-full bg-blue-300 hover:bg-blue-500 text-gray-800"
+                    >저장</button>
+                    <button type="button" className="px-8 py-3 mx-3 font-semibold rounded-full bg-red-300 hover:bg-red-500 text-gray-800"
+                    onClick={onDelete}
+                    >삭제</button>
+                </div>
             </div>
         </form>
         </>

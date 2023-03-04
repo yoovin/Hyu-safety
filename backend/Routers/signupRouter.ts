@@ -49,6 +49,7 @@ router.post('/', async (req: Request, res: Response) => {
             id: req.body.id,
             name: req.body.name,
             email: req.body.email,
+            birth: new Date(req.body.birth),
             phone: req.body.phone
         })
 

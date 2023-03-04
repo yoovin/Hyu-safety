@@ -1,6 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express'
 import { CallbackError } from 'mongoose'
+import fs from 'fs'
 const router = express.Router()
+
+import readXlsxFile from 'read-excel-file/node'
+import writeXlsxFile from 'write-excel-file/node'
 
 // Models
 import Userauth from '../DB/model/Userauth'
@@ -8,6 +12,7 @@ import User from '../DB/model/User'
 
 
 router.get('/getuserinfo', async (req: Request, res: Response) => {
+    console.log(`유저 정보 요청들어옴${req.query.id}`)
     const user = await User.findOne({id: req.query.id})
     if(user != null){
         res.send(user)
@@ -51,7 +56,13 @@ router.post('/', async (req: Request, res: Response) => {
             res.status(401).json({text: "틀린 비밀번호 입니다."}).end()
         }else{
             // 최근 접속 아이피 및 날짜
-            // const curUser = User.updateOne({id: userid.id}, {recent_login_ip: req.ip, recent_login_date: Date.now()})
+            const curUser = User.findOneAndUpdate(
+                {id: userid.id},
+                { $set: {
+                    recent_login_ip: req.ip, 
+                    recent_login_date: Date.now() + (540 * 60 * 1000)
+                }}
+                ).exec()
             res.status(200).end()
         }
     }else{
@@ -87,7 +98,7 @@ router.post('/update/password', async (req: Request, res: Response) => {
     let updateUser = await Userauth.findOneAndUpdate(
         { id: req.body.id },
         { $set: {
-            pw: req.body.password
+                pw: req.body.password
             }
         },
         { returnNewDocument: true }
@@ -99,6 +110,108 @@ router.post('/update/password', async (req: Request, res: Response) => {
         console.log('null')
         res.status(404).end()
     }
+})
+
+router.delete('/delete', async (req: Request, res: Response) => {
+    console.log(req.body)
+    // res.status(200).end()
+    let updateUser = await User.deleteOne(
+        { id: req.body.id },
+    ).exec()
+
+    let updateUserauth = await Userauth.deleteOne(
+        { id: req.body.id },
+    ).exec()
+
+    if(updateUser != null && updateUserauth != null){
+        res.status(200).end()
+    }else{
+        console.log('null')
+        res.status(404).end()
+    }
+})
+
+router.get('/download', async (req: Request, res: Response) => {
+    const HEADER_ROW = [
+        {
+            value: "아이디",
+            fontWeight: "bold",
+        },
+        {
+            value: "이름",
+            fontWeight: "bold",
+        },
+        {
+            value: "이메일",
+            fontWeight: "bold",
+        },
+        {
+            value: "전화번호",
+            fontWeight: "bold",
+        },
+        {
+            value: "직급",
+            fontWeight: "bold",
+        },
+        {
+            value: "생성일자",
+            fontWeight: "bold",
+        },
+        
+    ]
+
+    const excelData: Array<Array<object>> = [HEADER_ROW]
+    await User.find({})
+        .then(async data => {
+            data.map((item) => {
+                excelData.push([
+                    // 아이디
+                    {
+                        type: String,
+                        value: item.id,
+                    },
+                    // 이름
+                    {
+                        type: String,
+                        value: item.name,
+                    },
+                    // 이메일
+                    {
+                        type: String,
+                        value: item.email,
+                    },
+                    // 전화번호
+                    {
+                        type: String,
+                        value: item.phone,
+                    },
+                    // 직급
+                    {
+                        type: String,
+                        value: item.position,
+                    },
+                    // 생성일자
+                    {
+                        type: Date,
+                        value: item.created_at,
+                        format: "yyyy/mm/dd HH:MM:SS"
+                    },
+                ])
+            })
+        })
+        .then(async () => {
+            if (!fs.existsSync("./Routers/downloads/excel")) {
+                // excel 폴더가 존재하지 않는 경우 excel 폴더를 생성한다.
+                fs.mkdirSync("./Routers/downloads/excel")
+            }
+            await writeXlsxFile(excelData, {
+                filePath: `./Routers/downloads/excel/user.xlsx`,
+            })
+            .then(() => {
+                let file = __dirname + '/downloads/excel/user.xlsx'
+                res.download(file)
+            })
+        })    
 })
 
 export default router

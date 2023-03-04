@@ -21,16 +21,16 @@ import axios from 'axios'
 ㅇ. 안드로이드 나가시겠습니까 만들기
 */
 
-const Main = ({navigation}) => {
+const Main = ({navigation, route}) => {
     const [currentComponent, setCurrentComponent] = useState('Home')
     const [currentTitle, setCurrentTitle] = useState('홈')
     const userid = useRecoilValue(currentUserid)
     const setUserInfo = useSetRecoilState(currentUserInfo)
 
     useEffect(() => {
-        console.log(userid)
+        console.log(route.params.id)
         axios.get('/login/getuserinfo', { params: {
-            id: userid
+            id: route.params.id
         }})
         .then(res => {
             setUserInfo(res.data)
@@ -69,8 +69,6 @@ const Main = ({navigation}) => {
             component: "WorkReport",
             icon: <Ionicons name="hammer-outline" size={30} color='white'></Ionicons>,
             selectIcon: <Ionicons name="hammer" size={35} color='white'></Ionicons>,
-            // icon:<MaterialCommunityIcons name="hammer-wrench" size={30} color='white'></MaterialCommunityIcons>,
-            // selectIcon:<MaterialCommunityIcons name="hammer-wrench" size={35} color='white'></MaterialCommunityIcons>,
             menuName: "안전작업신고",
         },
         {
@@ -106,8 +104,6 @@ const Main = ({navigation}) => {
                     {menus.map(item => (
                         item.component == currentComponent ?
                         <View style={[styles.menuItem, {
-                            // borderRadius: 30,
-                            // backgroundColor:'#5d69a8'
                         }]}>
                             {item.selectIcon}
                             <Text style={styles.menuText}>{item.menuName}</Text>

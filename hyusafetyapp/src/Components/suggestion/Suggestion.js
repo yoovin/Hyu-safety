@@ -86,7 +86,7 @@ const Suggestion = ({navigation}) => {
             <View style={{alignItems:'flex-end'}}>
                 <TouchableOpacity
                 onPress={() => navigation.navigate('UploadSuggestion', {refreshSuggestion: refreshSuggestion})}>
-                    <Text style={[{}]}>+ 새 건의 쓰기</Text>
+                    <Text style={[styles.mainFont, styles.textLg, {color: 'cornflowerblue'}]}>+ 새 건의</Text>
                 </TouchableOpacity> 
             </View>  
             </View>
@@ -108,7 +108,7 @@ const Suggestion = ({navigation}) => {
                 refreshing={false}
                 >
             </FlatList>:
-            <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>아직 올린 건의가 없습니다.</Text>}
+            <Text style={[styles.noticeTitle, {margin: 10}]}>아직 올린 건의가 없습니다.</Text>}
         </View>
         </View>
     )
