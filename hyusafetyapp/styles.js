@@ -240,13 +240,11 @@ export default StyleSheet.create({
     */
 
     container: {
-        flex: 1,
+        flex: 3,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     image: {
-        height: '37%',
+        height: '100%',
         margin: 16,
         borderColor: 'black',
         borderRadius: 10,
@@ -255,7 +253,7 @@ export default StyleSheet.create({
     pagination: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: '62%',
+        bottom: '5%',
     },
     paginationDot: {
         width: 8,

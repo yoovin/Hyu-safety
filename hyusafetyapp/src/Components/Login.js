@@ -20,6 +20,7 @@ import Base64 from 'crypto-js/enc-base64'
 
 import styles from '../../styles'
 import {currentUserid} from './recoil/atom'
+import CustomAlert from './CustomAlert'
 
 
 /*
@@ -133,11 +134,7 @@ const Login = ({navigation}) => {
                             <Text style={styles.signupText}>아이디가 없으신가요? 회원가입하기</Text>
                         </TouchableOpacity>
                     </View>
-                    {isLoading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
-                    <View style={{position: 'absolute',top: '37.5%', left:'25%', width: '50%', height: '25%', borderRadius: 10, backgroundColor: 'white', alignItems: 'center', opacity: 1}}>
-                        <Text style={[styles.mainFont, styles.textXl, {marginVertical: '20%'}]}>로그인 중</Text>
-                        <ActivityIndicator size="large"/>
-                    </View>]}
+                    {isLoading && <CustomAlert text="로그인 중"/>}
                 </SafeAreaView>
             </KeyboardAvoidingView>
         </TouchableWithoutFeedback>

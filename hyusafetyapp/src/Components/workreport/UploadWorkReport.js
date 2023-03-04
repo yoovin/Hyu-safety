@@ -35,6 +35,7 @@ import checklists from './checklists'
 import WorkChecklist from './checklist/WorkChecklist'
 
 import WorkSubmit from './WorkSubmit'
+import CustomAlert from '../CustomAlert'
 
 
 
@@ -45,23 +46,15 @@ d. 서명 이미지 보내면 서버에서 0사이즈로 나온다...
 */
 
 const UploadWorkReport = ({navigation, route}) => {
-    const [isGoBack, setIsGoBack] = useState(false)
-    const [isUpload, setIsUpload] = useState(false)
-    const [isUploading, setIsUploading] = useState(false)
-    const [curpage, setCurpage] = useState(0)
-    const [curComponent, setCurComponent] = useState(null)
-    const userInfo = useRecoilValue(currentUserInfo)
-    const [workChecklists, setWorkChecklists] = useState(new checklists().checklist)
+    const [isUploading, setIsUploading] = useState(false) // 업로드 중 컴포넌트 띄우기용
+    const [curpage, setCurpage] = useState(0) // 페이지 확인
+    const userInfo = useRecoilValue(currentUserInfo) // 유저정보
+    const [workChecklists, setWorkChecklists] = useState(new checklists().checklist) // 체크리스트
 
-    const [sign, setSign] = useState('')
-    const [signImg, setSignImg] = useState(null)
+    const [sign, setSign] = useState('') // 서명
+    const [canPressNextButton, setCanPressNextButton] = useState(false) // 다음 버튼 누르기 여부 확인
 
-    const [canPressNextButton, setCanPressNextButton] = useState(false)
-
-    const windowHeight = Dimensions.get('window').height
-    const windowWidth = Dimensions.get('window').width
-
-    const prevPage = usePrevState(curpage)
+    const prevPage = usePrevState(curpage) // 이전 페이지 (이전, 다음 여부 확인)
 
     const [startDateOpen, setStartDateOpen] = useState(false)
     const [endDateOpen, setEndDateOpen] = useState(false)
@@ -86,7 +79,17 @@ const UploadWorkReport = ({navigation, route}) => {
     activeOpacity={0.8}
     onPress={()=> {
         if(curpage == 0){
-            navigation.pop()
+            Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
+                {   text:"아니오",
+                    onPress: () => {
+                },
+                style: 'cancel'
+                },
+                {   text:"예",
+                    onPress: () => {
+                    navigation.pop()
+                    route.params.refreshSuggestion()
+                }}]) 
         }else{
             nextpage(-1)
             setCanPressNextButton(true)
@@ -124,7 +127,6 @@ const UploadWorkReport = ({navigation, route}) => {
                     setCanPressNextButton(false)
                 }
             }
-            setIsUpload(true)
         })}
         >   
             <Text style={[styles.mainFont, styles.textLg, {color: 'white'}]}>{curpage == 7 ? '제출' : '다음'}</Text>
@@ -151,7 +153,6 @@ const UploadWorkReport = ({navigation, route}) => {
     }
 
     const onSubmit = data => {
-        setIsUpload(false)
         setIsUploading(true)
         const formData = new FormData()
         formData.append('id', userInfo.id)
@@ -165,27 +166,25 @@ const UploadWorkReport = ({navigation, route}) => {
         for(let i = 0; i < workChecklists.length-1; i++){
             if(workChecklists[i].checked){ // formdata에 체크리스트 항목 넣는거,,
                 for(let val of workChecklists[i].checklist){
-                    console.log(val)
                     formData.append(`${workChecklists[i].title_eng}_checked`, val.checked)
                     formData.append(`${workChecklists[i].title_eng}_reason`, val.reason)
                 }
             }
         }
-
-        
         axios.post('/workreport/upload', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         })
-        .then(res => {
-            console.log(res.status)
+        .then(async res => {
             if(res.status == 201){
                 setIsUploading(false)
-                setIsGoBack(true)
-                Alert.alert("업로드 되었습니다.","", [
-                {   text:"확인",
-                    onPress: () => {
-                    navigation.pop()
-                }}])
+                setTimeout(() => {
+                    Alert.alert("업로드 되었습니다.","", [
+                    {   text:"확인",
+                        onPress: async () => {
+                            navigation.pop()
+                            route.params.refreshSuggestion()
+                    }}])
+                }, 0)
             }
         })
         .catch(err => {
@@ -205,7 +204,6 @@ const UploadWorkReport = ({navigation, route}) => {
             cur[idx].checked = value
             return cur
         })
-        console.log(workChecklists)
     }
 
     const checkWorkChecklist = (idx, list) => {
@@ -221,36 +219,11 @@ const UploadWorkReport = ({navigation, route}) => {
     */
 
     useEffect(() => {
-        console.log(userInfo)
-        console.log(checklists)
         return() => {
             // setWorkChecklists({})
             console.log('컴포넌트 사라짐')
         }
     }, [])
-
-    useEffect(() => {
-        navigation.addListener('beforeRemove', (e) => {
-            console.log(isGoBack)
-            if(isGoBack){
-                return
-            }else{
-                e.preventDefault()
-                Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
-                    {   text:"아니오",
-                        onPress: () => {
-                    },
-                    style: 'cancel'
-                    },
-    
-                    {   text:"예",
-                        onPress: () => {
-                        navigation.dispatch(e.data.action)
-                        route.params.refreshSuggestion()
-                    }}]) 
-            }
-        })
-    }, [navigation])
 
     useEffect(() => {
         console.log(workChecklists)
@@ -608,13 +581,8 @@ const UploadWorkReport = ({navigation, route}) => {
                         </View>
                         </>}
                     </KeyboardAwareScrollView>
-                    
-                    {isUploading && [<View style={{position: 'absolute', width: '100%', height: '100%', backgroundColor: 'gray', opacity: 0.5}}></View>,
-                    <View style={{position: 'absolute',top: '25%', left:'25%', width: '50%', height: '25%', borderRadius: 10, backgroundColor: 'white', alignItems: 'center', opacity: 1}}>
-                        <Text style={[styles.mainFont, styles.textXl, {marginVertical: '20%'}]}>업로드 중</Text>
-                        <ActivityIndicator size="large"/>
-                    </View>]}
                 </SafeAreaView>}
+                {isUploading && <CustomAlert text="업로드 중"/>}
             </KeyboardAvoidingView>
             </View>
         </TouchableWithoutFeedback>
