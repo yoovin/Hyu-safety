@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Route, Routes} from 'react-router-dom'
 import axios from 'axios';
+import { RecoilRoot } from 'recoil'
 
 import LeftNav from './Components/LeftNav';
 import LiveReport from './Components/pages/LiveReport';
@@ -34,13 +35,21 @@ import WorkreportDetail from './Components/pages/workreport/WorkreportDetail';
 import WorkreportDownload from './Components/pages/workreport/WorkreportDownload';
 
 import NotFound from './Components/NotFound';
+import Login from './Components/Login';
 
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_ADDRESS // 서버 주소 지정
 
 function App() {
+    const sessionStorage = window.sessionStorage
+    const [user, setUser] = useState(null);
+
     return (
-        <div className="flex flex-row">
+        <RecoilRoot>
+            {sessionStorage.getItem('login') === 'true'
+            ?
+            <>
+            <div className="flex flex-row">
             <LeftNav/>
                 <Routes>
                     <Route path="/" element={<Main/>}></Route>
@@ -72,10 +81,19 @@ function App() {
 
                     <Route path="/*" element={<NotFound/>}></Route>
                 </Routes>
-            {/* <footer className="px-4 divide-y dark:bg-gray-800 dark:text-gray-100">
-                <div className="py-6 text-sm text-center dark:text-gray-400">© 1968 Company Co. All rights reserved.</div>
-            </footer> */}
-        </div>
+            </div>
+            </>
+            :
+            <Login/>
+            }
+            <div className='bg-gray-800 text-gray-100' style={{height: '5vh'}}>
+                <footer className="px-4 divide-y ">
+                    <div className="flex-row py-6 text-sm text-center text-gray-400">
+                        <span>© 2023 Hanyang Univercity Campus Safety Team All rights reserved.</span>
+                    </div>
+                </footer>
+            </div>
+        </RecoilRoot>
     );
 }
 

@@ -71,6 +71,17 @@ router.post('/', async (req: Request, res: Response) => {
     }
 })
 
+router.post('/admin', async (req: Request, res: Response) => {
+    console.log(`admin login post 쿼리 들어옴 ip: ${req.ip}`)
+    const {id, pw} = req.body
+    console.log(`id: ${id}, pw: ${pw}`)
+    if(id === 'admin' && pw == 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='){
+        res.status(200).end()
+    }else{
+        res.status(401).json({text: "없는 아이디 입니다."}).end()
+    }
+})
+
 router.post('/update/info', async (req: Request, res: Response) => {
     console.log(req.body)
     let updateUser = await User.findOneAndUpdate(

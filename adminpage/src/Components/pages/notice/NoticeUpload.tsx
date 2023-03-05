@@ -32,8 +32,8 @@ const NoticeUpload = (props: Props) => {
                         ...values,
                         desc: editorRef.current.getInstance().getHTML()
                     })
-                    .then(data => {
-                        if(data.status == 201){
+                    .then(res => {
+                        if(res.status == 201){
                             {navigate('/notice/list')}
                         }
                     })
