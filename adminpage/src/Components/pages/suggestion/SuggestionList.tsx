@@ -1,12 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { suggestion } from '../../interface/suggestion'
 
 type Props = {}
 
 const SuggestionList = (props: Props) => {
-
+    const navigate = useNavigate()
     const [notices, setNotices] = useState<[suggestion]| null>()
     const [noticeCount, setNoticeCount] = useState(0)
     const [noticePages, setNoticePages] = useState(1)
@@ -112,7 +112,10 @@ const SuggestionList = (props: Props) => {
 			</thead>
 			<tbody className="border-b bg-gray-100 border-gray-100">
                 {notices && notices.map(item => (
-                    <tr className="hover:bg-gray-200">
+                    <tr className="hover:bg-gray-200"
+                    onClick={() => {
+                        navigate(`/suggestion/${item.index}`)
+                    }}>
                     <td className="px-3 py-2 font-bold">
 						<span>{item.index}</span>
 					</td>

@@ -15,10 +15,10 @@ const LeftNav = (props: Props) => {
     return (
         <div className="basis-1/6 border-r-2 border-slate-200" style={{height: '95vh'}}>
             <Link to="/" className="flex p-3 content-center items-center">
-                <img src='/assets/images/safety_logo.png' alt="logo" className='w-1/2'/>
+                <img src='/assets/images/safety_logo.png' alt="logo" className='p-3'/>
             </Link>
 
-            <div className='m-3'>
+            <div className='flex mb-3 justify-center'>
                 <button type="button" className="px-5 py-1 font-semibold rounded bg-gray-100 hover:bg-gray-300 text-gray-800"
                 onClick={() => {
                     if(window.confirm("로그아웃 하시겠습니까?")){

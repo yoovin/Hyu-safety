@@ -4,7 +4,6 @@ import axios from 'axios';
 import { RecoilRoot } from 'recoil'
 
 import LeftNav from './Components/LeftNav';
-import LiveReport from './Components/pages/LiveReport';
 import Main from './Components/pages/Main';
 
 /*
@@ -76,8 +75,6 @@ function App() {
                     <Route path="/workreport/list" element={<WorkreportList/>}></Route>
                     <Route path="/workreport/download" element={<WorkreportDownload/>}></Route>
                     <Route path="/workreport/:index" element={<WorkreportDetail/>}></Route>
-
-                    <Route path="/livereport" element={<LiveReport/>}></Route>
 
                     <Route path="/*" element={<NotFound/>}></Route>
                 </Routes>

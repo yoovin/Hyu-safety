@@ -50,6 +50,7 @@ router.get('/', async (req: Request, res: Response) => {
         })
     }else{
         Workreport.find(req.query)
+        await Workreport.find(req.query).limit(10).sort({index: 1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
             const count = await Workreport.countDocuments(req.query)
             res.send({workreports: data, count: count})

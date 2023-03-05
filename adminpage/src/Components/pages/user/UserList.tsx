@@ -12,7 +12,6 @@ type Props = {}
 
 /*
 ===== TODOS =====
-2. 유저 관리기능 만들기 (모달창)
 */
 
 const NoticeList = (props: Props) => {
