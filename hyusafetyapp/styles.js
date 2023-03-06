@@ -64,8 +64,6 @@ export default StyleSheet.create({
     logoView: {
         flex: 3,
         justifyContent: 'center',
-        // alignItems: 'center',
-        // backgroundColor:'pink'
     },
 
     idInputView: {
@@ -120,9 +118,23 @@ export default StyleSheet.create({
         textDecorationLine: 'underline',
     },
 
+    loginLogoBackground: {
+        position: 'absolute',
+        width: '94%', 
+        height: '98%', 
+        resizeMode: 'contain',
+        opacity: 0.5,
+
+        top:'3%',
+        left:'5%',
+        // width: '65%', 
+        // height: '70%', 
+        // resizeMode: 'contain',
+    },
+
     loginNyangBackground: {
         // position: 'absolute',
-        // top:'80%',
+        top:'30%',
         left:'29%',
         width: '65%', 
         height: '80%', 
@@ -221,6 +233,37 @@ export default StyleSheet.create({
         fontFamily: 'BMJUA',
         color: 'white',
         
+    },
+
+    /*
+    ===== HOME COMPONENT =====
+    */
+
+    container: {
+        flex: 3,
+        backgroundColor: '#fff',
+    },
+    image: {
+        height: '100%',
+        margin: 16,
+        borderColor: 'black',
+        borderRadius: 10,
+        resizeMode: 'contain',
+    },
+    pagination: {
+        flexDirection: 'row',
+        position: 'absolute',
+        bottom: '5%',
+    },
+    paginationDot: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#ccc',
+        marginHorizontal: 5,
+    },
+    paginationDotActive: {
+        backgroundColor: '#333',
     },
 
     /*
@@ -338,7 +381,7 @@ export default StyleSheet.create({
         fontSize: RFPercentage(3),
         fontFamily:'BMJUA',
         color: 'black',
-        marginTop:'9%',
+        marginTop: '10%',
         height:RFPercentage(3.5),
     },
 
@@ -361,7 +404,8 @@ export default StyleSheet.create({
 
     logoutButtonText: {
         fontFamily: 'BMJUA',
-        fontSize: RFPercentage(3)
+        fontSize: RFPercentage(3),
+        color: 'white'
     },
 
     /*
@@ -414,8 +458,54 @@ export default StyleSheet.create({
     },
 
     /*
+    ===== WorkReport Component =====
+    */
+
+    workInput: {
+        padding: 2,
+        marginLeft: 5,
+        borderBottomWidth: 2,
+        borderBottomColor: 'black'
+    },
+
+    guideText: {
+        fontSize: RFPercentage(2),
+        fontFamily:'BMJUA',
+        color: 'red'
+    },
+
+    conditionCircle: {
+        width:'25%', 
+        // margin: 5, 
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+
+    /*
+    ===== Checklist Component =====
+    */
+    questionView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: 5,
+    },
+    questionSubtitle: {
+        color: 'red',
+        fontSize: RFPercentage(1.7)
+    },
+
+    /*
     ===== Font =====
     */
+    textXs: {
+        fontSize: RFPercentage(1)
+    },
+
+    textSm: {
+        fontSize: RFPercentage(1.5)
+    },
 
     textBase: {
         fontSize: RFPercentage(2)
@@ -427,6 +517,10 @@ export default StyleSheet.create({
 
     textXl: {
         fontSize: RFPercentage(3)
+    },
+
+    text2xl: {
+        fontSize: RFPercentage(4)
     },
 
     mainFont: {

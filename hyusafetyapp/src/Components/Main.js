@@ -8,8 +8,8 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Navi from './Navi'
 import Home from './Home'
 import Notice from './notice/Notice'
-import LiveReport from './LiveReport'
-import Profile from './Profile'
+import WorkReport from './workreport/WorkReport'
+import Profile from './profile/Profile'
 
 import styles from '../../styles'
 import { currentUserid, currentUserInfo } from './recoil/atom'
@@ -18,18 +18,19 @@ import axios from 'axios'
 
 /*
 ===== TODO =====
+ㅇ. 안드로이드 나가시겠습니까 만들기
 */
 
-const Main = ({navigation}) => {
+const Main = ({navigation, route}) => {
     const [currentComponent, setCurrentComponent] = useState('Home')
     const [currentTitle, setCurrentTitle] = useState('홈')
     const userid = useRecoilValue(currentUserid)
     const setUserInfo = useSetRecoilState(currentUserInfo)
 
     useEffect(() => {
-        console.log(userid)
+        console.log(route.params.id)
         axios.get('/login/getuserinfo', { params: {
-            id: userid
+            id: route.params.id
         }})
         .then(res => {
             setUserInfo(res.data)
@@ -40,7 +41,7 @@ const Main = ({navigation}) => {
     const components = {
         Notice: <Notice navigation={navigation}/>,
         Home: <Home/>,
-        LiveReport: <LiveReport/>,
+        WorkReport: <WorkReport navigation={navigation}/>,
         Suggestion: <Suggestion navigation={navigation}/>,
         Info: <Profile navigation={navigation}/>,
     }
@@ -54,8 +55,8 @@ const Main = ({navigation}) => {
         },
         {
             component: "Notice",
-            icon: <AntDesign name="notification" size={30} color='white'></AntDesign>,
-            selectIcon:<AntDesign name="notification" size={35} color='white'></AntDesign>,
+            icon: <Ionicons name="megaphone-outline" size={30} color='white'></Ionicons>,
+            selectIcon:<Ionicons name="megaphone" size={35} color='white'></Ionicons>,
             menuName: "공지사항",
         },
         {
@@ -65,10 +66,10 @@ const Main = ({navigation}) => {
             menuName: "홈",
         },
         {
-            component: "LiveReport",
-            icon:<Ionicons name="md-chatbubbles-outline" size={30} color='white'></Ionicons>,
-            selectIcon:<Ionicons name="md-chatbubbles" size={35} color='white'></Ionicons>,
-            menuName: "실시간 신고",
+            component: "WorkReport",
+            icon: <Ionicons name="hammer-outline" size={30} color='white'></Ionicons>,
+            selectIcon: <Ionicons name="hammer" size={35} color='white'></Ionicons>,
+            menuName: "안전작업신고",
         },
         {
             component: "Info",
@@ -83,7 +84,7 @@ const Main = ({navigation}) => {
         setCurrentTitle(item.menuName)
     }
 
-    const right = <TouchableOpacity>
+    const right = <TouchableOpacity style={{}}>
         <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
         <View style={styles.notificationNumCircle}> 
             <Text style={styles.notificationNum}>7</Text>
@@ -103,8 +104,6 @@ const Main = ({navigation}) => {
                     {menus.map(item => (
                         item.component == currentComponent ?
                         <View style={[styles.menuItem, {
-                            // borderRadius: 30,
-                            // backgroundColor:'#5d69a8'
                         }]}>
                             {item.selectIcon}
                             <Text style={styles.menuText}>{item.menuName}</Text>

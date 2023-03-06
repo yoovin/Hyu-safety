@@ -19,23 +19,13 @@ import styles from '../../../styles'
 */
 
 const SignupResult = ({navigation}) => {
-    const [id, setId] = useState('')
-    const [pw, setPw] = useState('')
     const [checkAnimation, setCheckAnimation] = useState(false)
-
-    const handleInputId = () => {
-
-    }
-    const handleInputPw = () => {
-        
-    }
 
     useEffect(() => {
         setTimeout(() => {
             setCheckAnimation(true)
         }, 500)
     }, [])
-
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -45,7 +35,7 @@ const SignupResult = ({navigation}) => {
                         <ImageBackground source={require('../../../assets/image/safenyang.png')} style={styles.loginNyangBackground}/>
                     </View>
                     <View style={[styles.idInputView, {justifyContent: 'center', alignItems: 'center'}]}>
-                        <CheckBox value={checkAnimation} onCheckColor={'green'} onTintColor={'green'}></CheckBox>
+                        <CheckBox value={checkAnimation} onCheckColor={'green'} onTintColor={'green'} disabled={true}></CheckBox>
                         <Text style={styles.resultText}>회원가입이 완료되었습니다.</Text>
                         <Text style={styles.resultText}>다시 로그인해주세요.</Text>
 

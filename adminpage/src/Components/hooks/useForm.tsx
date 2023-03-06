@@ -17,6 +17,10 @@ const useForm = ({initialValues, onSubmit, validate}: any): any => {
         setErrors(validate(values))
     }
 
+    const reset = (val: object) => {
+        setValues(val)
+    }
+
     useEffect(() => {
         if(submitting){
             if(Object.keys(errors).length === 0){
@@ -32,6 +36,7 @@ const useForm = ({initialValues, onSubmit, validate}: any): any => {
         submitting,
         handleChange,
         handleSubmit,
+        reset
     }
 
 

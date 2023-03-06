@@ -24,7 +24,6 @@ router.get('/', async (req: Request, res: Response) => {
     console.log(req.query)
     // console.log(req.query.page)
     if(req.query.reverse === '-1'){
-        // await Notice.find(req.query).limit(10).sort({index: -1})
         await Notice.find(req.query).limit(10).sort({index: -1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
             const count = await Notice.countDocuments(req.query)

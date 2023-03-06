@@ -1,6 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity, useWindowDimensions, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import {SERVER_ADDRESS} from '@env'
 import RenderHtml from 'react-native-render-html';
 
 import Navi from '../Navi'
@@ -27,7 +26,7 @@ const NoticeDetail = ({navigation, route}) => {
         setContent(route.params)
         console.log(route.params)
         // 공지 내용 부르기
-        axios.get(SERVER_ADDRESS + '/notice/detail', {params: {index: route.params.index}})
+        axios.get('/notice/detail', {params: {index: route.params.index}})
         .then(res => {
             setDesc(res.data.desc)
             console.log(desc)

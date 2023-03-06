@@ -8,9 +8,10 @@ const port: number = 1234
 
 // Routers
 import signupRouter from './Routers/signupRouter'
-import loginRouter from './Routers/loginRouter'
+import userRouter from './Routers/userRouter'
 import noticeRouter from './Routers/noticeRouter'
 import suggestionRouter from './Routers/suggestionRouter'
+import workreportRouter from './Routers/workreportRouter'
 
 
 
@@ -25,10 +26,13 @@ app.listen(port, () => {
     ################################################
     🛡️  Server listening on port: ${port}🛡️
     ################################################
-    `);
+    `)
 
     app.use(bodyParser.json())
     app.use(cors())
+    app.use(express.json({ limit: '50mb' }))
+    app.use(express.urlencoded({ limit: '50mb', extended: true }))
+
     app.use(express.static('./Routers/uploads')) // 이미지
 
     app.get('/', (req: Request, res: Response) => {
@@ -39,7 +43,7 @@ app.listen(port, () => {
         ===== 로그인 및 회원가입 =====
     */
     app.use('/signup', signupRouter)
-    app.use('/login', loginRouter)
+    app.use('/login', userRouter)
 
     /*
         ===== 공지사항 =====
@@ -50,6 +54,11 @@ app.listen(port, () => {
         ===== 건의 =====
     */
     app.use('/suggestion', suggestionRouter)
+
+    /*
+        ===== 안전작업 =====
+    */
+    app.use('/workreport', workreportRouter)
 
 
 

@@ -23,43 +23,6 @@ const SuggestionDetail = (props: props) => {
         return date.replace('T', ' ').substring(0, 19)
     }
     
-    // const handleUpDown = () => {
-    //     console.log(info?.uploaded)
-    //     if(info?.uploaded){ // 이미 업로드 되어있음
-    //         if(window.confirm("글을 내리시겠습니까?")){
-    //             axios.post('/notice/status', {
-    //                 index: info?.index,
-    //                 uploaded: false,
-    //                 deleted: false
-    //             })
-    //             .then(res => {
-    //                 if(res.status == 200){
-    //                     window.alert("글을 내렸습니다.")
-    //                     window.location.reload()
-    //                 }else{
-    //                     window.alert("에러가 발생했습니다.")
-    //                 }
-    //             })
-    //         }
-    //     }else{
-    //         if(window.confirm("글을 올리시겠습니까?")){
-    //             axios.post('/notice/status', {
-    //                 index: info?.index,
-    //                 uploaded: true,
-    //                 deleted: false
-    //             })
-    //             .then(res => {
-    //                 if(res.status == 200){
-    //                     window.alert("글을 올렸습니다.")
-    //                     window.location.reload()
-    //                 }else{
-    //                     window.alert("에러가 발생했습니다.")
-    //                 }
-    //             })
-    //         }
-    //     }
-    // }
-
     useEffect(() => {
         console.log(index)
         axios.get(process.env.REACT_APP_SERVER_ADDRESS + '/suggestion/detail', {params: {index: index}})
