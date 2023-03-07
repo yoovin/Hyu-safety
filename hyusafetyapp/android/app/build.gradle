@@ -250,6 +250,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion

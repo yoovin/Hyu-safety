@@ -73,6 +73,7 @@
 		BD5ABC800C5F4E6885A27945 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = ../assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		C3E7C698CB4940DC85775EF2 /* BMJUA_ttf.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BMJUA_ttf.ttf; path = ../assets/fonts/BMJUA_ttf.ttf; sourceTree = "<group>"; };
 		C414821829B761CE001CF42B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C414821A29B77130001CF42B /* hyusafety.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = hyusafety.entitlements; path = hyusafety/hyusafety.entitlements; sourceTree = "<group>"; };
 		CDA9CA3456BB4CCEB62A46A5 /* Pods_hyusafety_hyusafetyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hyusafety_hyusafetyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA99FE3203D42AF97F1F6C8 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		E2290048A2A9462380972DE8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = ../assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
@@ -122,6 +123,7 @@
 		13B07FAE1A68108700A75B9A /* hyusafety */ = {
 			isa = PBXGroup;
 			children = (
+				C414821A29B77130001CF42B /* hyusafety.entitlements */,
 				C414821829B761CE001CF42B /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -579,7 +581,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = hyusafety/hyusafety.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D37B4VHACF;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = hyusafety/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -605,7 +609,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = hyusafety/hyusafety.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D37B4VHACF;
 				INFOPLIST_FILE = hyusafety/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

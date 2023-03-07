@@ -1,14 +1,14 @@
 import { View, Text, SafeAreaView } from 'react-native'
 import React, { useEffect } from 'react'
 import axios from 'axios'
+import SplashScreen from 'react-native-splash-screen'
+import messaging from '@react-native-firebase/messaging'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { RecoilRoot } from 'recoil'
 import {SERVER_ADDRESS} from '@env'
-// import messaging from '@react-native-firebase/messaging'
 // import Toast from 'react-native-toast-message'
-// import SplashScreen from 'react-native-splash-screen'
 // import CodePush from 'react-native-code-push'
 
 import Login from './src/Components/Login'
@@ -39,26 +39,29 @@ const Stack = createNativeStackNavigator()
 
 const App = () => {
     useEffect(() => {
-        // console.log(SERVER_ADDRESS)
-    })
-    // async function requestUserPermission() {
-    //     const authStatus = await messaging().requestPermission();
-    //     const enabled =
-    //         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    //         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-        
-    //     if (enabled) {
-    //         console.log('Authorization status:', authStatus);
-    //     }
-    //     }
+        setTimeout(() => {
+            SplashScreen.hide()
+        }, 2000)
 
-    //     useEffect(() => {
-    //         const unsubscribe = messaging().onMessage(async remoteMessage => {
-    //             Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    //           });
+    })
+    async function requestUserPermission() {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+        
+        if (enabled) {
+            console.log('Authorization status:', authStatus);
+        }
+        }
+
+        useEffect(() => {
+            const unsubscribe = messaging().onMessage(async remoteMessage => {
+                Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+              });
           
-    //           return unsubscribe;
-    //     }, [])
+              return unsubscribe;
+        }, [])
 
   return (
     <RecoilRoot>
