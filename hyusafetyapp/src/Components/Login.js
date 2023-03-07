@@ -61,11 +61,11 @@ const Login = ({navigation}) => {
                 })
                 .catch(err => {
                     setIsLoading(false)
-                    console.error(err.request._response)
                     if(err.request.status == 401){ // 내가 준 애러
                         const errorJson = JSON.parse(err.request._response)
                             Alert.alert(errorJson.text)
                     }
+                    Alert.alert(err.request._response)
                 })
             }
         }
@@ -88,9 +88,9 @@ const Login = ({navigation}) => {
                     .catch(err => {
                         setIsLoading(false)
                         if(err.request.status == 401){ // 내가 준 애러
-                            const errorJson = JSON.parse(err.request._response)
-                                Alert.alert("오류가 발생했습니다.", "다시 로그인 해주세요.")
+                            Alert.alert("오류가 발생했습니다.", "다시 로그인 해주세요.")
                         }
+                        Alert.alert(err.request._response)
                     })
                 })
             }
