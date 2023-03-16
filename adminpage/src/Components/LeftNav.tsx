@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { IoMenu, IoHammerOutline, IoChatbubblesOutline, IoPeopleOutline, IoNewspaperOutline } from "react-icons/io5";
+import { IoMenu, IoHammerOutline, IoChatbubblesOutline, IoPeopleOutline, IoNewspaperOutline, IoChatboxEllipsesOutline } from "react-icons/io5";
 import { AiOutlineNotification } from "react-icons/ai"
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -91,6 +91,26 @@ const LeftNav = (props: Props) => {
                     <span className="mx-2">- 유저 목록</span>
                 </Link>
                 ]}
+            
+            <hr/>
+
+            <div className="flex p-1"
+            onMouseOver={() => setCurrentHover(5)}
+            >
+                <IoChatboxEllipsesOutline/>
+                <span className="mx-2">푸시알림</span>
+            </div>
+            {currentHover == 5 &&[
+                <Link to="/user/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 알림 보내기</span>
+                </Link>,
+                <Link to="/user/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 보낸 알림 목록</span>
+                </Link>
+                ]}
+
+
+
             </div>
     )
 }

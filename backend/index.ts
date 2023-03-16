@@ -1,10 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser'
 import cors from 'cors';
+import admin from 'firebase-admin'
+import dotenv from 'dotenv'
 
 
 const app = express()
 const port: number = 1234
+dotenv.config()
+
+const fireAccount: Object = require('./firebasekey.json')
 
 // Routers
 import signupRouter from './Routers/signupRouter'
@@ -19,14 +24,18 @@ import workreportRouter from './Routers/workreportRouter'
 import connectDB from './DB/connectDB';
 
 connectDB()
+admin.initializeApp({
+    credential: admin.credential.cert(fireAccount)
+})
 
 
 app.listen(port, () => {
     console.log(`
     ################################################
     🛡️  Server listening on port: ${port}🛡️
-    ################################################
+    ###############################################
     `)
+
 
     app.use(bodyParser.json())
     app.use(cors())

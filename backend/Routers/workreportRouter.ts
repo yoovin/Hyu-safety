@@ -2,13 +2,14 @@ import express, { Request, Response } from 'express'
 import { CallbackError } from 'mongoose'
 import multer from 'multer'
 const router = express.Router()
-
 import readXlsxFile from 'read-excel-file/node'
 import writeXlsxFile from 'write-excel-file/node'
 import fs from 'fs'
+import admin from 'firebase-admin'
 
 // Models
 import Workreport from '../DB/model/Workreport'
+import User from '../DB/model/User'
 import getNextSequence from '../DB/getNextSequence'
 
 // const upload = multer({
@@ -391,7 +392,31 @@ router.post('/permit', async (req: Request, res: Response) => {
     ).exec()
 
     if(updateWorkreport != null){
-        res.status(200).end()
+        User.find({id: updateWorkreport.id})
+        .then(data => {
+            let message = {
+                notification: {
+                    title: '안전작업신고',
+                    body: '안전작업신고가 심사되었으니 확인 바랍니다.'
+                },
+                tokens: data[0].fcm_token
+            }
+
+            admin.messaging().sendMulticast(message)
+            .then(response => {
+                if (response.failureCount > 0) {
+                    const failedTokens: string[] = [];
+                    response.responses.forEach((resp, idx) => {
+                        if (!resp.success) {
+                            failedTokens.push(data[0].fcm_token[idx]);
+                        }
+                    });
+                    console.log('List of tokens that caused failures: ' + failedTokens);
+                    // res.status(200).end()
+                }
+            })
+            res.status(200).end()
+        })
     }else{
         console.log('null')
         console.log(updateWorkreport)

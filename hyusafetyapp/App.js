@@ -1,8 +1,11 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import SplashScreen from 'react-native-splash-screen'
 import messaging from '@react-native-firebase/messaging'
+
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import PushNotification from "react-native-push-notification";
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -32,18 +35,13 @@ import ModifyPassword from './src/Components/profile/ModifyPassword'
 import DeleteUser from './src/Components/profile/DeleteUser'
 
 // axios.defaults.baseURL = SERVER_ADDRESS
-axios.defaults.baseURL = 'http://localhost:1234'
+axios.defaults.baseURL = 'http://10.0.2.02:1234'
 
 
 const Stack = createNativeStackNavigator()
 
 const App = () => {
-    useEffect(() => {
-        setTimeout(() => {
-            SplashScreen.hide()
-        }, 2000)
 
-    })
     async function requestUserPermission() {
         const authStatus = await messaging().requestPermission();
         const enabled =
@@ -51,17 +49,28 @@ const App = () => {
             authStatus === messaging.AuthorizationStatus.PROVISIONAL;
         
         if (enabled) {
-            console.log('Authorization status:', authStatus);
+            console.log('Authorization status:', authStatus)
+            const token = await messaging().getToken()
+            // const token = await messaging().getAPNSToken()
+            console.log("토큰줘 응애", token)
         }
-        }
+    }
 
-        useEffect(() => {
-            const unsubscribe = messaging().onMessage(async remoteMessage => {
-                Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-              });
-          
-              return unsubscribe;
-        }, [])
+    useEffect(() => {
+        setTimeout(() => {
+            SplashScreen.hide()
+        }, 2000)
+        requestUserPermission()
+
+
+    }, [])
+
+    useEffect(() => {
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+            Alert.alert(remoteMessage.notification.title, remoteMessage.notification.body);
+            });
+        return unsubscribe;
+    }, [])
 
   return (
     <RecoilRoot>

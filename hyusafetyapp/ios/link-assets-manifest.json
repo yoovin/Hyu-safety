@@ -6,7 +6,15 @@
       "sha1": "4e77868439280fb434d4697c7b911271406c81f3"
     },
     {
-      "path": "assets/fonts/BMJUA_ttf.ttf",
+      "path": "assets/fonts/BMJUA-Regular.otf",
+      "sha1": "9a0647721e800b813ffaa2e921c468a30337114b"
+    },
+    {
+      "path": "assets/fonts/BMJUA.otf",
+      "sha1": "9a0647721e800b813ffaa2e921c468a30337114b"
+    },
+    {
+      "path": "assets/fonts/BMJUA.ttf",
       "sha1": "e9ae3ad795aea36d4b271599072fe6761edefd5a"
     },
     {

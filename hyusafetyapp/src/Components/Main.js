@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, useLayoutEffect } from 'react-native'
+import { View, Text, TouchableOpacity, BackHandler, Alert } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -24,6 +24,7 @@ import axios from 'axios'
 const Main = ({navigation, route}) => {
     const [currentComponent, setCurrentComponent] = useState('Home')
     const [currentTitle, setCurrentTitle] = useState('홈')
+    const [doubleBackToExitPressedOnce, setDoubleBackToExitPressedOnce] = useState(false)
     const userid = useRecoilValue(currentUserid)
     const setUserInfo = useSetRecoilState(currentUserInfo)
 
@@ -36,6 +37,27 @@ const Main = ({navigation, route}) => {
             setUserInfo(res.data)
             console.log(res.data)
         })
+
+        const backAction = () => {
+            if (doubleBackToExitPressedOnce) { // 만약 이전에 두번 눌렸다면
+            BackHandler.exitApp() // 앱 종료
+            return true
+            }
+    
+            setDoubleBackToExitPressedOnce(true)
+            setTimeout(() => {
+                setDoubleBackToExitPressedOnce(false)
+            }, 2000); // 2초 이내에 다시 눌러야 함
+    
+            return true;
+        };
+    
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+    
+        return () => backHandler.remove() // cleanup
     }, [])
 
     const components = {
@@ -84,16 +106,16 @@ const Main = ({navigation, route}) => {
         setCurrentTitle(item.menuName)
     }
 
-    const right = <TouchableOpacity style={{}}>
-        <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
-        <View style={styles.notificationNumCircle}> 
-            <Text style={styles.notificationNum}>7</Text>
-        </View>
-    </TouchableOpacity>
+    // const right = <TouchableOpacity style={{}}>
+    //     <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
+    //     <View style={styles.notificationNumCircle}> 
+    //         <Text style={styles.notificationNum}>7</Text>
+    //     </View>
+    // </TouchableOpacity>
 
     return (
         <View style={{flex: 1}}>
-            <Navi title={currentTitle} right={right}/>
+            <Navi title={currentTitle}/>
             <View style={{flex: 1}}>
                 {components[currentComponent]}
             </View>

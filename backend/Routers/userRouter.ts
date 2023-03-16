@@ -48,7 +48,7 @@ router.get('/getusers', async (req: Request, res: Response) => { // 어드민용
 
 router.post('/', async (req: Request, res: Response) => {
     console.log(`login post 쿼리 들어옴 ip: ${req.ip}`)
-    console.log(`id: ${req.body.id}, pw: ${req.body.pw}`)
+    console.log(`id: ${req.body.id}, pw: ${req.body.pw}, token:${req.body.fcmToken}`)
     const userid = await Userauth.findOne({id: req.body.id})
     if(userid != null){
         if(userid.pw != req.body.pw){
@@ -61,6 +61,10 @@ router.post('/', async (req: Request, res: Response) => {
                 { $set: {
                     recent_login_ip: req.ip, 
                     recent_login_date: Date.now() + (540 * 60 * 1000)
+                    
+                },
+                $addToSet: {
+                    fcm_token: req.body.fcmToken
                 }}
                 ).exec()
             res.status(200).end()
@@ -168,6 +172,18 @@ router.get('/download', async (req: Request, res: Response) => {
             value: "생성일자",
             fontWeight: "bold",
         },
+        {
+            value: "최근로그인IP",
+            fontWeight: "bold",
+        },
+        {
+            value: "최근로그인",
+            fontWeight: "bold",
+        },
+        {
+            value: "FCM토큰",
+            fontWeight: "bold",
+        },
         
     ]
 
@@ -207,6 +223,22 @@ router.get('/download', async (req: Request, res: Response) => {
                         value: item.created_at,
                         format: "yyyy/mm/dd HH:MM:SS"
                     },
+                    // 최근로그인IP
+                    {
+                        type: String,
+                        value: item.recent_login_ip,
+                    },
+                    // 최근로그인
+                    {
+                        type: Date,
+                        value: item.recent_login_date,
+                        format: "yyyy/mm/dd HH:MM:SS"
+                    },
+                    // 토큰
+                    // {
+                    //     type: String,
+                    //     value: item.fcm_token,
+                    // },
                 ])
             })
         })

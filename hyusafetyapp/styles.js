@@ -84,11 +84,13 @@ export default StyleSheet.create({
     },
 
     input: {
-        height:'10%',
+        width: '90%',
+        // height:'10%',
+        height: 40,
         margin: '3%',
         marginHorizontal: '5%',
         borderWidth: 1,
-        paddingHorizontal: '3%',
+        paddingHorizontal: 5,
         marginBottom: '5%',
         fontSize: RFPercentage(2)
     },

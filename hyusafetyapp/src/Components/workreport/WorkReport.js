@@ -82,7 +82,7 @@ const WorkReport = ({navigation}) => {
             <Text style={[styles.noticeTitle, {marginHorizontal: 10}]}>안전 작업 신고내역 ({suggestionCount}개</Text>
             <View style={{alignItems:'flex-end'}}>
                 <TouchableOpacity
-                onPress={() => navigation.navigate('UploadWorkReport', {refreshSuggestion: refreshSuggestion})}>
+                onPress={() => navigation.push('UploadWorkReport', {refreshSuggestion: refreshSuggestion})}>
                     <Text style={[styles.mainFont, styles.textLg, {color: 'cornflowerblue'}]}>+ 새 작업</Text>
                 </TouchableOpacity> 
             </View>  

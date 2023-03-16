@@ -14,7 +14,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		24475D690889453E8A3EDEFC /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2290048A2A9462380972DE8 /* Entypo.ttf */; };
 		308AFD6D67224933B82D11ED /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC120EE7072348E5B43CE94A /* AntDesign.ttf */; };
-		3664A40BD93C4E2BA854E1BF /* BMJUA_ttf.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3E7C698CB4940DC85775EF2 /* BMJUA_ttf.ttf */; };
 		4686844BCB3E4C17B1D48E3B /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34189D3DA9EA4447ACF43268 /* FontAwesome5_Regular.ttf */; };
 		5A885FE333A1DB5A734ECD39 /* Pods_hyusafety_hyusafetyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA9CA3456BB4CCEB62A46A5 /* Pods_hyusafety_hyusafetyTests.framework */; };
 		5E222FEFA2334963AE9C73C6 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8239D38140E442CCB16BCBFB /* FontAwesome5_Solid.ttf */; };
@@ -27,11 +26,14 @@
 		8C09A0FC357A4F8E80E7FC42 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1B6AD5AD22A49F5816A5804 /* Ionicons.ttf */; };
 		A8C5179D9AA14C95BEBA95AE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6A1D01706204CE1975A78C9 /* EvilIcons.ttf */; };
 		AC3D350C06A744DBA854D458 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD5ABC800C5F4E6885A27945 /* MaterialCommunityIcons.ttf */; };
-		C414821929B761CE001CF42B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C414821829B761CE001CF42B /* GoogleService-Info.plist */; };
+		C40ABCEB29B8FD8B00145DDB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C40ABCEA29B8FD8A00145DDB /* GoogleService-Info.plist */; };
 		E48222BF44D6463583FCCAFD /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF94A2A4660492AA954FB28 /* FontAwesome.ttf */; };
 		E7563E5AB30C441D99FB0777 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEA99FE3203D42AF97F1F6C8 /* MaterialIcons.ttf */; };
 		ED4ED2FA6A584A1186389B4B /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7447C0F7F0BF4DDEB9D8271B /* Feather.ttf */; };
 		F53643B3271441DC8DEA978B /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4108A8916BCB4ED3B82F1691 /* Fontisto.ttf */; };
+		18577D48231342FCABDEA8C8 /* BMJUA-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */; };
+		CE736363C56F4D99B50019A7 /* BMJUA.otf in Resources */ = {isa = PBXBuildFile; fileRef = 73DF78B75FA04C64AB73A65E /* BMJUA.otf */; };
+		30409C581E7745D79B16FA81 /* BMJUA.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,8 +73,7 @@
 		AC120EE7072348E5B43CE94A /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = ../assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
 		B0A6E75C66624156A066E035 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = ../assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		BD5ABC800C5F4E6885A27945 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = ../assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
-		C3E7C698CB4940DC85775EF2 /* BMJUA_ttf.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BMJUA_ttf.ttf; path = ../assets/fonts/BMJUA_ttf.ttf; sourceTree = "<group>"; };
-		C414821829B761CE001CF42B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C40ABCEA29B8FD8A00145DDB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C414821A29B77130001CF42B /* hyusafety.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = hyusafety.entitlements; path = hyusafety/hyusafety.entitlements; sourceTree = "<group>"; };
 		CDA9CA3456BB4CCEB62A46A5 /* Pods_hyusafety_hyusafetyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hyusafety_hyusafetyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA99FE3203D42AF97F1F6C8 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
@@ -81,6 +82,9 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F1B6AD5AD22A49F5816A5804 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = ../assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
 		FED843D37A1E417880E95B4C /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = ../assets/fonts/Zocial.ttf; sourceTree = "<group>"; };
+		E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */ = {isa = PBXFileReference; name = "BMJUA-Regular.otf"; path = "../assets/fonts/BMJUA-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		73DF78B75FA04C64AB73A65E /* BMJUA.otf */ = {isa = PBXFileReference; name = "BMJUA.otf"; path = "../assets/fonts/BMJUA.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */ = {isa = PBXFileReference; name = "BMJUA.ttf"; path = "../assets/fonts/BMJUA.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,8 +127,8 @@
 		13B07FAE1A68108700A75B9A /* hyusafety */ = {
 			isa = PBXGroup;
 			children = (
+				C40ABCEA29B8FD8A00145DDB /* GoogleService-Info.plist */,
 				C414821A29B77130001CF42B /* hyusafety.entitlements */,
-				C414821829B761CE001CF42B /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -180,7 +184,6 @@
 		B551C2653E684E64920A82B4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C3E7C698CB4940DC85775EF2 /* BMJUA_ttf.ttf */,
 				E2290048A2A9462380972DE8 /* Entypo.ttf */,
 				E6A1D01706204CE1975A78C9 /* EvilIcons.ttf */,
 				7447C0F7F0BF4DDEB9D8271B /* Feather.ttf */,
@@ -197,6 +200,9 @@
 				B0A6E75C66624156A066E035 /* SimpleLineIcons.ttf */,
 				FED843D37A1E417880E95B4C /* Zocial.ttf */,
 				AC120EE7072348E5B43CE94A /* AntDesign.ttf */,
+				E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */,
+				73DF78B75FA04C64AB73A65E /* BMJUA.otf */,
+				E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -309,7 +315,6 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				3664A40BD93C4E2BA854E1BF /* BMJUA_ttf.ttf in Resources */,
 				24475D690889453E8A3EDEFC /* Entypo.ttf in Resources */,
 				A8C5179D9AA14C95BEBA95AE /* EvilIcons.ttf in Resources */,
 				ED4ED2FA6A584A1186389B4B /* Feather.ttf in Resources */,
@@ -324,9 +329,12 @@
 				E7563E5AB30C441D99FB0777 /* MaterialIcons.ttf in Resources */,
 				685E24EDF12D40AF85B16013 /* Octicons.ttf in Resources */,
 				6008B4CEB0AA44248EC7B7E0 /* SimpleLineIcons.ttf in Resources */,
-				C414821929B761CE001CF42B /* GoogleService-Info.plist in Resources */,
+				C40ABCEB29B8FD8B00145DDB /* GoogleService-Info.plist in Resources */,
 				7F2F22EEF8BA45E7A00FA85B /* Zocial.ttf in Resources */,
 				308AFD6D67224933B82D11ED /* AntDesign.ttf in Resources */,
+				18577D48231342FCABDEA8C8 /* BMJUA-Regular.otf in Resources */,
+				CE736363C56F4D99B50019A7 /* BMJUA.otf in Resources */,
+				30409C581E7745D79B16FA81 /* BMJUA.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,8 +590,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = hyusafety/hyusafety.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = D37B4VHACF;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D37B4VHACF;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = hyusafety/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -595,8 +607,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.hyusafety;
 				PRODUCT_NAME = hyusafety;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = hyusafety;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -610,8 +624,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = hyusafety/hyusafety.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = D37B4VHACF;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = D37B4VHACF;
 				INFOPLIST_FILE = hyusafety/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -622,8 +640,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.hyusafety;
 				PRODUCT_NAME = hyusafety;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = hyusafety;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

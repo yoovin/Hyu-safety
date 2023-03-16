@@ -10,6 +10,7 @@ import {
     Alert,
     Dimensions,
     ActivityIndicator,
+    BackHandler,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
@@ -77,24 +78,7 @@ const UploadWorkReport = ({navigation, route}) => {
 
     const left = <TouchableOpacity
     activeOpacity={0.8}
-    onPress={()=> {
-        if(curpage == 0){
-            Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
-                {   text:"아니오",
-                    onPress: () => {
-                },
-                style: 'cancel'
-                },
-                {   text:"예",
-                    onPress: () => {
-                    navigation.pop()
-                    route.params.refreshSuggestion()
-                }}]) 
-        }else{
-            nextpage(-1)
-            setCanPressNextButton(true)
-        }
-    }}
+    onPress={()=> backAction()}
     >
         <Text style={styles.backButtonText}>{'   <'}</Text>
     </TouchableOpacity>
@@ -214,14 +198,39 @@ const UploadWorkReport = ({navigation, route}) => {
         })
     }
 
+    const backAction = () => {
+        if(curpage <= 0){
+            Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
+                {   text:"아니오",
+                    onPress: () => {
+                },
+                style: 'cancel'
+                },
+                {   text:"예",
+                    onPress: () => {
+                    navigation.pop()
+                    route.params.refreshSuggestion()
+                }}]) 
+        }else{
+            nextpage(-1)
+            setCanPressNextButton(true)
+        }
+    }
+
     /*
     ===== USE EFFECT =====
     */
 
     useEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        )
+
         return() => {
             // setWorkChecklists({})
-            console.log('컴포넌트 사라짐')
+            console.log('uploadworkreport 컴포넌트 사라짐')
+            backHandler.remove()
         }
     }, [])
 

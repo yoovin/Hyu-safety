@@ -47,6 +47,7 @@ const SignupTerms = ({navigation}) => {
                 <View style={{flex: 0.5, flexDirection: 'row', padding: '5%'}}>
                     <View style={{marginHorizontal: '3%'}}>
                         <CheckBox
+                        value={isAgree}
                         onValueChange={setIsAgree}
                         ></CheckBox>
                     </View>
