@@ -28,13 +28,20 @@ import SuggestionDetail from './Components/pages/suggestion/SuggestionDetail';
 /*
 ===== Workreport =====
 */
-
 import WorkreportList from './Components/pages/workreport/WorkreportList';
 import WorkreportDetail from './Components/pages/workreport/WorkreportDetail';
 import WorkreportDownload from './Components/pages/workreport/WorkreportDownload';
 
+/*
+===== Push notification =====
+*/
+import PushUpload from './Components/pages/pushnotification/PushUpload';
+import PushList from './Components/pages/pushnotification/PushList';
+
 import NotFound from './Components/NotFound';
 import Login from './Components/Login';
+
+
 
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_ADDRESS // 서버 주소 지정
@@ -75,6 +82,12 @@ function App() {
                     <Route path="/workreport/list" element={<WorkreportList/>}></Route>
                     <Route path="/workreport/download" element={<WorkreportDownload/>}></Route>
                     <Route path="/workreport/:index" element={<WorkreportDetail/>}></Route>
+
+                    {/*
+                    =====  Notice =====
+                    */}
+                    <Route path="/pushnotification/upload" element={<PushUpload/>}></Route>
+                    <Route path="/pushnotification/list" element={<PushList/>}></Route>
 
                     <Route path="/*" element={<NotFound/>}></Route>
                 </Routes>

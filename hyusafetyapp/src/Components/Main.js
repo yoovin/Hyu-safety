@@ -15,6 +15,7 @@ import styles from '../../styles'
 import { currentUserid, currentUserInfo } from './recoil/atom'
 import Suggestion from './suggestion/Suggestion'
 import axios from 'axios'
+import Pushnotification from './Pushnotification'
 
 /*
 ===== TODO =====
@@ -39,17 +40,17 @@ const Main = ({navigation, route}) => {
         })
 
         const backAction = () => {
-            if (doubleBackToExitPressedOnce) { // 만약 이전에 두번 눌렸다면
-            BackHandler.exitApp() // 앱 종료
-            return true
-            }
+            // if (doubleBackToExitPressedOnce) { // 만약 이전에 두번 눌렸다면
+            // BackHandler.exitApp() // 앱 종료
+            // return true
+            // }
     
-            setDoubleBackToExitPressedOnce(true)
-            setTimeout(() => {
-                setDoubleBackToExitPressedOnce(false)
-            }, 2000); // 2초 이내에 다시 눌러야 함
+            // setDoubleBackToExitPressedOnce(true)
+            // setTimeout(() => {
+            //     setDoubleBackToExitPressedOnce(false)
+            // }, 2000); // 2초 이내에 다시 눌러야 함
     
-            return true;
+            // return true;
         };
     
         const backHandler = BackHandler.addEventListener(
@@ -66,6 +67,7 @@ const Main = ({navigation, route}) => {
         WorkReport: <WorkReport navigation={navigation}/>,
         Suggestion: <Suggestion navigation={navigation}/>,
         Info: <Profile navigation={navigation}/>,
+        Push: <Pushnotification navigation={navigation}/>,
     }
 
     const menus = [
@@ -106,16 +108,21 @@ const Main = ({navigation, route}) => {
         setCurrentTitle(item.menuName)
     }
 
-    // const right = <TouchableOpacity style={{}}>
-    //     <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
-    //     <View style={styles.notificationNumCircle}> 
-    //         <Text style={styles.notificationNum}>7</Text>
-    //     </View>
-    // </TouchableOpacity>
+    const right = <TouchableOpacity style={{justifyContent: 'center'}}
+                onPress={() => {
+                    // navigation.push('Pushnotification')
+                    setCurrentComponent('Push')
+                    setCurrentTitle('알림')
+                }}>
+        <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
+        {/* <View style={styles.notificationNumCircle}> 
+            <Text style={styles.notificationNum}>7</Text>
+        </View> */}
+    </TouchableOpacity>
 
     return (
         <View style={{flex: 1}}>
-            <Navi title={currentTitle}/>
+            <Navi title={currentTitle} right={right}/>
             <View style={{flex: 1}}>
                 {components[currentComponent]}
             </View>

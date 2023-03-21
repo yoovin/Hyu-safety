@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Dialog from "react-native-dialog"
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import axios from 'axios'
+import messaging from '@react-native-firebase/messaging'
 
 import styles from '../../../styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -18,6 +20,23 @@ import Navi from '../Navi'
 const ProfileSetting = ({navigation}) => {
     const [isLogoutButtonPress, setIsLogoutButtonPress] = useState(false)
     const userInfo = useRecoilValue(currentUserInfo)
+
+    const logout = async () => {
+        axios.post('/login/logout', {
+            id: userInfo.id,
+            fcmToken: await messaging().getToken()
+        })
+        .then(res =>{
+            if(res.status === 200){
+                AsyncStorage.clear()
+                navigation.reset({routes: [{name: "Login"}]})
+            }
+        })
+        .catch(err => {
+            Alert.alert(err)
+        })
+
+    }
 
     const left = <TouchableOpacity
     activeOpacity={0.8}
@@ -76,10 +95,7 @@ const ProfileSetting = ({navigation}) => {
                             style: 'cancel'
                             },
                             {   text:"예",
-                                onPress: () => {
-                                AsyncStorage.clear()
-                                navigation.reset({routes: [{name: "Login"}]})
-                            }}]) 
+                                onPress: logout}]) 
                     }}>
                         <Text style={styles.logoutButtonText}>로그아웃</Text>
                     </TouchableOpacity>

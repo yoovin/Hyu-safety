@@ -24,6 +24,7 @@ const WorkReport = ({navigation}) => {
 
     const onClickContent = (item) => {
         navigation.navigate('WorkReportDetail', {...item, refreshSuggestion: refreshSuggestion})
+        // navigation.push('WorkReportDetail', {...item, refreshSuggestion: refreshSuggestion})
     }
 
     const dateToString = (date) => {

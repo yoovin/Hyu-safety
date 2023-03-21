@@ -17,6 +17,7 @@ import userRouter from './Routers/userRouter'
 import noticeRouter from './Routers/noticeRouter'
 import suggestionRouter from './Routers/suggestionRouter'
 import workreportRouter from './Routers/workreportRouter'
+import pushnotificationRouter from './Routers/pushnotificationRouter'
 
 
 
@@ -68,6 +69,11 @@ app.listen(port, () => {
         ===== 안전작업 =====
     */
     app.use('/workreport', workreportRouter)
+
+    /*
+        ===== 푸시알림 =====
+    */
+    app.use('/pushnotification', pushnotificationRouter)
 
 
 

@@ -75,6 +75,26 @@ router.post('/', async (req: Request, res: Response) => {
     }
 })
 
+router.post('/logout', async (req: Request, res: Response) => {
+    console.log(`admin logout post 쿼리 들어옴 ip: ${req.ip}, id: ${req.body.id}`)
+    const {id, fcmToken} = req.body
+    let updateUser = await User.findOneAndUpdate(
+        { id: id },
+        { $pull: {
+                fcm_token: fcmToken
+            }
+        },
+        { returnNewDocument: true }
+    ).exec()
+
+    if(updateUser != null){
+        res.status(200).end()
+    }else{
+        console.log('null')
+        res.status(401).end()
+    }
+})
+
 router.post('/admin', async (req: Request, res: Response) => {
     console.log(`admin login post 쿼리 들어옴 ip: ${req.ip}`)
     const {id, pw} = req.body

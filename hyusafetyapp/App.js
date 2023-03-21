@@ -33,6 +33,7 @@ import Setting from './src/Components/profile/Setting'
 import ModifyProfile from './src/Components/profile/ModifyProfile'
 import ModifyPassword from './src/Components/profile/ModifyPassword'
 import DeleteUser from './src/Components/profile/DeleteUser'
+import Pushnotification from './src/Components/Pushnotification'
 
 // axios.defaults.baseURL = SERVER_ADDRESS
 axios.defaults.baseURL = 'http://10.0.2.02:1234'
@@ -96,6 +97,8 @@ const App = () => {
 
                 <Stack.Screen name="UploadWorkReport" component={UploadWorkReport}/>
                 <Stack.Screen name="WorkReportDetail" component={WorkReportDetail}/>
+
+                <Stack.Screen name="Pushnotification" component={Pushnotification}/>
 
 
                     </Stack.Group>

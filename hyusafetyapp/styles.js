@@ -29,7 +29,8 @@ export default StyleSheet.create({
     },
     contentContainer: {
         flex: 1,
-        flexDirection:'row'
+        flexDirection:'row',
+        justifyContent: 'center'
     },
     leftView:{
         flex:1

@@ -32,7 +32,7 @@ const NoticeUpload = (props: Props) => {
                     })
                     .then(res => {
                         if(res.status == 201){
-                            {navigate('/notice/list')}
+                            navigate('/notice/list')
                         }
                     })
                     .catch(err => {

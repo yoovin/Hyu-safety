@@ -394,27 +394,29 @@ router.post('/permit', async (req: Request, res: Response) => {
     if(updateWorkreport != null){
         User.find({id: updateWorkreport.id})
         .then(data => {
-            let message = {
-                notification: {
-                    title: '안전작업신고',
-                    body: '안전작업신고가 심사되었으니 확인 바랍니다.'
-                },
-                tokens: data[0].fcm_token
-            }
-
-            admin.messaging().sendMulticast(message)
-            .then(response => {
-                if (response.failureCount > 0) {
-                    const failedTokens: string[] = [];
-                    response.responses.forEach((resp, idx) => {
-                        if (!resp.success) {
-                            failedTokens.push(data[0].fcm_token[idx]);
-                        }
-                    });
-                    console.log('List of tokens that caused failures: ' + failedTokens);
-                    // res.status(200).end()
+            if(data[0].fcm_token.length > 0){
+                let message = {
+                    notification: {
+                        title: '안전작업신고',
+                        body: `${index}번 안전작업신고가 심사되었으니 확인 바랍니다.`
+                    },
+                    tokens: data[0].fcm_token
                 }
-            })
+    
+                admin.messaging().sendMulticast(message)
+                .then(response => {
+                    if (response.failureCount > 0) {
+                        const failedTokens: string[] = [];
+                        response.responses.forEach((resp, idx) => {
+                            if (!resp.success) {
+                                failedTokens.push(data[0].fcm_token[idx]);
+                            }
+                        });
+                        console.log('List of tokens that caused failures: ' + failedTokens);
+                        // res.status(200).end()
+                    }
+                })
+            }
             res.status(200).end()
         })
     }else{
