@@ -76,19 +76,15 @@ const DeleteUser = ({navigation}) => {
     }
 
     const onDelete = () => {
-        axios.delete('/login/delete', {
-            data: {
-                id: userInfo.id
-            }
-        })
+        axios.delete('/user/delete', {})
         .then(res => {
             if(res.status == 200){
                 Alert.alert("탈퇴 완료 되었습니다.", "", [
                     {
                         text: '완료',
                         onPress: () => {
-                            // AsyncStorage.clear()
-                            // navigation.reset({routes: [{name: "Login"}]})
+                            AsyncStorage.clear()
+                            navigation.reset({routes: [{name: "Login"}]})
                         }
                     }
                 ])

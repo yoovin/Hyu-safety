@@ -18,10 +18,6 @@ const UserDetail = (props: Props) => {
         return date.replace('T', ' ').substring(0, 19)
     }
 
-    const birthToString = (date: Date) => {
-
-    }
-
     const handlePress = (e: React.ChangeEvent<HTMLInputElement>) => {
         const regex = /^[0-9\b -]{0,13}$/;
         if (regex.test(e.target.value)) {
@@ -65,7 +61,7 @@ const UserDetail = (props: Props) => {
         onSubmit: (values: any) => {
             console.log(values)
             if(window.confirm("저장하시겠습니까?")){
-                axios.post('/login/update/info', {
+                axios.post('/user/update/info', {
                     ...values,
                     phone: phone
                 })
@@ -170,6 +166,9 @@ const UserDetail = (props: Props) => {
                 </div>
                 <div className="basis-1/12">
                     <span>최근 로그인 IP: {props.curUser.recent_login_ip}</span>
+                </div>
+                <div className="basis-1/12">
+                    <span>FCM Token: {props.curUser.fcm_token}</span>
                 </div>
                 <div className='flex-row'>
                     <button type="submit" className="px-8 py-3 mx-3 font-semibold rounded-full bg-blue-300 hover:bg-blue-500 text-gray-800"

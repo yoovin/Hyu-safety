@@ -11,7 +11,8 @@ import {
     Dimensions,
     Image,
     ActivityIndicator,
-    Platform
+    Platform,
+    BackHandler
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CheckBox from '@react-native-community/checkbox';
@@ -32,11 +33,13 @@ const WorkReportDetail = ({navigation, route}) => {
     const windowHeight = Dimensions.get('window').height
     const windowWidth = Dimensions.get('window').width
 
+    const backAction = () => {
+        navigation.pop()
+    }
+
     const left = <TouchableOpacity
     activeOpacity={0.8}
-    onPress={()=> {
-        navigation.pop()
-    }}
+    onPress={backAction}
     >
         <Text style={styles.backButtonText}>{'   <'}</Text>
     </TouchableOpacity>
@@ -52,7 +55,7 @@ const WorkReportDetail = ({navigation, route}) => {
                         onPress: () => onDelete()
                     },
                     {
-                        text: "아니오",
+                        text: "아니오",                                                                                                                             
                         onPress: () => console.log("삭제안함")
                     }])
             }
@@ -97,8 +100,17 @@ const WorkReportDetail = ({navigation, route}) => {
     */
 
     useEffect(() => {
-        console.log(route.params)
-        return () => route.params.refreshSuggestion()
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        )
+
+        return() => {
+            // setWorkChecklists({})
+            console.log('uploadworkreport 컴포넌트 사라짐')
+            route.params.refreshSuggestion()
+            backHandler.remove()
+        }
     }, [])
 
     return (

@@ -3,6 +3,7 @@ import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { user } from '../../interface/user'
 import download from 'downloadjs'
+import {useCookies} from 'react-cookie'
 
 import UserDetail from './UserDetail'
 
@@ -27,6 +28,7 @@ const NoticeList = (props: Props) => {
     const [curUser, setCurUser] = useState<user|null>()
     const [searchSubject, setSearchSubject] = useState('id')
     const [searchText, setSearchText] = useState('')
+    const [cookies, setCookie, removeCookie] = useCookies(['token'])
 
     const dateToString = (date: string) => {
         return date.replace('T', ' ').substring(0, 19)
@@ -61,7 +63,7 @@ const NoticeList = (props: Props) => {
     }
 
     const getNoticeData = (query?: any) => {
-        axios.get('/login/getusers', {params: {...query, reverse: noticeReverse}})
+        axios.get('/user/getusers', {params: {...query, reverse: noticeReverse}})
         .then(res => {
             setUsers(res.data.users)
             let pages = res.data.count / 10
@@ -82,7 +84,7 @@ const NoticeList = (props: Props) => {
     }
 
     const onDownload = () => {
-        axios.get("/login/download", {
+        axios.get("/user/download", {
             params: {
                 
             },

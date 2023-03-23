@@ -46,6 +46,7 @@ const SuggestionDetail = ({navigation, route}) => {
                 })
                 .then(res => {
                     if(res.status == 200){
+                        route.params.refreshSuggestion()
                         navigation.pop()
                     }
                 })

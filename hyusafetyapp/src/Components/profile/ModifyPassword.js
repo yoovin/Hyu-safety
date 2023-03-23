@@ -46,8 +46,7 @@ const ModifyPassword = ({navigation}) => {
     const onSubmit = data => {
         console.log(data)
         if(canChange){
-            axios.post('/login/update/password', {
-                id: userInfo.id,
+            axios.post('/user/update/password', {
                 password: Base64.stringify(sha256(data.modiPassword))
             })
             .then(res => {
@@ -80,7 +79,6 @@ const ModifyPassword = ({navigation}) => {
                 if(err.request.status == 401){ // 내가 준 애러
                     const errorJson = JSON.parse(err.request._response)
                     Alert.alert(`${errorJson.text}`)
-                    console.log()
                 }
             })
         }

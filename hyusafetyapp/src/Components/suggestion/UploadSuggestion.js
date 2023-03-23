@@ -12,7 +12,8 @@ import {
     Dimensions,
     Image,
     ActivityIndicator,
-    Platform
+    Platform,
+    BackHandler
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Dialog from "react-native-dialog"
@@ -107,7 +108,12 @@ const WriteSuggestion = ({navigation, route}) => {
                 text: "사진 찍기",
                 onPress: () => {
                     launchCamera({mediaType: 'photo'}, res => {
-                        setPhotos(photo => [...photo, res.assets[0]])
+                        setPhotos(photo => [...photo,
+                            {
+                            uri: Platform.OS === 'android' ? res.assets[0].uri : res.assets[0].uri.replace('file://', ''),
+                            type: res.assets[0].type,
+                            name: res.assets[0].fileName,
+                        }])
                         console.log(res);
                     })
                 }
@@ -144,7 +150,31 @@ const WriteSuggestion = ({navigation, route}) => {
     }
 
     useEffect(() => {
-        console.log(userInfo)
+        const backAction = () => {
+            // setIsGoBack(true)
+            Alert.alert("나가시겠습니까?", "쓰던 내용은 저장되지 않습니다!", [
+                {
+                    text: "아니오",
+                    onPress: () => null,
+                    style: "cancel"
+                },
+                {
+                    text: "예",
+                    onPress: () => {
+                        navigation.pop()
+                        route.params.refreshSuggestion()
+                    }
+                }
+            ]);
+            return true;
+        };
+    
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            backAction
+        );
+    
+        return () => backHandler.remove() // cleanup
     }, [])
 
   return (
@@ -192,9 +222,9 @@ const WriteSuggestion = ({navigation, route}) => {
                                 <Ionicons name="camera-outline" size={30} color='white'></Ionicons>
                             </TouchableOpacity>
 
-                            {photos.map((item) => (
+                            {photos.map((item, idx) => (
                                 [
-                                <TouchableOpacity style={[styles.uploadImageSkeleton, {width: windowWidth / 4, height: windowHeight / 11}]}
+                                <TouchableOpacity key={idx} style={[styles.uploadImageSkeleton, {width: windowWidth / 4, height: windowHeight / 11}]}
                                 activeOpacity={1}>
                                     <Image style={styles.uploadedImage} source={{uri: item.uri}}/>
                                     <TouchableOpacity style={[styles.imageRemoveButton, {borderRadius: windowWidth}]}

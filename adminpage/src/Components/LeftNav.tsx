@@ -1,16 +1,17 @@
 import React, {useState} from 'react'
-import { IoMenu, IoHammerOutline, IoChatbubblesOutline, IoPeopleOutline, IoNewspaperOutline } from "react-icons/io5";
+import { IoMenu, IoHammerOutline, IoChatbubblesOutline, IoPeopleOutline, IoNewspaperOutline, IoChatboxEllipsesOutline } from "react-icons/io5";
 import { AiOutlineNotification } from "react-icons/ai"
 import { Link, useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 type Props = {}
 
 const LeftNav = (props: Props) => {
     const navigate = useNavigate()
-    const sessionStorage = window.sessionStorage
 
     const [currentPage, setCurrentPage] = useState('')
     const [currentHover, setCurrentHover] = useState(0)
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     return (
         <div className="basis-1/6 border-r-2 border-slate-200" style={{height: '95vh'}}>
@@ -22,19 +23,19 @@ const LeftNav = (props: Props) => {
                 <button type="button" className="px-5 py-1 font-semibold rounded bg-gray-100 hover:bg-gray-300 text-gray-800"
                 onClick={() => {
                     if(window.confirm("로그아웃 하시겠습니까?")){
-                        sessionStorage.clear()
+                        removeCookie('token')
                         window.location.reload()
                     }
                 }}>로그아웃</button>
             </div>
             <hr/>
 
-            <div className="flex p-1"
+            <div className="flex p-1 px-3 items-center"
             onMouseOver={() => setCurrentHover(1)}
             // onMouseOut={() => setCurrentHover(0)}
             >
                 <AiOutlineNotification/>
-                <span className="mx-2">공지사항</span>
+                <span className="mx-2 font-bold">공지사항</span>
             </div>
             {currentHover == 1 &&[
                 <Link to="/notice/upload" className="flex px-5 hover:bg-slate-100">
@@ -48,12 +49,12 @@ const LeftNav = (props: Props) => {
             }
             <hr/>
 
-            <div className="flex p-1"
+            <div className="flex p-1 px-3 items-center"
             onMouseOver={() => setCurrentHover(2)}
             // onMouseOut={() => setCurrentHover(0)}
             >
                 <IoNewspaperOutline/>
-                <span className="mx-2">건의사항</span>
+                <span className="mx-2 font-bold">건의사항</span>
             </div>
             {currentHover == 2 &&[
                 <Link to="/suggestion/list" className="flex px-5 hover:bg-slate-100">
@@ -62,12 +63,12 @@ const LeftNav = (props: Props) => {
                 ]}
             <hr/>
 
-            <div className="flex p-1"
+            <div className="flex p-1 px-3 items-center"
             onMouseOver={() => setCurrentHover(3)}
             // onMouseOut={() => setCurrentHover(0)}
             >
                 <IoHammerOutline/>
-                <span className="mx-2">안전작업승인</span>
+                <span className="mx-2 font-bold">안전작업승인</span>
             </div>
             {currentHover == 3 &&[
                 <Link to="/workreport/list" className="flex px-5 hover:bg-slate-100">
@@ -79,18 +80,38 @@ const LeftNav = (props: Props) => {
                 ]}
             <hr/>
 
-            <div className="flex p-1"
+            <div className="flex p-1 px-3 items-center"
             onMouseOver={() => setCurrentHover(4)}
             // onMouseOut={() => setCurrentHover(0)}
             >
                 <IoPeopleOutline/>
-                <span className="mx-2">유저관리</span>
+                <span className="mx-2 font-bold">유저관리</span>
             </div>
             {currentHover == 4 &&[
                 <Link to="/user/list" className="flex px-5 hover:bg-slate-100">
                     <span className="mx-2">- 유저 목록</span>
                 </Link>
                 ]}
+            
+            <hr/>
+
+            <div className="flex p-1 px-3 items-center"
+            onMouseOver={() => setCurrentHover(5)}
+            >
+                <IoChatboxEllipsesOutline/>
+                <span className="mx-2 font-bold">푸시알림</span>
+            </div>
+            {currentHover == 5 &&[
+                <Link to="/pushnotification/upload" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 알림 보내기</span>
+                </Link>,
+                <Link to="/pushnotification/list" className="flex px-5 hover:bg-slate-100">
+                    <span className="mx-2">- 보낸 알림 목록</span>
+                </Link>
+                ]}
+
+
+
             </div>
     )
 }

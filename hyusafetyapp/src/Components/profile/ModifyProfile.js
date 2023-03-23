@@ -46,9 +46,8 @@ const ModifyProfile = ({navigation}) => {
     </TouchableOpacity>
 
     const onSubmit = data => {
-        axios.post('/login/update/info', {
+        axios.post('/user/update/info', {
             ...data,
-            id: userInfo.id,
             position: userInfo.position,
             birth: birth
         })

@@ -1,6 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express'
 import { CallbackError } from 'mongoose'
 import fs from 'fs'
+
+
 const router = express.Router()
 
 import readXlsxFile from 'read-excel-file/node'
@@ -11,9 +13,10 @@ import Userauth from '../DB/model/Userauth'
 import User from '../DB/model/User'
 
 
+
 router.get('/getuserinfo', async (req: Request, res: Response) => {
-    console.log(`유저 정보 요청들어옴${req.query.id}`)
-    const user = await User.findOne({id: req.query.id})
+    console.log(`유저 정보 요청들어옴${req.userid}`)
+    const user = await User.findOne({id: req.userid})
     if(user != null){
         res.send(user)
     }else{
@@ -24,20 +27,22 @@ router.get('/getuserinfo', async (req: Request, res: Response) => {
 
 router.get('/getusers', async (req: Request, res: Response) => { // 어드민용
     console.log(req.query)
-    // console.log(req.query.page)
-    if(req.query.reverse === '-1'){
-        // await Notice.find(req.query).limit(10).sort({index: -1})
-        await User.find(req.query).limit(10).sort({_id: -1}).skip((Number(req.query.page)-1)*10).limit(10)
-        .then(async data => {
-            const count = await User.countDocuments(req.query)
-            res.send({users: data, count: count})
-        })
+    if(req.userid === 'admin'){
+        if(req.query.reverse === '-1'){
+            await User.find(req.query).limit(10).sort({_id: -1}).skip((Number(req.query.page)-1)*10).limit(10)
+            .then(async data => {
+                const count = await User.countDocuments(req.query)
+                res.send({users: data, count: count})
+            })
+        }else{
+            await User.find(req.query).limit(10).sort({_id: 1}).skip((Number(req.query.page)-1)*10).limit(10)
+            .then(async data => {
+                const count = await User.countDocuments(req.query)
+                res.send({users: data, count: count})
+            })
+        }
     }else{
-        await User.find(req.query).limit(10).sort({_id: 1}).skip((Number(req.query.page)-1)*10).limit(10)
-        .then(async data => {
-            const count = await User.countDocuments(req.query)
-            res.send({users: data, count: count})
-        })
+        res.status(401).end()
     }
 })
 
@@ -46,46 +51,10 @@ router.get('/getusers', async (req: Request, res: Response) => { // 어드민용
     ===== POST =====
 */
 
-router.post('/', async (req: Request, res: Response) => {
-    console.log(`login post 쿼리 들어옴 ip: ${req.ip}`)
-    console.log(`id: ${req.body.id}, pw: ${req.body.pw}`)
-    const userid = await Userauth.findOne({id: req.body.id})
-    if(userid != null){
-        if(userid.pw != req.body.pw){
-            // 틀린 비밀번호
-            res.status(401).json({text: "틀린 비밀번호 입니다."}).end()
-        }else{
-            // 최근 접속 아이피 및 날짜
-            const curUser = User.findOneAndUpdate(
-                {id: userid.id},
-                { $set: {
-                    recent_login_ip: req.ip, 
-                    recent_login_date: Date.now() + (540 * 60 * 1000)
-                }}
-                ).exec()
-            res.status(200).end()
-        }
-    }else{
-        // 없는 아이디
-        res.status(401).json({text: "없는 아이디 입니다."}).end()
-    }
-})
-
-router.post('/admin', async (req: Request, res: Response) => {
-    console.log(`admin login post 쿼리 들어옴 ip: ${req.ip}`)
-    const {id, pw} = req.body
-    console.log(`id: ${id}, pw: ${pw}`)
-    if(id === 'admin' && pw == 'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrRIqRg='){
-        res.status(200).end()
-    }else{
-        res.status(401).json({text: "없는 아이디 입니다."}).end()
-    }
-})
-
 router.post('/update/info', async (req: Request, res: Response) => {
     console.log(req.body)
     let updateUser = await User.findOneAndUpdate(
-        { id: req.body.id },
+        { id: req.userid === 'admin' ? req.body.id : req.userid },
         { $set: {
             name: req.body.name,
             email: req.body.email,
@@ -107,7 +76,7 @@ router.post('/update/info', async (req: Request, res: Response) => {
 router.post('/update/password', async (req: Request, res: Response) => {
     console.log(req.body)
     let updateUser = await Userauth.findOneAndUpdate(
-        { id: req.body.id },
+        { id: req.userid === 'admin' ? req.body.id : req.userid },
         { $set: {
                 pw: req.body.password
             }
@@ -127,11 +96,11 @@ router.delete('/delete', async (req: Request, res: Response) => {
     console.log(req.body)
     // res.status(200).end()
     let updateUser = await User.deleteOne(
-        { id: req.body.id },
+        { id: req.userid === 'admin' ? req.body.id : req.userid },
     ).exec()
 
     let updateUserauth = await Userauth.deleteOne(
-        { id: req.body.id },
+        { id: req.userid === 'admin' ? req.body.id : req.userid },
     ).exec()
 
     if(updateUser != null && updateUserauth != null){
@@ -166,6 +135,18 @@ router.get('/download', async (req: Request, res: Response) => {
         },
         {
             value: "생성일자",
+            fontWeight: "bold",
+        },
+        {
+            value: "최근로그인IP",
+            fontWeight: "bold",
+        },
+        {
+            value: "최근로그인",
+            fontWeight: "bold",
+        },
+        {
+            value: "FCM토큰",
             fontWeight: "bold",
         },
         
@@ -206,6 +187,22 @@ router.get('/download', async (req: Request, res: Response) => {
                         type: Date,
                         value: item.created_at,
                         format: "yyyy/mm/dd HH:MM:SS"
+                    },
+                    // 최근로그인IP
+                    {
+                        type: String,
+                        value: item.recent_login_ip,
+                    },
+                    // 최근로그인
+                    {
+                        type: Date,
+                        value: item.recent_login_date,
+                        format: "yyyy/mm/dd HH:MM:SS"
+                    },
+                    // 토큰
+                    {
+                        type: String,
+                        value: item.fcm_token,
                     },
                 ])
             })

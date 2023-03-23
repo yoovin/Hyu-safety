@@ -2,13 +2,14 @@ import express, { Request, Response } from 'express'
 import { CallbackError } from 'mongoose'
 import multer from 'multer'
 const router = express.Router()
-
 import readXlsxFile from 'read-excel-file/node'
 import writeXlsxFile from 'write-excel-file/node'
 import fs from 'fs'
+import admin from 'firebase-admin'
 
 // Models
 import Workreport from '../DB/model/Workreport'
+import User from '../DB/model/User'
 import getNextSequence from '../DB/getNextSequence'
 
 // const upload = multer({
@@ -43,16 +44,15 @@ router.get('/', async (req: Request, res: Response) => {
     console.log(req.query)
     // console.log(req.query.page)
     if(req.query.reverse === '-1'){
-        await Workreport.find(req.query).limit(10).sort({index: -1}).skip((Number(req.query.page)-1)*10).limit(10)
+        await Workreport.find(req.userid === "admin" ? req.query : {id: req.userid, ...req.query}).limit(10).sort({index: -1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
-            const count = await Workreport.countDocuments(req.query)
+            const count = await Workreport.countDocuments(req.userid === "admin" ? req.query : {id: req.userid, ...req.query})
             res.send({workreports: data, count: count})
         })
     }else{
-        Workreport.find(req.query)
-        await Workreport.find(req.query).limit(10).sort({index: 1}).skip((Number(req.query.page)-1)*10).limit(10)
+        await Workreport.find(req.userid === "admin" ? req.query : {id: req.userid, ...req.query}).limit(10).sort({index: 1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
-            const count = await Workreport.countDocuments(req.query)
+            const count = await Workreport.countDocuments(req.userid === "admin" ? req.query : {id: req.userid, ...req.query})
             res.send({workreports: data, count: count})
         })
     }
@@ -347,7 +347,7 @@ router.post('/upload', upload.single('file'), async (req: Request, res: Response
 
     const newWorkreport = new Workreport({
         index: index,
-        id: req.body.id,
+        id: req.userid,
         request_depart: req.body.requestDepart,
         position: req.body.position,
         name: req.body.name,
@@ -391,7 +391,33 @@ router.post('/permit', async (req: Request, res: Response) => {
     ).exec()
 
     if(updateWorkreport != null){
-        res.status(200).end()
+        User.find({id: updateWorkreport.id})
+        .then(data => {
+            if(data[0].fcm_token.length > 0){
+                let message = {
+                    notification: {
+                        title: '안전작업신고',
+                        body: `${index}번 안전작업신고가 심사되었으니 확인 바랍니다.`
+                    },
+                    tokens: data[0].fcm_token
+                }
+    
+                admin.messaging().sendMulticast(message)
+                .then(response => {
+                    if (response.failureCount > 0) {
+                        const failedTokens: string[] = [];
+                        response.responses.forEach((resp, idx) => {
+                            if (!resp.success) {
+                                failedTokens.push(data[0].fcm_token[idx]);
+                            }
+                        });
+                        console.log('List of tokens that caused failures: ' + failedTokens);
+                        // res.status(200).end()
+                    }
+                })
+            }
+            res.status(200).end()
+        })
     }else{
         console.log('null')
         console.log(updateWorkreport)

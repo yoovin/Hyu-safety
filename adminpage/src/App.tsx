@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Route, Routes} from 'react-router-dom'
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 import { RecoilRoot } from 'recoil'
+import { useCookies } from 'react-cookie'
 
 import LeftNav from './Components/LeftNav';
 import Main from './Components/pages/Main';
@@ -28,24 +29,47 @@ import SuggestionDetail from './Components/pages/suggestion/SuggestionDetail';
 /*
 ===== Workreport =====
 */
-
 import WorkreportList from './Components/pages/workreport/WorkreportList';
 import WorkreportDetail from './Components/pages/workreport/WorkreportDetail';
 import WorkreportDownload from './Components/pages/workreport/WorkreportDownload';
+
+/*
+===== Push notification =====
+*/
+import PushUpload from './Components/pages/pushnotification/PushUpload';
+import PushList from './Components/pages/pushnotification/PushList';
 
 import NotFound from './Components/NotFound';
 import Login from './Components/Login';
 
 
+declare global{
+        interface AxiosHeaders{
+            Authorization: string
+    }
+}
+
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_ADDRESS // 서버 주소 지정
+axios.defaults.withCredentials = true // 토큰 인증 활성화
+
 
 function App() {
-    const sessionStorage = window.sessionStorage
-    const [user, setUser] = useState(null);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+    axios.interceptors.request.use(
+        // 쿠키를 이용하여 모든 헤더에 추가해줌
+        config => {
+            config.headers!['Authorization'] = cookies.token;
+                return config;
+            },
+            error => {
+                return Promise.reject(error);
+            }
+        )
 
     return (
         <RecoilRoot>
-            {sessionStorage.getItem('login') === 'true'
+            {cookies.token
             ?
             <>
             <div className="flex flex-row">
@@ -75,6 +99,12 @@ function App() {
                     <Route path="/workreport/list" element={<WorkreportList/>}></Route>
                     <Route path="/workreport/download" element={<WorkreportDownload/>}></Route>
                     <Route path="/workreport/:index" element={<WorkreportDetail/>}></Route>
+
+                    {/*
+                    =====  Notice =====
+                    */}
+                    <Route path="/pushnotification/upload" element={<PushUpload/>}></Route>
+                    <Route path="/pushnotification/list" element={<PushList/>}></Route>
 
                     <Route path="/*" element={<NotFound/>}></Route>
                 </Routes>

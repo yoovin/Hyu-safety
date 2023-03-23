@@ -8,7 +8,6 @@ import Userauth from '../DB/model/Userauth'
 
 /*
     ===== TODOS =====
-    로그인했을때 ip랑 가져오기
 */
 
 

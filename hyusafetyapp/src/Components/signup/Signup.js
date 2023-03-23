@@ -8,6 +8,7 @@ import {
     KeyboardAvoidingView, 
     TouchableWithoutFeedback,
     Alert,
+    Platform,
     ScrollView 
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
@@ -114,9 +115,9 @@ const Signup = ({navigation}) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAvoidingView style={{flex: 1, backgroundColor:'#5471ff'}} behavior='padding' keyboardVerticalOffset={30}>
+            {/* <KeyboardAvoidingView style={{flex: 1, backgroundColor:'#5471ff'}} behavior='padding' keyboardVerticalOffset={30}> */}
                 <SafeAreaView style={{flex: 1, backgroundColor:'#5471ff'}}>
-                    <KeyboardAwareScrollView style={styles.idInputView} contentContainerStyle={{margin: '3%'}}>
+                    <KeyboardAwareScrollView style={styles.idInputView} contentContainerStyle={{height:'120%', margin: '3%'}}>
                     <Text style={[styles.guideText, {marginBottom: 10}]}>* 필수 영역 입니다.</Text>
                     <Text style={[styles.inputTitleText, {marginTop: '10%',}]}><Text style={[styles.guideText]}>*</Text> 아이디</Text>
                     {isIdCheckTextVisible && <Text style={[styles.warningText, isIdCheck && {color: 'green'}]}>{idCheckText}</Text>}
@@ -127,9 +128,13 @@ const Signup = ({navigation}) => {
                                 required: true
                             }}
                             render={({ field: {onChange, onBlur, value}}) => (
-                                <TextInput style={[styles.signupInput, {height: '50%', marginRight: 0,}, errors.id && {borderBottomColor: 'red'}]}
+                                <TextInput style={[styles.signupInput, {width:'70%', height: '50%', marginRight: 5,}, errors.id && {borderBottomColor: 'red'}]}
                                 onBlur={onBlur}
-                                onChangeText={onChange}
+                                onChangeText={val => {
+                                    onChange(val)
+                                    setIsIdCheckTextVisible(false)
+                                    setIsIdCheck(false)
+                                }}
                                 value={value}
                                 autoCapitalize='none'/>
                             )}
@@ -141,7 +146,7 @@ const Signup = ({navigation}) => {
                             onPress={() => {
                                 handleIdCheck()
                             }}>
-                                <Text style={{fontFamily: 'BMJUA', color: 'white'}}>중복확인</Text>
+                                <Text style={[styles.mainFont, styles.textSm, {color: 'white'}]}>중복확인</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -158,7 +163,6 @@ const Signup = ({navigation}) => {
                                 onChangeText={onChange}
                                 value={value}
                                 autoCapitalize='none'
-                                autoComplete={false}
                                 secureTextEntry={!pwVisible}/>
                             )}
                             name="pw"
@@ -282,7 +286,7 @@ const Signup = ({navigation}) => {
                         </TouchableOpacity>
                         :
                         <View
-                        style={[styles.loginButton, {height: '15%', backgroundColor: '#dcdcdc'}]}>
+                        style={[styles.loginButton, {height: '10%', backgroundColor: '#dcdcdc'}]}>
                             <Text style={[styles.loginButtonText, {color: 'gray'}]}>가입하기</Text>
                         </View>}
                         
@@ -302,7 +306,7 @@ const Signup = ({navigation}) => {
                         <Dialog.Button label="예" onPress={handleSubmit(onSubmit)}></Dialog.Button>
                     </Dialog.Container>
                 </SafeAreaView>
-            </KeyboardAvoidingView>
+            {/* </KeyboardAvoidingView> */}
         </TouchableWithoutFeedback>
     )
 }

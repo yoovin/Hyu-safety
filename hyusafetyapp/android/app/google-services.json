@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "753351814296",
+    "project_id": "hyu-safety",
+    "storage_bucket": "hyu-safety.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753351814296:android:6b5da4f150dfc13351f4ed",
+        "android_client_info": {
+          "package_name": "com.hyusafety"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753351814296-01svlnisbm0iuv3eqril3saql1c1hobe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1YYUnBkhTYpr7j6RYVP7n6ld86XvPZJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753351814296-01svlnisbm0iuv3eqril3saql1c1hobe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "753351814296-r5kqjtnshqtalafu8r3sp45vu88cnntg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.hyusafety"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

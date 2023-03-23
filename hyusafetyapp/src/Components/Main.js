@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, useLayoutEffect } from 'react-native'
+import { View, Text, TouchableOpacity, BackHandler, Alert } from 'react-native'
 import React, {useEffect, useRef, useState} from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -15,6 +15,7 @@ import styles from '../../styles'
 import { currentUserid, currentUserInfo } from './recoil/atom'
 import Suggestion from './suggestion/Suggestion'
 import axios from 'axios'
+import Pushnotification from './Pushnotification'
 
 /*
 ===== TODO =====
@@ -24,18 +25,36 @@ import axios from 'axios'
 const Main = ({navigation, route}) => {
     const [currentComponent, setCurrentComponent] = useState('Home')
     const [currentTitle, setCurrentTitle] = useState('홈')
+    const [doubleBackToExitPressedOnce, setDoubleBackToExitPressedOnce] = useState(false)
     const userid = useRecoilValue(currentUserid)
     const setUserInfo = useSetRecoilState(currentUserInfo)
 
     useEffect(() => {
         console.log(route.params.id)
-        axios.get('/login/getuserinfo', { params: {
-            id: route.params.id
-        }})
+        axios.get('/user/getuserinfo')
         .then(res => {
             setUserInfo(res.data)
-            console.log(res.data)
         })
+
+        const backAction = () => {
+            Alert.alert("확인", "앱을 종료하시겠습니까?", [
+            {
+                text: "취소",
+                onPress: () => null,
+                style: "cancel"
+            },
+            {
+                text: "확인",
+                onPress: () => BackHandler.exitApp()
+            }
+            ]);
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+        return () => backHandler.remove();
     }, [])
 
     const components = {
@@ -44,6 +63,7 @@ const Main = ({navigation, route}) => {
         WorkReport: <WorkReport navigation={navigation}/>,
         Suggestion: <Suggestion navigation={navigation}/>,
         Info: <Profile navigation={navigation}/>,
+        Push: <Pushnotification navigation={navigation}/>,
     }
 
     const menus = [
@@ -84,11 +104,16 @@ const Main = ({navigation, route}) => {
         setCurrentTitle(item.menuName)
     }
 
-    const right = <TouchableOpacity style={{}}>
+    const right = <TouchableOpacity style={{justifyContent: 'center'}}
+                onPress={() => {
+                    // navigation.push('Pushnotification')
+                    setCurrentComponent('Push')
+                    setCurrentTitle('알림')
+                }}>
         <Ionicons name="notifications-outline" size={30} color='white'></Ionicons>
-        <View style={styles.notificationNumCircle}> 
+        {/* <View style={styles.notificationNumCircle}> 
             <Text style={styles.notificationNum}>7</Text>
-        </View>
+        </View> */}
     </TouchableOpacity>
 
     return (
@@ -101,15 +126,16 @@ const Main = ({navigation, route}) => {
 
             {/* FOOTER */}
             <View style={styles.footer}>
-                    {menus.map(item => (
+                    {menus.map((item, idx) => (
                         item.component == currentComponent ?
-                        <View style={[styles.menuItem, {
+                        <View key={idx} style={[styles.menuItem, {
                         }]}>
                             {item.selectIcon}
                             <Text style={styles.menuText}>{item.menuName}</Text>
                         </View>:
 
                         <TouchableOpacity
+                        key={idx}
                         style={styles.menuItem}
                         onPress={() => handleFooterMenu(item)}>
                             {item.icon}

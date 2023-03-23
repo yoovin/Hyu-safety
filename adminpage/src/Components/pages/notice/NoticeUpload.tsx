@@ -12,8 +12,6 @@ import 'tui-color-picker/dist/tui-color-picker.css'
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css'
 import '@toast-ui/editor/dist/i18n/ko-kr'
 
-
-
 type Props = {
 }
 
@@ -34,7 +32,7 @@ const NoticeUpload = (props: Props) => {
                     })
                     .then(res => {
                         if(res.status == 201){
-                            {navigate('/notice/list')}
+                            navigate('/notice/list')
                         }
                     })
                     .catch(err => {

@@ -24,8 +24,6 @@ const Profile = ({navigation}) => {
     }
 
     useEffect(()=>{
-        console.log(userInfo)
-        console.log(typeof(userInfo.birth))
     }, [])
 
     return (

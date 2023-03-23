@@ -17,6 +17,7 @@ import { useSetRecoilState } from 'recoil'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import sha256 from 'crypto-js/sha256'
 import Base64 from 'crypto-js/enc-base64'
+import messaging from '@react-native-firebase/messaging'
 
 import styles from '../../styles'
 import {currentUserid} from './recoil/atom'
@@ -32,9 +33,8 @@ const Login = ({navigation}) => {
     const [userid, setUserId] = useState('')
     const [userpw, setUserPw] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [toggleAutoLogin, setToggleAutoLogin] = useState(false)
 
-    const login = () => {
+    const login = async () => {
         if(!userid){
             Alert.alert("아이디를 입력해주세요.")
         }else if(!userpw){
@@ -45,17 +45,19 @@ const Login = ({navigation}) => {
                 console.log(userid, userpw)
                 axios.post('/login', {
                     id: userid,
-                    pw: Base64.stringify(sha256(userpw))
+                    pw: Base64.stringify(sha256(userpw)),
+                    fcmToken: await messaging().getToken()
                 })
-                .then(data => {
-                    if(data.status == 200){
-                        // 자동로그인
+                .then(res => {
+                    if(res.status == 200){
+                        // 로그인
                         AsyncStorage.setItem('userid', userid, () => {
                             console.log("유저 아이디 저장 완료")
                         })
                         AsyncStorage.setItem('userpw', Base64.stringify(sha256(userpw)), () => {
                             console.log("유저 비밀번호 저장 완료")
                         })
+                        axios.defaults.headers.common["Authorization"]  = res.data
                         navigation.reset({routes:[{name: 'Main', params:{id: userid}}]})
                     }
                 })
@@ -74,14 +76,16 @@ const Login = ({navigation}) => {
     useEffect(() => {
         AsyncStorage.getItem('userid', (err, id) => {
             if(id != null){
-                AsyncStorage.getItem('userpw', (err, pw) => {
+                AsyncStorage.getItem('userpw', async (err, pw) => {
                     axios.post('/login', {
                         id: id,
-                        pw: pw
+                        pw: pw,
+                        fcmToken: await messaging().getToken()
                     })
-                    .then(data => {
-                        if(data.status == 200){
+                    .then(res => {
+                        if(res.status == 200){
                             // 자동로그인
+                            axios.defaults.headers.common["Authorization"]  = res.data
                             navigation.reset({routes:[{name: 'Main', params:{id: id}}]})
                         }
                     })
@@ -99,13 +103,13 @@ const Login = ({navigation}) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAvoidingView style={{flex: 1}} behavior='padding'>
                 <SafeAreaView style={{flex: 1, backgroundColor:'#5471ff'}}>
+                    <KeyboardAvoidingView style={{flex: 1}} behavior='height'>
                     <View style={styles.logoView}>
                     <ImageBackground source={require('../../assets/image/safety_logo.png')} style={styles.loginLogoBackground}/>
                     <ImageBackground source={require('../../assets/image/safenyang.png')} style={styles.loginNyangBackground}/>
                     </View>
-                    <View style={styles.idInputView}>
+                    <View style={[styles.idInputView, {}]}>
                         <Text style={[styles.inputTitleText, {marginTop: '10%',}]}>아이디</Text>
                         <TextInput 
                         style={styles.input} 
@@ -135,8 +139,8 @@ const Login = ({navigation}) => {
                         </TouchableOpacity>
                     </View>
                     {isLoading && <CustomAlert text="로그인 중"/>}
-                </SafeAreaView>
             </KeyboardAvoidingView>
+                </SafeAreaView>
         </TouchableWithoutFeedback>
     )
 }
