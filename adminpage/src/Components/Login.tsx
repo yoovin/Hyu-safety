@@ -4,9 +4,12 @@ import useForm from './hooks/useForm'
 import validate from './hooks/workreportValidate'
 import sha256 from 'crypto-js/sha256'
 import Base64 from 'crypto-js/enc-base64'
+import { useCookies } from 'react-cookie'
 
 function Login() {
     const sessionStorage = window.sessionStorage
+    const [cookies, setCookie] = useCookies(['token'])
+
     const {values, errors, submitting, handleChange, handleSubmit} = useForm({
         initialValues: {id: '', pw: ''},
         onSubmit: (values: any) => {
@@ -15,10 +18,13 @@ function Login() {
                 pw: Base64.stringify(sha256(values['pw']))
             })
             .then(res => {
-                if(res.status == 200){
+                if(res.status === 200){
                     sessionStorage.setItem('login', 'true')
-                    window.location.reload()
+                    setCookie('token', res.data)
                 }
+            })
+            .then(() => {
+                window.location.reload()
             })
             .catch(err => {
                 window.alert(`에러가 발생했습니다. ${err}`)

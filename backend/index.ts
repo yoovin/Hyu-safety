@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors';
 import admin from 'firebase-admin'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 
 
 const app = express()
@@ -12,7 +13,9 @@ dotenv.config()
 const fireAccount: Object = require('./firebasekey.json')
 
 // Routers
+import jwtFilter from './Routers/jwtFilter'
 import signupRouter from './Routers/signupRouter'
+import loginRouter from './Routers/loginRouter'
 import userRouter from './Routers/userRouter'
 import noticeRouter from './Routers/noticeRouter'
 import suggestionRouter from './Routers/suggestionRouter'
@@ -39,7 +42,11 @@ app.listen(port, () => {
 
 
     app.use(bodyParser.json())
-    app.use(cors())
+    app.use(cookieParser())
+    app.use(cors({
+        origin: true, // 출처 허용 옵션
+        credentials: true // 사용자 인증이 필요한 리소스 접근에 필요함
+    }))
     app.use(express.json({ limit: '50mb' }))
     app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
@@ -50,10 +57,21 @@ app.listen(port, () => {
     })
 
     /*
+        ===== JWT Filter =====
+    */
+    app.use(jwtFilter)
+
+    /*
         ===== 로그인 및 회원가입 =====
     */
     app.use('/signup', signupRouter)
-    app.use('/login', userRouter)
+    app.use('/login', loginRouter)
+
+    /*
+        ===== 유저정보 =====
+    */
+
+    app.use('/user', userRouter)
 
     /*
         ===== 공지사항 =====

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {Route, Routes} from 'react-router-dom'
-import axios from 'axios';
+import axios, { AxiosHeaders } from 'axios';
 import { RecoilRoot } from 'recoil'
+import { useCookies } from 'react-cookie'
 
 import LeftNav from './Components/LeftNav';
 import Main from './Components/pages/Main';
@@ -42,17 +43,33 @@ import NotFound from './Components/NotFound';
 import Login from './Components/Login';
 
 
-
+declare global{
+        interface AxiosHeaders{
+            Authorization: string
+    }
+}
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_ADDRESS // 서버 주소 지정
+axios.defaults.withCredentials = true // 토큰 인증 활성화
+
 
 function App() {
-    const sessionStorage = window.sessionStorage
-    const [user, setUser] = useState(null);
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+    axios.interceptors.request.use(
+        // 쿠키를 이용하여 모든 헤더에 추가해줌
+        config => {
+            config.headers!['Authorization'] = cookies.token;
+                return config;
+            },
+            error => {
+                return Promise.reject(error);
+            }
+        )
 
     return (
         <RecoilRoot>
-            {sessionStorage.getItem('login') === 'true'
+            {cookies.token
             ?
             <>
             <div className="flex flex-row">

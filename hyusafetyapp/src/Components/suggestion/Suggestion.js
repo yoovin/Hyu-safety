@@ -62,19 +62,13 @@ const Suggestion = ({navigation}) => {
         .catch(err => console.error(err))
     }
 
-
     // useEffect(() => {
-    //     if(isFocused){
-    //         console.log("ㅁㅁ")
-    //         setSuggestions([])
-    //         getSuggestion()
-    //         // if(curpage > 1) setCurpage(1)
-    //     }
-    // }, [isFocused])
+    //     getSuggestion()
+    // }, [])
 
     useEffect(() => {
         if(curpage > 1){
-            // setSuggestions([])
+            
         }
         getSuggestion()
     }, [curpage])
@@ -102,13 +96,11 @@ const Suggestion = ({navigation}) => {
                 }}
                 keyExtractor={(item, index) => item.key}
                 ListFooterComponent={loading && <ActivityIndicator/>}
-                onRefresh={() => {
-                    setCurpage(1)
-                }}
+                onRefresh={refreshSuggestion}
                 refreshing={false}
                 >
-            </FlatList>:
-            <Text style={[styles.noticeTitle, {margin: 10}]}>아직 올린 건의가 없습니다.</Text>}
+            </FlatList>
+            :<Text style={[styles.noticeTitle, {margin: 10}]}>아직 올린 건의가 없습니다.</Text>}
         </View>
         </View>
     )

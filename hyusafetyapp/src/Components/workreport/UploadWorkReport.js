@@ -139,7 +139,7 @@ const UploadWorkReport = ({navigation, route}) => {
     const onSubmit = data => {
         setIsUploading(true)
         const formData = new FormData()
-        formData.append('id', userInfo.id)
+        // formData.append('id', userInfo.id)
         formData.append('sign', sign)
         formData.append('startDate', startDate.toString())
         formData.append('endDate', endDate.toString())
@@ -198,33 +198,53 @@ const UploadWorkReport = ({navigation, route}) => {
         })
     }
 
-    const backAction = () => {
-        if(curpage <= 0){
-            Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
-                {   text:"아니오",
-                    onPress: () => {
-                },
-                style: 'cancel'
-                },
-                {   text:"예",
-                    onPress: () => {
-                    navigation.pop()
-                    route.params.refreshSuggestion()
-                }}]) 
-        }else{
-            nextpage(-1)
-            setCanPressNextButton(true)
-        }
-    }
+    // const backAction = () => {
+    //     if(curpage <= 0){
+    //         Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
+    //             {   text:"아니오",
+    //                 onPress: () => {
+    //             },
+    //             style: 'cancel'
+    //             },
+    //             {   text:"예",
+    //                 onPress: () => {
+    //                 navigation.pop()
+    //                 route.params.refreshSuggestion()
+    //             }}]) 
+    //     }else{
+    //         nextpage(-1)
+    //         setCanPressNextButton(true)
+    //     }
+    // }
 
     /*
     ===== USE EFFECT =====
     */
 
     useEffect(() => {
+        const backButtonAction = () => {
+            if(curpage <= 0){
+                Alert.alert("나가시겠습니까?","쓰던 내용은 저장되지 않습니다.", [
+                    {   text:"아니오",
+                        onPress: () => {
+                    },
+                    style: 'cancel'
+                    },
+                    {   text:"예",
+                        onPress: () => {
+                        navigation.pop()
+                        route.params.refreshSuggestion()
+                    }}]) 
+            }else{
+                nextpage(-1)
+                setCanPressNextButton(true)
+            }
+            return true;
+        };
+
         const backHandler = BackHandler.addEventListener(
             "hardwareBackPress",
-            backAction
+            backButtonAction
         )
 
         return() => {

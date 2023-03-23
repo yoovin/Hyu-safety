@@ -24,7 +24,6 @@ const WorkReport = ({navigation}) => {
 
     const onClickContent = (item) => {
         navigation.navigate('WorkReportDetail', {...item, refreshSuggestion: refreshSuggestion})
-        // navigation.push('WorkReportDetail', {...item, refreshSuggestion: refreshSuggestion})
     }
 
     const dateToString = (date) => {
@@ -59,7 +58,6 @@ const WorkReport = ({navigation}) => {
             reverse: '-1',
             page:curpage,
             deleted: false,
-            id: userInfo.id,
             deleted: false,
         }})
         .then(res => {
@@ -100,9 +98,7 @@ const WorkReport = ({navigation}) => {
                 }}
                 keyExtractor={(item, index) => item.key}
                 ListFooterComponent={loading && <ActivityIndicator/>}
-                onRefresh={() => {
-                    setCurpage(1)
-                }}
+                onRefresh={refreshSuggestion}
                 refreshing={false}
                 >
             </FlatList>:

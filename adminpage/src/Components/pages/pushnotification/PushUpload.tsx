@@ -182,7 +182,7 @@ const SearchUser = (props: any) => {
     }
 
     const getNoticeData = (query?: any) => {
-        axios.get('/login/getusers', {params: {...query, reverse: noticeReverse}})
+        axios.get('/user/getusers', {params: {...query, reverse: noticeReverse}})
         .then(res => {
             setUsers(res.data.users)
             let pages = res.data.count / 10

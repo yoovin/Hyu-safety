@@ -44,16 +44,15 @@ router.get('/', async (req: Request, res: Response) => {
     console.log(req.query)
     // console.log(req.query.page)
     if(req.query.reverse === '-1'){
-        await Workreport.find(req.query).limit(10).sort({index: -1}).skip((Number(req.query.page)-1)*10).limit(10)
+        await Workreport.find(req.userid === "admin" ? req.query : {id: req.userid, ...req.query}).limit(10).sort({index: -1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
-            const count = await Workreport.countDocuments(req.query)
+            const count = await Workreport.countDocuments(req.userid === "admin" ? req.query : {id: req.userid, ...req.query})
             res.send({workreports: data, count: count})
         })
     }else{
-        Workreport.find(req.query)
-        await Workreport.find(req.query).limit(10).sort({index: 1}).skip((Number(req.query.page)-1)*10).limit(10)
+        await Workreport.find(req.userid === "admin" ? req.query : {id: req.userid, ...req.query}).limit(10).sort({index: 1}).skip((Number(req.query.page)-1)*10).limit(10)
         .then(async data => {
-            const count = await Workreport.countDocuments(req.query)
+            const count = await Workreport.countDocuments(req.userid === "admin" ? req.query : {id: req.userid, ...req.query})
             res.send({workreports: data, count: count})
         })
     }
@@ -348,7 +347,7 @@ router.post('/upload', upload.single('file'), async (req: Request, res: Response
 
     const newWorkreport = new Workreport({
         index: index,
-        id: req.body.id,
+        id: req.userid,
         request_depart: req.body.requestDepart,
         position: req.body.position,
         name: req.body.name,

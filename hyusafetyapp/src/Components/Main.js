@@ -31,34 +31,30 @@ const Main = ({navigation, route}) => {
 
     useEffect(() => {
         console.log(route.params.id)
-        axios.get('/login/getuserinfo', { params: {
-            id: route.params.id
-        }})
+        axios.get('/user/getuserinfo')
         .then(res => {
             setUserInfo(res.data)
-            console.log(res.data)
         })
 
         const backAction = () => {
-            // if (doubleBackToExitPressedOnce) { // 만약 이전에 두번 눌렸다면
-            // BackHandler.exitApp() // 앱 종료
-            // return true
-            // }
-    
-            // setDoubleBackToExitPressedOnce(true)
-            // setTimeout(() => {
-            //     setDoubleBackToExitPressedOnce(false)
-            // }, 2000); // 2초 이내에 다시 눌러야 함
-    
-            // return true;
+            Alert.alert("확인", "앱을 종료하시겠습니까?", [
+            {
+                text: "취소",
+                onPress: () => null,
+                style: "cancel"
+            },
+            {
+                text: "확인",
+                onPress: () => BackHandler.exitApp()
+            }
+            ]);
+            return true;
         };
-    
         const backHandler = BackHandler.addEventListener(
-            'hardwareBackPress',
+            "hardwareBackPress",
             backAction
         );
-    
-        return () => backHandler.remove() // cleanup
+        return () => backHandler.remove();
     }, [])
 
     const components = {
@@ -130,15 +126,16 @@ const Main = ({navigation, route}) => {
 
             {/* FOOTER */}
             <View style={styles.footer}>
-                    {menus.map(item => (
+                    {menus.map((item, idx) => (
                         item.component == currentComponent ?
-                        <View style={[styles.menuItem, {
+                        <View key={idx} style={[styles.menuItem, {
                         }]}>
                             {item.selectIcon}
                             <Text style={styles.menuText}>{item.menuName}</Text>
                         </View>:
 
                         <TouchableOpacity
+                        key={idx}
                         style={styles.menuItem}
                         onPress={() => handleFooterMenu(item)}>
                             {item.icon}

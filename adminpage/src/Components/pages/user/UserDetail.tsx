@@ -18,10 +18,6 @@ const UserDetail = (props: Props) => {
         return date.replace('T', ' ').substring(0, 19)
     }
 
-    const birthToString = (date: Date) => {
-
-    }
-
     const handlePress = (e: React.ChangeEvent<HTMLInputElement>) => {
         const regex = /^[0-9\b -]{0,13}$/;
         if (regex.test(e.target.value)) {
@@ -65,7 +61,7 @@ const UserDetail = (props: Props) => {
         onSubmit: (values: any) => {
             console.log(values)
             if(window.confirm("저장하시겠습니까?")){
-                axios.post('/login/update/info', {
+                axios.post('/user/update/info', {
                     ...values,
                     phone: phone
                 })

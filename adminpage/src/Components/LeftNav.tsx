@@ -2,15 +2,16 @@ import React, {useState} from 'react'
 import { IoMenu, IoHammerOutline, IoChatbubblesOutline, IoPeopleOutline, IoNewspaperOutline, IoChatboxEllipsesOutline } from "react-icons/io5";
 import { AiOutlineNotification } from "react-icons/ai"
 import { Link, useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
 type Props = {}
 
 const LeftNav = (props: Props) => {
     const navigate = useNavigate()
-    const sessionStorage = window.sessionStorage
 
     const [currentPage, setCurrentPage] = useState('')
     const [currentHover, setCurrentHover] = useState(0)
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
     return (
         <div className="basis-1/6 border-r-2 border-slate-200" style={{height: '95vh'}}>
@@ -22,7 +23,7 @@ const LeftNav = (props: Props) => {
                 <button type="button" className="px-5 py-1 font-semibold rounded bg-gray-100 hover:bg-gray-300 text-gray-800"
                 onClick={() => {
                     if(window.confirm("로그아웃 하시겠습니까?")){
-                        sessionStorage.clear()
+                        removeCookie('token')
                         window.location.reload()
                     }
                 }}>로그아웃</button>

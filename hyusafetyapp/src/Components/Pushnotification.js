@@ -58,7 +58,8 @@ const Pushnotification = ({navigation}) => {
 
     return (
         <View>
-            <FlatList style={{width: '100%', height:'100%'}}
+            {noticeCount > 0
+            ? <FlatList style={{width: '100%', height:'100%'}}
             data={notices}
             renderItem={renderNotice}
             onEndReached={() => {
@@ -74,6 +75,8 @@ const Pushnotification = ({navigation}) => {
             >
                 
             </FlatList>
+            : <Text style={[styles.noticeTitle, {margin: 10}]}>받은 알림이 없습니다.</Text>}
+            
         </View>
     )
 }

@@ -10,7 +10,7 @@ const WorkSubmit = ({setCanPressNextButton, content, img}) => {
 
     useEffect(() => {
         // console.log(content[4])
-        console.log(img)
+        // console.log(img)
     }, [])
 
     useEffect(() => {
