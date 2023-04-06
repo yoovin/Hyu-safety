@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, FlatList} from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, FlatList, Platform} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 
@@ -7,6 +7,7 @@ import { currentUserInfo } from '../recoil/atom'
 import styles from '../../../styles'
 import axios from 'axios'
 import { useRecoilValue } from 'recoil'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 /*
 ===== TODO =====
@@ -52,15 +53,22 @@ const WorkReport = ({navigation}) => {
         if(curpage > 1) setCurpage(1)
     }
 
-    const getSuggestion = () => {
+    const getSuggestion = async () => {
         setLoading(true)
-        axios.get('/workreport', {params:{
+        let token = await AsyncStorage.getItem('token')
+        const option = {
+            params:{
             reverse: '-1',
             page:curpage,
-            deleted: false,
-            deleted: false,
-        }})
+            deleted: false
+        }}
+        if(Platform.OS === 'ios'){
+            // ios에서 get 요청 시 header가 누락되어버리는 문제로 인해 query로 넣어줌
+            option.params['Authorization'] = token
+        }
+        axios.get('/workreport', option)
         .then(res => {
+            console.log(res)
             setSuggestions(val => [...val, ...res.data.workreports])
             setSuggestionCount(res.data.count)
             setLoading(false)

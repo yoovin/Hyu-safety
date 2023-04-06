@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { user } from '../../interface/user'
@@ -133,6 +133,8 @@ const SearchUser = (props: any) => {
     const [noticeReverse, setNoticeReverse] = useState('-1')
     const [searchSubject, setSearchSubject] = useState('id')
     const [searchText, setSearchText] = useState('')
+    // const refs = Array.from({length: 10}, () => useRef<any>(null))
+    const checkBoxRefs = useRef<any>([])
 
     const [selectAll, setSelectAll] = useState(false)
 
@@ -168,6 +170,13 @@ const SearchUser = (props: any) => {
         setCurrentPage(1)
     }
 
+    /**
+     * 
+     * @param checked 체크값
+     * @param id 유저아이디
+     * 
+     * 유저의 체크여부 확인
+     */
     const handleChangeSelectedUsers = (checked: boolean, id: string) => {
         if(checked){
             props.setSelectedUser((users: Array<string>) => {
@@ -179,6 +188,15 @@ const SearchUser = (props: any) => {
                 return users.filter(data => data != id)
             })
         }
+    }
+
+    /**
+     * 전체선택 checkbox 클릭 시 모두 클릭하는 함수
+     */
+    const handleAllCheck = () => {
+        checkBoxRefs.current.map((item: any) => {
+            if(!item.checked)item.click()
+        })
     }
 
     const getNoticeData = (query?: any) => {
@@ -225,7 +243,6 @@ const SearchUser = (props: any) => {
         <>
             <div className='w-full h-full absolute bg-gray-800 opacity-50'
             onClick={() => props.setIsSearchUser(false)}></div>
-
             <div className='absolute inset-1/4 w-1/2 h-1/2 rounded-xl bg-white'>
             <div className="p-5 w-full">
                 <div className="container p-2 mx-auto sm:p-4 text-gray-900">
@@ -283,7 +300,12 @@ const SearchUser = (props: any) => {
                                 <tr className="bg-gray-300">
                                     <th className="p-3">
                                         <input type="checkbox" className='mr-2'
-                                        onChange={({target:{checked}}) => setSelectAll(checked)}/>
+                                        onChange={({target:{checked}}) => {
+                                            if(checked){
+                                                handleAllCheck()
+                                            }
+                                            setSelectAll(checked)
+                                            }}/>
                                         <span>전체선택</span>
                                         </th>
                                     <th className="p-3">유저아이디</th>
@@ -295,18 +317,18 @@ const SearchUser = (props: any) => {
                                 </tr>
                             </thead>
                             <tbody className="border-b bg-gray-100 border-gray-100">
-                                {users && users.map(item => (
+                                {users && users.map((item, idx)=> (
                                     <tr className="hover:bg-gray-200"
                                     onClick={() => {
 
                                     }}>
                                     <td className="px-3 py-2 font-bold">
                                         <input type="checkbox"
-                                        checked={props.selectedUser.indexOf(item.id) != -1}
-                                        disabled={selectAll}
+                                            checked={props.selectedUser.indexOf(item.id) != -1}
                                             onChange={({target:{checked}}) => {
                                                 handleChangeSelectedUsers(checked, item.id)
                                             }}
+                                            ref={(el) => {checkBoxRefs.current[idx] = el}}
                                         />
                                     </td>
                                     <td className="px-3 py-2 font-bold">

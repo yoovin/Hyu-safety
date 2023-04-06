@@ -10,6 +10,7 @@ import {
     ImageBackground,
     ActivityIndicator,
     Alert,
+    Platform,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -34,6 +35,18 @@ const Login = ({navigation}) => {
     const [userpw, setUserPw] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
+    async function requestUserPermission() {
+        const authStatus = await messaging().requestPermission()
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL
+        
+        if (enabled) {
+            console.log("권한 받아옴")
+            return true
+        }
+    }
+
     const login = async () => {
         if(!userid){
             Alert.alert("아이디를 입력해주세요.")
@@ -57,7 +70,11 @@ const Login = ({navigation}) => {
                         AsyncStorage.setItem('userpw', Base64.stringify(sha256(userpw)), () => {
                             console.log("유저 비밀번호 저장 완료")
                         })
-                        axios.defaults.headers.common["Authorization"]  = res.data
+                        AsyncStorage.setItem('token', res.data, () => {
+                            console.log(res.data)
+                            console.log("토큰 저장 완료")
+                        })
+                        axios.defaults.headers.common["Authorization"]  = `${res.data}`
                         navigation.reset({routes:[{name: 'Main', params:{id: userid}}]})
                     }
                 })
@@ -74,32 +91,40 @@ const Login = ({navigation}) => {
     }
 
     useEffect(() => {
-        AsyncStorage.getItem('userid', (err, id) => {
-            if(id != null){
-                AsyncStorage.getItem('userpw', async (err, pw) => {
-                    axios.post('/login', {
-                        id: id,
-                        pw: pw,
-                        fcmToken: await messaging().getToken()
+        requestUserPermission()
+        .then(() => {
+            AsyncStorage.getItem('userid', (err, id) => {
+                if(id != null){
+                    AsyncStorage.getItem('userpw', async (err, pw) => {
+                        axios.post('/login', {
+                            id: id,
+                            pw: pw
+                        })
+                        .then(res => {
+                            console.log(res)
+                            if(res.status == 200){
+                                // 자동로그인
+                                console.log(res.data)
+                                AsyncStorage.setItem('token', res.data, () => {
+                                    console.log("토큰 저장 완료")
+                                })
+                                axios.defaults.headers.common["Authorization"]  = `${res.data}`
+                                navigation.reset({routes:[{name: 'Main', params:{id: id}}]})
+                            }
+                        })
+                        .catch(err => {
+                            setIsLoading(false)
+                            if(err.request.status == 401){ // 내가 준 애러
+                                const errorJson = JSON.parse(err.request._response)
+                                    Alert.alert("오류가 발생했습니다.", "다시 로그인 해주세요.")
+                            }
+                        })
                     })
-                    .then(res => {
-                        if(res.status == 200){
-                            // 자동로그인
-                            axios.defaults.headers.common["Authorization"]  = res.data
-                            navigation.reset({routes:[{name: 'Main', params:{id: id}}]})
-                        }
-                    })
-                    .catch(err => {
-                        setIsLoading(false)
-                        if(err.request.status == 401){ // 내가 준 애러
-                            const errorJson = JSON.parse(err.request._response)
-                                Alert.alert("오류가 발생했습니다.", "다시 로그인 해주세요.")
-                        }
-                    })
-                })
-            }
+                }
+            })
         })
-    })
+        
+    }, [])
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

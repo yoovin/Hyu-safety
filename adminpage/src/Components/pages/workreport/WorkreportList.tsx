@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { SyntheticEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import workreport from '../../interface/workreport'
-import common from '../../common'
+// import common from '../../common'
 
 // import UserDetail from './UserDetail'
 

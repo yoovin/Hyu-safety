@@ -12,7 +12,9 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		18577D48231342FCABDEA8C8 /* BMJUA-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */; };
 		24475D690889453E8A3EDEFC /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2290048A2A9462380972DE8 /* Entypo.ttf */; };
+		30409C581E7745D79B16FA81 /* BMJUA.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */; };
 		308AFD6D67224933B82D11ED /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC120EE7072348E5B43CE94A /* AntDesign.ttf */; };
 		4686844BCB3E4C17B1D48E3B /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34189D3DA9EA4447ACF43268 /* FontAwesome5_Regular.ttf */; };
 		5A885FE333A1DB5A734ECD39 /* Pods_hyusafety_hyusafetyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDA9CA3456BB4CCEB62A46A5 /* Pods_hyusafety_hyusafetyTests.framework */; };
@@ -27,13 +29,11 @@
 		A8C5179D9AA14C95BEBA95AE /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6A1D01706204CE1975A78C9 /* EvilIcons.ttf */; };
 		AC3D350C06A744DBA854D458 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BD5ABC800C5F4E6885A27945 /* MaterialCommunityIcons.ttf */; };
 		C40ABCEB29B8FD8B00145DDB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C40ABCEA29B8FD8A00145DDB /* GoogleService-Info.plist */; };
+		CE736363C56F4D99B50019A7 /* BMJUA.otf in Resources */ = {isa = PBXBuildFile; fileRef = 73DF78B75FA04C64AB73A65E /* BMJUA.otf */; };
 		E48222BF44D6463583FCCAFD /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DF94A2A4660492AA954FB28 /* FontAwesome.ttf */; };
 		E7563E5AB30C441D99FB0777 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEA99FE3203D42AF97F1F6C8 /* MaterialIcons.ttf */; };
 		ED4ED2FA6A584A1186389B4B /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7447C0F7F0BF4DDEB9D8271B /* Feather.ttf */; };
 		F53643B3271441DC8DEA978B /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4108A8916BCB4ED3B82F1691 /* Fontisto.ttf */; };
-		18577D48231342FCABDEA8C8 /* BMJUA-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */; };
-		CE736363C56F4D99B50019A7 /* BMJUA.otf in Resources */ = {isa = PBXBuildFile; fileRef = 73DF78B75FA04C64AB73A65E /* BMJUA.otf */; };
-		30409C581E7745D79B16FA81 /* BMJUA.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +65,7 @@
 		5709B34CF0A7D63546082F79 /* Pods-hyusafety.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hyusafety.release.xcconfig"; path = "Target Support Files/Pods-hyusafety/Pods-hyusafety.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-hyusafety-hyusafetyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hyusafety-hyusafetyTests.debug.xcconfig"; path = "Target Support Files/Pods-hyusafety-hyusafetyTests/Pods-hyusafety-hyusafetyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DF94A2A4660492AA954FB28 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = ../assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
+		73DF78B75FA04C64AB73A65E /* BMJUA.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BMJUA.otf; path = ../assets/fonts/BMJUA.otf; sourceTree = "<group>"; };
 		7447C0F7F0BF4DDEB9D8271B /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = ../assets/fonts/Feather.ttf; sourceTree = "<group>"; };
 		80F4C260255D40B9AFA17888 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = ../assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = hyusafety/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -78,13 +79,12 @@
 		CDA9CA3456BB4CCEB62A46A5 /* Pods_hyusafety_hyusafetyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hyusafety_hyusafetyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA99FE3203D42AF97F1F6C8 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		E2290048A2A9462380972DE8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = ../assets/fonts/Entypo.ttf; sourceTree = "<group>"; };
+		E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BMJUA.ttf; path = ../assets/fonts/BMJUA.ttf; sourceTree = "<group>"; };
+		E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "BMJUA-Regular.otf"; path = "../assets/fonts/BMJUA-Regular.otf"; sourceTree = "<group>"; };
 		E6A1D01706204CE1975A78C9 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = ../assets/fonts/EvilIcons.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F1B6AD5AD22A49F5816A5804 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = ../assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
 		FED843D37A1E417880E95B4C /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = ../assets/fonts/Zocial.ttf; sourceTree = "<group>"; };
-		E60D4585DF4E470D90D1EA2F /* BMJUA-Regular.otf */ = {isa = PBXFileReference; name = "BMJUA-Regular.otf"; path = "../assets/fonts/BMJUA-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		73DF78B75FA04C64AB73A65E /* BMJUA.otf */ = {isa = PBXFileReference; name = "BMJUA.otf"; path = "../assets/fonts/BMJUA.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		E48078DD01FD43C6B1C6F1A7 /* BMJUA.ttf */ = {isa = PBXFileReference; name = "BMJUA.ttf"; path = "../assets/fonts/BMJUA.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

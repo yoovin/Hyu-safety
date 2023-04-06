@@ -7,6 +7,7 @@ import { currentUserInfo } from '../recoil/atom'
 import styles from '../../../styles'
 import axios from 'axios'
 import { useRecoilValue } from 'recoil'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 /*
 ===== TODO =====
@@ -46,14 +47,22 @@ const Suggestion = ({navigation}) => {
         if(curpage > 1) setCurpage(1)
     }
 
-    const getSuggestion = () => {
+    const getSuggestion = async () => {
         setLoading(true)
-        axios.get('/suggestion', {params:{
-            reverse: '-1',
-            page:curpage,
-            deleted: false,
-            id: userInfo.id
-        }})
+        let token = await AsyncStorage.getItem('token')
+        const option = {
+            params:{
+                reverse: '-1',
+                page:curpage,
+                deleted: false,
+                id: userInfo.id
+            }
+        }
+        if(Platform.OS === 'ios'){
+            // ios에서 get 요청 시 header가 누락되어버리는 문제로 인해 query로 넣어줌
+            option.params['Authorization'] = token
+        }
+        axios.get('/suggestion', option)
         .then(res => {
             setSuggestions(val => [...val, ...res.data.notices])
             setSuggestionCount(res.data.count)

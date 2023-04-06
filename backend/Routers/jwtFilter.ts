@@ -17,11 +17,23 @@ declare global{
 } 
 
 filter.use((req: Request, res: Response, next: NextFunction) => {
-    
+    console.log(req.url)
+    console.log(req.header('Authorization'))
+    console.log(req.query)
     try{
         if(permit.has(req.url) || req.url.includes('/signup')){ // 상관없는 url이면 필터를 거치지 않음
             console.log(`${req.url} 패스됨`)
             return next()
+        }
+
+        if('Authorization' in req.query){
+            const token = req.query.Authorization as string
+            const verifiedToken: JwtPayload = jwt.verify(token, secretKey!) as JwtPayload
+            if(verifiedToken){
+                console.log(verifiedToken)
+                req.userid = verifiedToken.id
+                return next()
+            }
         }
         
         if(req.header('Authorization')){

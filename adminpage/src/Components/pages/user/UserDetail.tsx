@@ -168,7 +168,7 @@ const UserDetail = (props: Props) => {
                     <span>최근 로그인 IP: {props.curUser.recent_login_ip}</span>
                 </div>
                 <div className="basis-1/12">
-                    <span>FCM Token: {props.curUser.fcm_token}</span>
+                    <span>등록 된 FCM Token 개수: {props.curUser.fcm_token.length}개</span>
                 </div>
                 <div className='flex-row'>
                     <button type="submit" className="px-8 py-3 mx-3 font-semibold rounded-full bg-blue-300 hover:bg-blue-500 text-gray-800"

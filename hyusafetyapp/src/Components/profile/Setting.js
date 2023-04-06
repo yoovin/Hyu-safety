@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, Alert, ScrollView, Switch } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import Dialog from "react-native-dialog"
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -19,7 +19,18 @@ import Navi from '../Navi'
 
 const ProfileSetting = ({navigation}) => {
     const [isLogoutButtonPress, setIsLogoutButtonPress] = useState(false)
+    const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
+
     const userInfo = useRecoilValue(currentUserInfo)
+    
+    const left = <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={()=> {
+        navigation.pop()
+    }}
+    >
+        <Text style={styles.backButtonText}>{'   <'}</Text>
+    </TouchableOpacity>
 
     const logout = async () => {
         axios.post('/login/logout', {
@@ -35,21 +46,19 @@ const ProfileSetting = ({navigation}) => {
         .catch(err => {
             Alert.alert(err)
         })
-
     }
 
-    const left = <TouchableOpacity
-    activeOpacity={0.8}
-    onPress={()=> {
-        navigation.pop()
-    }}
-    >
-        <Text style={styles.backButtonText}>{'   <'}</Text>
-    </TouchableOpacity>
+    const checkNotificationPermission = async () => {
+        const authorizationStatus = await messaging().hasPermission()
+        return authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED
+    }
+
 
     useEffect(()=>{
         console.log(userInfo)
+        checkNotificationPermission().then(result => setIsNotificationEnabled(result))
     }, [])
+
 
     return (
         <View style={{flex:1}}>
@@ -81,6 +90,22 @@ const ProfileSetting = ({navigation}) => {
                 }}>
                     <Text style={[styles.noticeTitle]}>회원탈퇴</Text>
                 </TouchableOpacity>
+                <View
+                style={[styles.noticeContainer, {flexDirection: 'row', alignItems: 'center'}]}>
+                    <Text style={[styles.noticeTitle, {marginRight: 10}]}>알림설정</Text>
+                    <Switch
+                    value={isNotificationEnabled}
+                    onValueChange={(value) => {
+                        if(value){
+                            messaging().registerDeviceForRemoteMessages()
+                        }else{
+                            messaging().unregisterDeviceForRemoteMessages()
+                        }
+                        setIsNotificationEnabled(value)
+                    }}
+                    trackColor={{true: '#91a4ff'}}
+                    />
+                </View>
             </ScrollView>
 
 

@@ -5,6 +5,7 @@ import {SERVER_ADDRESS} from '@env'
 import Navi from '../Navi'
 import styles from '../../../styles'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SuggestionDetail = ({navigation, route}) => {
     const [content, setContent] = useState('')
@@ -55,16 +56,29 @@ const SuggestionDetail = ({navigation, route}) => {
             )
     }
 
-    useEffect(() => {
-        setContent(route.params)
-        console.log(route.params)
-        // 공지 내용 부르기
-        axios.get('/suggestion/detail', {params: {index: route.params.index}})
+    /**
+     * 건의 내용 부르기
+     */
+    const getSuggestion = async () => {
+        let token = await AsyncStorage.getItem('token')
+        const option = {
+            params: {index: route.params.index}
+        }
+        if(Platform.OS === 'ios'){
+            // ios에서 get 요청 시 header가 누락되어버리는 문제로 인해 query로 넣어줌
+            option.params['Authorization'] = token
+        }
+        axios.get('/suggestion/detail', option)
         .then(res => {
             setDesc(res.data.desc)
             console.log(desc)
         })
         .catch(err => console.error(err))
+    }
+
+    useEffect(() => {
+        setContent(route.params)
+        getSuggestion()
     }, [])
 
     return (

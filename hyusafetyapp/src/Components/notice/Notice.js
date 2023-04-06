@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import styles from '../../../styles'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Notice = ({navigation}) => {
     const [notices, setNotices] = useState([])
@@ -29,13 +30,20 @@ const Notice = ({navigation}) => {
             </TouchableOpacity>
         )
 
-    const getNotice = () => {
+    const getNotice = async () => {
         setLoading(true)
-        axios.get('/notice', {params:{
-            uploaded: true,
-            reverse: '-1',
-            page:curpage
-        }})
+        let token = await AsyncStorage.getItem('token')
+        const option = {
+            params:{
+                uploaded: true,
+                reverse: '-1',
+                page:curpage
+            }}
+        if(Platform.OS === 'ios'){
+            // ios에서 get 요청 시 header가 누락되어버리는 문제로 인해 query로 넣어줌
+            option.params['Authorization'] = token
+        }
+        axios.get('/notice', option)
         .then(res => {
             setNotices(val => [...val, ...res.data.notices])
             setNoticeCount(res.data.count)

@@ -31,7 +31,7 @@ const Main = ({navigation, route}) => {
 
     useEffect(() => {
         console.log(route.params.id)
-        axios.get('/user/getuserinfo')
+        axios.get('/user/getuserinfo', {params: {'a':'123'}})
         .then(res => {
             setUserInfo(res.data)
         })

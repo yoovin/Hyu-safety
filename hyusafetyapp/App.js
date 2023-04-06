@@ -1,11 +1,8 @@
-import { View, Text, SafeAreaView, Alert } from 'react-native'
+import { View, Text, SafeAreaView, Alert, Platform } from 'react-native'
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import SplashScreen from 'react-native-splash-screen'
 import messaging from '@react-native-firebase/messaging'
-
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-import PushNotification from "react-native-push-notification";
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -34,34 +31,46 @@ import ModifyProfile from './src/Components/profile/ModifyProfile'
 import ModifyPassword from './src/Components/profile/ModifyPassword'
 import DeleteUser from './src/Components/profile/DeleteUser'
 import Pushnotification from './src/Components/Pushnotification'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // axios.defaults.baseURL = SERVER_ADDRESS
-axios.defaults.baseURL = 'http://10.0.2.02:1234'
-
+if(Platform.OS === 'android'){
+    axios.defaults.baseURL = 'http://10.0.2.02:1234'
+}else{
+    axios.defaults.baseURL = 'http://localhost:1234'
+}
+axios.defaults.withCredentials = true // 토큰 인증 활성화
 
 const Stack = createNativeStackNavigator()
 
 const App = () => {
 
-    async function requestUserPermission() {
-        const authStatus = await messaging().requestPermission();
-        const enabled =
-            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    // axios.interceptors.request.use(
+    //     // 쿠키를 이용하여 모든 헤더에 추가해줌
+    //     config => {
+    //         if(Platform.OS === 'ios'){
+    //             AsyncStorage.getItem('token', (err, data) => {
+    //                 console.log(data)
+    //                 config.headers['Authorization'] = data
+    //                 return config;
+    //             })
+    //             }
+    //         }
+    //         // error => {
+    //         //     return Promise.reject(error);
+    //         // }
+    //     )
+    
+
+    
         
-        if (enabled) {
-            console.log('Authorization status:', authStatus)
-            const token = await messaging().getToken()
-            // const token = await messaging().getAPNSToken()
-            console.log("토큰줘 응애", token)
-        }
-    }
+    
 
     useEffect(() => {
+        // requestUserPermission()
         setTimeout(() => {
             SplashScreen.hide()
         }, 2000)
-        requestUserPermission()
 
 
     }, [])

@@ -5,6 +5,7 @@ import RenderHtml from 'react-native-render-html';
 import Navi from '../Navi'
 import styles from '../../../styles'
 import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const NoticeDetail = ({navigation, route}) => {
     const [content, setContent] = useState('')
@@ -22,16 +23,27 @@ const NoticeDetail = ({navigation, route}) => {
         return date.replace('T', ' ').substring(0, 19)
     }
 
-    useEffect(() => {
-        setContent(route.params)
-        console.log(route.params)
-        // 공지 내용 부르기
-        axios.get('/notice/detail', {params: {index: route.params.index}})
+    /**
+     * 공지 내용 부르기
+     */
+    const getNoticeDetail = async () => {
+        let token = await AsyncStorage.getItem('token')
+        const option = {params: {index: route.params.index}}
+        if(Platform.OS === 'ios'){
+            // ios에서 get 요청 시 header가 누락되어버리는 문제로 인해 query로 넣어줌
+            option.params['Authorization'] = token
+        }
+        axios.get('/notice/detail', option)
         .then(res => {
             setDesc(res.data.desc)
             console.log(desc)
         })
         .catch(err => console.error(err))
+    }
+
+    useEffect(() => {
+        setContent(route.params)
+        getNoticeDetail()
     }, [])
 
     return (
